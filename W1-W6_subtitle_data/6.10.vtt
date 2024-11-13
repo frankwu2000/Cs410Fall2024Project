@@ -1,0 +1,586 @@
+WEBVTT
+
+1
+00:00:00.012 --> 00:00:03.145
+[NOISE]
+
+2
+00:00:06.848 --> 00:00:10.210
+This lecture is a summary of this course.
+
+3
+00:00:12.890 --> 00:00:17.110
+This map shows the major topics
+we have covered in this course.
+
+4
+00:00:19.170 --> 00:00:24.230
+And here are some key
+high-level take-away messages.
+
+5
+00:00:24.230 --> 00:00:28.020
+First, we talked about natural
+language content analysis.
+
+6
+00:00:29.170 --> 00:00:33.120
+Here the main take-away messages
+is natural language processing is
+
+7
+00:00:33.120 --> 00:00:39.210
+a foundation for text retrieval, but
+currently the NLP isn't robust enough so
+
+8
+00:00:39.210 --> 00:00:48.540
+the battle of wars is generally the main
+method used in modern search engines.
+
+9
+00:00:48.540 --> 00:00:52.730
+And it's often sufficient before
+most of the search tasks, but
+
+10
+00:00:52.730 --> 00:00:58.290
+obviously for
+more complex search tasks then we need
+
+11
+00:00:58.290 --> 00:01:02.640
+a deeper natural language
+processing techniques.
+
+12
+00:01:02.640 --> 00:01:05.070
+We then talked about the high
+level strategies for
+
+13
+00:01:05.070 --> 00:01:09.170
+text access and
+we talked about push versus pull.
+
+14
+00:01:09.170 --> 00:01:12.200
+In pull we talked about
+querying versus browsing.
+
+15
+00:01:13.250 --> 00:01:17.800
+Now in general in future search engines,
+we should integrate all these techniques
+
+16
+00:01:17.800 --> 00:01:20.466
+to provide a math involved
+information access.
+
+17
+00:01:23.022 --> 00:01:27.680
+And now we'll talk about a number of
+issues related to search engines.
+
+18
+00:01:27.680 --> 00:01:30.350
+We talked about the search problem.
+
+19
+00:01:30.350 --> 00:01:32.280
+And we framed that as a ranking problem.
+
+20
+00:01:34.830 --> 00:01:38.680
+And we talked about a number
+of retrieval methods.
+
+21
+00:01:38.680 --> 00:01:42.170
+We start with the overview
+of vector space model and
+
+22
+00:01:42.170 --> 00:01:46.710
+the probabilistic model and then we talked
+about the vector space model in depth.
+
+23
+00:01:48.400 --> 00:01:53.730
+We also later talked about
+the language modeling approach, and
+
+24
+00:01:53.730 --> 00:01:56.280
+that's probabilistic model.
+
+25
+00:01:56.280 --> 00:02:01.910
+And here, many take-away message is that
+the modeling retrieval function tend to
+
+26
+00:02:01.910 --> 00:02:07.510
+look similar, and
+they generally use various heuristics.
+
+27
+00:02:07.510 --> 00:02:13.730
+Most important ones are TF-IDF weighting,
+document length normalization.
+
+28
+00:02:13.730 --> 00:02:20.460
+And the TF is often transformed through
+a sub media transformation function.
+
+29
+00:02:22.070 --> 00:02:27.730
+And then we talked about how to
+implement a retrieval system, and here,
+
+30
+00:02:27.730 --> 00:02:33.940
+the main techniques that we talked about,
+how to construct an inverted index so
+
+31
+00:02:33.940 --> 00:02:39.590
+that we can prepare the system
+to answer a query quickly.
+
+32
+00:02:39.590 --> 00:02:45.100
+And we talked about how to do a faster
+search by using the inverted index.
+
+33
+00:02:46.180 --> 00:02:50.800
+And we then talked about how to
+evaluate the text retrieval system,
+
+34
+00:02:50.800 --> 00:02:54.860
+mainly introduced to
+the Cranfield Evaluation Methodology.
+
+35
+00:02:54.860 --> 00:02:58.770
+This was a very important
+evaluation methodology that can be
+
+36
+00:02:58.770 --> 00:03:00.490
+applied to many tasks.
+
+37
+00:03:01.980 --> 00:03:05.450
+We talked about the major
+evaluation measures.
+
+38
+00:03:05.450 --> 00:03:10.800
+So, the most important measures for
+a search engine
+
+39
+00:03:10.800 --> 00:03:16.400
+are MAP, mean average precision,
+and nDCG Summarize the discount or
+
+40
+00:03:16.400 --> 00:03:20.880
+accumulative gain and also precision and
+recall are the two basic measures.
+
+41
+00:03:22.580 --> 00:03:25.540
+And we then talked about
+feedback techniques.
+
+42
+00:03:25.540 --> 00:03:29.180
+And we talked about the Rocchio
+in the Vector Space Model and
+
+43
+00:03:29.180 --> 00:03:32.200
+the mixture model and
+the language modeling approach.
+
+44
+00:03:32.200 --> 00:03:36.630
+Feedback is a very important
+technique especially considering
+
+45
+00:03:36.630 --> 00:03:41.430
+the opportunity of learning from
+a lot of pixels on the Web.
+
+46
+00:03:42.960 --> 00:03:45.800
+We then talked about Web search.
+
+47
+00:03:45.800 --> 00:03:50.150
+And here we talked about how
+to use parallel in that scene
+
+48
+00:03:50.150 --> 00:03:55.330
+to solve the scalability issue in that
+scene we're going to use the net reduce.
+
+49
+00:03:55.330 --> 00:03:59.130
+Then we talked about how to use linking
+permission model app to improve search.
+
+50
+00:03:59.130 --> 00:04:01.490
+We talked about page rank and
+
+51
+00:04:01.490 --> 00:04:06.010
+hits as the major hours is to
+analyzing links on the Web.
+
+52
+00:04:07.320 --> 00:04:09.562
+We then talked about
+learning through rank.
+
+53
+00:04:09.562 --> 00:04:14.810
+This is the use of machine learning
+to combine multiple features for
+
+54
+00:04:14.810 --> 00:04:16.640
+improvement scoring.
+
+55
+00:04:16.640 --> 00:04:21.460
+Not only that the effectiveness can be
+improved in using this approach, but
+
+56
+00:04:21.460 --> 00:04:23.620
+we can also improve the robustness of the.
+
+57
+00:04:23.620 --> 00:04:28.560
+The ranking function so that it's
+not easy to expand a search engine.
+
+58
+00:04:28.560 --> 00:04:34.540
+It just some features to promote the page.
+
+59
+00:04:36.270 --> 00:04:39.279
+And finally we talked about
+the future of Web search.
+
+60
+00:04:40.460 --> 00:04:45.730
+About the some major reactions
+that we might to see
+
+61
+00:04:45.730 --> 00:04:49.390
+in the future in improving the count
+of regeneration of such engines.
+
+62
+00:04:50.610 --> 00:04:54.030
+And then finally we talked about
+the recommended systems and,
+
+63
+00:04:54.030 --> 00:04:57.890
+these are systems to
+increment the push mode.
+
+64
+00:04:57.890 --> 00:05:02.120
+And we'll talk about the two approaches,
+one is content-based,
+
+65
+00:05:02.120 --> 00:05:06.240
+one is collaborative filtering and
+they can be combined together.
+
+66
+00:05:07.330 --> 00:05:11.930
+Now, an obvious missing piece
+
+67
+00:05:11.930 --> 00:05:16.884
+in this picture is the user,
+
+68
+00:05:16.884 --> 00:05:21.620
+so user interface is also an important
+component in any search engine.
+
+69
+00:05:21.620 --> 00:05:25.850
+Even though the current search interface
+is relatively simple they actually have
+
+70
+00:05:25.850 --> 00:05:32.020
+done a lot of studies of user interfaces
+where we do visualization for example.
+
+71
+00:05:32.020 --> 00:05:34.680
+And this is the topic to that,
+
+72
+00:05:34.680 --> 00:05:40.350
+you can learn more by reading this book.
+
+73
+00:05:40.350 --> 00:05:47.430
+It's an excellent book about all kinds
+of studies of search using the face.
+
+74
+00:05:48.800 --> 00:05:53.360
+If you want to know more about
+the topics that we talked about,
+
+75
+00:05:53.360 --> 00:05:57.590
+you can also read some additional
+readings that are listed here.
+
+76
+00:05:57.590 --> 00:06:01.110
+In this short course we only
+manage to cover some basic
+
+77
+00:06:01.110 --> 00:06:03.610
+topics in text retrievals and
+search engines.
+
+78
+00:06:04.770 --> 00:06:09.930
+And these resources provide additional
+information about more advanced topics and
+
+79
+00:06:09.930 --> 00:06:16.220
+they give a more thorough treatment of
+some of the topics that we talked about.
+
+80
+00:06:16.220 --> 00:06:19.410
+And a main source is
+the Synthesis Digital Library
+
+81
+00:06:21.570 --> 00:06:26.916
+that you can see a lot of short
+to textbook or textbooks,
+
+82
+00:06:26.916 --> 00:06:30.290
+or long tutorials.
+
+83
+00:06:30.290 --> 00:06:35.260
+They tend to provide a lot of
+information to explain a topic.
+
+84
+00:06:35.260 --> 00:06:40.830
+And there a lot of series that
+are related to this cause.
+
+85
+00:06:40.830 --> 00:06:44.660
+One is information concepts,
+retrieval, and services.
+
+86
+00:06:44.660 --> 00:06:46.310
+One is human langauge technology.
+
+87
+00:06:46.310 --> 00:06:49.452
+And yet another is artificial
+intelligence and machine learning.
+
+88
+00:06:49.452 --> 00:06:55.535
+There are also some major journals and
+conferences listed here that
+
+89
+00:06:55.535 --> 00:07:00.485
+tend to have a lot of research papers
+we need to and topic of this course.
+
+90
+00:07:00.485 --> 00:07:05.370
+And finally, for more information
+about resources Including readings,
+
+91
+00:07:05.370 --> 00:07:08.930
+tool kits, etc you can check out his URL.
+
+92
+00:07:10.010 --> 00:07:16.320
+So, if you have not taken the text
+mining course in this data mining
+
+93
+00:07:16.320 --> 00:07:22.630
+specialization series then naturally
+the next step is to take that course.
+
+94
+00:07:22.630 --> 00:07:27.900
+As this picture shows,
+to mine big text data,
+
+95
+00:07:27.900 --> 00:07:31.800
+we generally need two kinds of techniques.
+
+96
+00:07:31.800 --> 00:07:34.710
+One is text retrieval,
+which is covered in this course.
+
+97
+00:07:34.710 --> 00:07:39.490
+And these techniques will help us
+convert raw big text data into small
+
+98
+00:07:39.490 --> 00:07:45.550
+relevant text data, which are actually
+needed in the specific application.
+
+99
+00:07:45.550 --> 00:07:51.190
+Now human plays important role in mining
+any text data because text data is
+
+100
+00:07:51.190 --> 00:07:54.630
+written for humans to consume.
+
+101
+00:07:54.630 --> 00:08:00.580
+So involving humans in the process
+of data mining is very important and
+
+102
+00:08:00.580 --> 00:08:05.050
+in this course we have covered
+the various strategies to help users get
+
+103
+00:08:05.050 --> 00:08:08.300
+access to the most relevant data.
+
+104
+00:08:08.300 --> 00:08:13.210
+These techniques are always so
+essential in any text mining system
+
+105
+00:08:13.210 --> 00:08:17.770
+to help provide prominence and
+to help users interpret the inner
+
+106
+00:08:17.770 --> 00:08:23.990
+patterns that the user will
+define through text data mining.
+
+107
+00:08:23.990 --> 00:08:27.870
+So, in general, the user would have
+to go back to the original data to
+
+108
+00:08:27.870 --> 00:08:29.359
+better understand the patterns.
+
+109
+00:08:30.360 --> 00:08:36.200
+So the text mining cause, or rather,
+text mining and analytics course
+
+110
+00:08:36.200 --> 00:08:41.660
+will be dealing with what to do once
+the user has a following information.
+
+111
+00:08:41.660 --> 00:08:46.010
+So this is a second step in this
+picture where we would convert
+
+112
+00:08:46.010 --> 00:08:48.790
+the text data into actionable knowledge.
+
+113
+00:08:49.830 --> 00:08:55.900
+And this has to do with helping users to
+further digest the found information or
+
+114
+00:08:55.900 --> 00:08:59.750
+to find the patterns and
+to reveal knowledge.
+
+115
+00:08:59.750 --> 00:09:04.640
+In text and such knowledge can
+then be used in application
+
+116
+00:09:04.640 --> 00:09:10.500
+systems to help decision making or
+to help a user finish a task.
+
+117
+00:09:10.500 --> 00:09:16.624
+So, if you have not taken that course,
+the natural step and
+
+118
+00:09:16.624 --> 00:09:22.030
+that natural next step would
+be to take that course.
+
+119
+00:09:24.000 --> 00:09:25.770
+Thank you for taking this course.
+
+120
+00:09:25.770 --> 00:09:29.570
+I hope you had fun and
+found this course to be useful to you.
+
+121
+00:09:29.570 --> 00:09:34.236
+And I look forward to interacting
+with you at a future opportunity.
+
+122
+00:09:34.236 --> 00:09:44.236
+[MUSIC]

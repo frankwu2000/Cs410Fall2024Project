@@ -1,0 +1,1360 @@
+WEBVTT
+
+1
+00:00:00.248 --> 00:00:06.368
+[MUSIC]
+
+2
+00:00:06.368 --> 00:00:10.308
+This lecture is about the implementation
+of text retrieval systems.
+
+3
+00:00:12.878 --> 00:00:17.327
+In this lecture we will discuss
+how we can implement a text
+
+4
+00:00:17.327 --> 00:00:20.768
+retrieval method to build a search engine.
+
+5
+00:00:20.768 --> 00:00:24.753
+The main challenge is to
+manage a lot of text data and
+
+6
+00:00:24.753 --> 00:00:30.698
+to enable a query to be answered very
+quickly and to respond to many queries.
+
+7
+00:00:30.698 --> 00:00:34.858
+This is a typical text
+retrieval system architecture.
+
+8
+00:00:34.858 --> 00:00:39.805
+We can see the documents are first
+processed by a tokenizer to
+
+9
+00:00:39.805 --> 00:00:43.498
+get tokenized units, for example, words.
+
+10
+00:00:43.498 --> 00:00:48.058
+And then, these words, or
+tokens, will be processed by
+
+11
+00:00:48.058 --> 00:00:53.188
+a indexer that will create a index,
+which is a data structure for
+
+12
+00:00:53.188 --> 00:00:57.280
+the search engine to use
+to quickly answer a query.
+
+13
+00:00:57.280 --> 00:01:01.830
+And the query would be going
+through a similar processing step.
+
+14
+00:01:01.830 --> 00:01:05.761
+So the Tokenizer would be
+apprised of the query as well,
+
+15
+00:01:05.761 --> 00:01:09.200
+so that the text can be
+processed in the same way.
+
+16
+00:01:09.200 --> 00:01:12.960
+The same units would be
+matched with each other.
+
+17
+00:01:12.960 --> 00:01:17.604
+The query's representation would
+then be given to the Scorer,
+
+18
+00:01:17.604 --> 00:01:22.506
+which would use the index to quickly
+answer user's query by scoring
+
+19
+00:01:22.506 --> 00:01:25.268
+the documents and then ranking them.
+
+20
+00:01:25.268 --> 00:01:27.628
+The results will be given to the user.
+
+21
+00:01:27.628 --> 00:01:32.033
+And then the user can look at the results
+and provided us some feedback that can be
+
+22
+00:01:32.033 --> 00:01:35.126
+explicit judgements of both
+which documents are good,
+
+23
+00:01:35.126 --> 00:01:36.603
+which documents are bad.
+
+24
+00:01:36.603 --> 00:01:43.353
+Or implicit feedback such as so that
+user didn't have to do anything extra.
+
+25
+00:01:43.353 --> 00:01:46.187
+End user will just look at the results,
+and
+
+26
+00:01:46.187 --> 00:01:49.193
+skip some, and
+click on some result to view.
+
+27
+00:01:49.193 --> 00:01:55.353
+So these interacting signals can be used
+by the system to improve the ranking
+
+28
+00:01:55.353 --> 00:02:01.718
+accuracy by assuming that viewed documents
+are better than the skipped ones.
+
+29
+00:02:01.718 --> 00:02:05.678
+So a search engine system then
+can be divided into three parts.
+
+30
+00:02:05.678 --> 00:02:10.738
+The first part is the indexer, and
+the second part is a Scorer that
+
+31
+00:02:10.738 --> 00:02:16.458
+responds to the users query, and
+the third part is a Feedback mechanism.
+
+32
+00:02:16.458 --> 00:02:21.072
+Now typically, the Indexer is
+done in the offline manner, so
+
+33
+00:02:21.072 --> 00:02:24.179
+you can pre-process the correct data and
+
+34
+00:02:24.179 --> 00:02:29.168
+to build the inventory index,
+which we will introduce in moment.
+
+35
+00:02:29.168 --> 00:02:34.819
+And this data structure can then be used
+by the online module which is a scorer
+
+36
+00:02:34.819 --> 00:02:40.668
+to process a user's query dynamically and
+quickly generate search results.
+
+37
+00:02:40.668 --> 00:02:45.368
+The feedback mechanism can be done online
+or offline, depending on the method.
+
+38
+00:02:45.368 --> 00:02:50.367
+The implementation of the indexer and
+the scorer is very standard,
+
+39
+00:02:50.367 --> 00:02:55.378
+and this is the main topic of this
+lecture and the next few lectures.
+
+40
+00:02:55.378 --> 00:02:59.843
+The feedback mechanism,
+on the other hand, has variations,
+
+41
+00:02:59.843 --> 00:03:02.378
+it depends on which method is used.
+
+42
+00:03:02.378 --> 00:03:08.818
+So that is usually done in
+algorithms specific way.
+
+43
+00:03:08.818 --> 00:03:11.538
+Let's first talk about the tokenizer.
+
+44
+00:03:11.538 --> 00:03:16.578
+Tokernization is a normalized lexical
+units in through the same form,
+
+45
+00:03:16.578 --> 00:03:21.368
+so that semantically similar words
+can be matched with each other.
+
+46
+00:03:21.368 --> 00:03:25.133
+Now, in the language like English,
+stemming is often used and
+
+47
+00:03:25.133 --> 00:03:29.548
+this will map all the inflectional
+forms of words into the same root form.
+
+48
+00:03:29.548 --> 00:03:33.047
+So for example, computer, computation, and
+
+49
+00:03:33.047 --> 00:03:37.078
+computing can all be matched
+to the root form compute.
+
+50
+00:03:37.078 --> 00:03:43.628
+This way all these different forms of
+computing can be matched with each other.
+
+51
+00:03:43.628 --> 00:03:46.433
+Now normally, this is a good idea,
+
+52
+00:03:46.433 --> 00:03:52.337
+to increase the coverage of documents
+that are matched up with this query.
+
+53
+00:03:52.337 --> 00:03:55.553
+But it's also not always beneficial,
+
+54
+00:03:55.553 --> 00:04:00.914
+because sometimes the subtlest
+difference between computer and
+
+55
+00:04:00.914 --> 00:04:07.558
+computation might still suggest the
+difference in the coverage of the content.
+
+56
+00:04:07.558 --> 00:04:13.398
+But in most cases,
+stemming seems to be beneficial.
+
+57
+00:04:13.398 --> 00:04:19.363
+When we tokenize the text in some other
+languages, for example Chinese, we might
+
+58
+00:04:19.363 --> 00:04:25.338
+face some special challenges in segmenting
+the text to find the word boundaries.
+
+59
+00:04:25.338 --> 00:04:29.697
+Because it's not obvious
+where the boundary is as
+
+60
+00:04:29.697 --> 00:04:32.928
+there's no space to separate them.
+
+61
+00:04:32.928 --> 00:04:41.638
+So here of course, we have to use some
+language specific processing techniques.
+
+62
+00:04:41.638 --> 00:04:47.144
+Once we do tokenization, then we would
+index the text documents and than it'll
+
+63
+00:04:47.144 --> 00:04:52.748
+convert the documents and do some data
+structure that can enable faster search.
+
+64
+00:04:52.748 --> 00:04:58.298
+The basic idea is to precompute
+as much as we can basically.
+
+65
+00:04:58.298 --> 00:05:02.848
+So the most commonly used index
+is call an Inverted index.
+
+66
+00:05:02.848 --> 00:05:06.555
+And this has been used
+in many search engines
+
+67
+00:05:06.555 --> 00:05:09.768
+to support basic search algorithms.
+
+68
+00:05:09.768 --> 00:05:13.426
+Sometimes the other indices, for example,
+
+69
+00:05:13.426 --> 00:05:19.498
+document index might be needed in order
+to support feedback, like I said.
+
+70
+00:05:19.498 --> 00:05:24.106
+And these kind of techniques
+are not really standard in
+
+71
+00:05:24.106 --> 00:05:28.828
+that they vary a lot according
+to the feedback methods.
+
+72
+00:05:28.828 --> 00:05:34.549
+To understand why we want to use
+inverted index it will be useful for
+
+73
+00:05:34.549 --> 00:05:40.698
+you to think about how you would
+respond to a single term query quickly.
+
+74
+00:05:40.698 --> 00:05:44.938
+So if you want to use more time to
+think about that, pause the video.
+
+75
+00:05:44.938 --> 00:05:49.584
+So think about how you can
+pre process the text data so
+
+76
+00:05:49.584 --> 00:05:54.768
+that you can quickly respond
+to a query with just one word.
+
+77
+00:05:54.768 --> 00:05:58.466
+Where if you have thought
+about that question,
+
+78
+00:05:58.466 --> 00:06:02.811
+you might realize that where
+the best is to simply create
+
+79
+00:06:02.811 --> 00:06:07.718
+the list of documents that match
+every term in the vocabulary.
+
+80
+00:06:07.718 --> 00:06:11.788
+In this way, you can basically
+pre-construct the answers.
+
+81
+00:06:11.788 --> 00:06:17.503
+So when you see a term you can simply just
+to fetch the random list of documents for
+
+82
+00:06:17.503 --> 00:06:20.508
+that term and return the list to the user.
+
+83
+00:06:20.508 --> 00:06:24.928
+So that's the fastest way to
+respond to a single term here.
+
+84
+00:06:24.928 --> 00:06:30.468
+Now the idea of the invert index
+is actually, basically, like that.
+
+85
+00:06:30.468 --> 00:06:36.017
+We're going to do pre-constructed
+search an index, that will allows
+
+86
+00:06:36.017 --> 00:06:41.388
+us to quickly find all the documents
+that match a particular term.
+
+87
+00:06:41.388 --> 00:06:43.878
+So let's take a look at this example.
+
+88
+00:06:43.878 --> 00:06:45.439
+We have three documents here,
+
+89
+00:06:45.439 --> 00:06:49.168
+and these are the documents that you
+have seen in some previous lectures.
+
+90
+00:06:49.168 --> 00:06:52.916
+Suppose that we want to create
+an inverted index for these documents.
+
+91
+00:06:52.916 --> 00:06:57.502
+Then we want to maintain a dictionary, in
+the dictionary we will have one entry for
+
+92
+00:06:57.502 --> 00:07:01.628
+each term and we're going to store
+some basic statistics about the term.
+
+93
+00:07:01.628 --> 00:07:05.960
+For example, the number of
+documents that match the term, or
+
+94
+00:07:05.960 --> 00:07:09.458
+the total number of code or
+frequency of the term,
+
+95
+00:07:09.458 --> 00:07:14.148
+which means we would kind of duplicate
+the occurrences of the term.
+
+96
+00:07:14.148 --> 00:07:17.415
+And so, for example, news,
+
+97
+00:07:17.415 --> 00:07:22.253
+this term occur in all
+the three documents,
+
+98
+00:07:22.253 --> 00:07:26.198
+so the count of documents is three.
+
+99
+00:07:26.198 --> 00:07:32.820
+And you might also realize we needed this
+count of documents, or document frequency,
+
+100
+00:07:32.820 --> 00:07:38.002
+for computing some statistics to
+be used in the vector space model.
+
+101
+00:07:38.002 --> 00:07:42.422
+Can you think of that?
+
+102
+00:07:42.422 --> 00:07:49.862
+So what weighting heuristic
+would need this count.
+
+103
+00:07:49.862 --> 00:07:53.622
+Well, that's the idea, right,
+inverse document frequency.
+
+104
+00:07:53.622 --> 00:07:58.300
+So, IDF is the property of a term,
+and we can compute it right here.
+
+105
+00:07:58.300 --> 00:08:03.291
+So, with the document that count here,
+it's easy to compute the idea of,
+
+106
+00:08:03.291 --> 00:08:06.556
+either at this time, or
+with the old index, or.
+
+107
+00:08:06.556 --> 00:08:10.134
+At random time when we see a query.
+
+108
+00:08:10.134 --> 00:08:13.641
+Now in addition to these basic statistics,
+
+109
+00:08:13.641 --> 00:08:18.380
+we'll also store all the documents
+that matched the news,
+
+110
+00:08:18.380 --> 00:08:23.049
+and these entries are stored
+in the file called Postings.
+
+111
+00:08:24.150 --> 00:08:27.595
+So in this case it matched
+three documents and
+
+112
+00:08:27.595 --> 00:08:31.680
+we store information about
+these three documents here.
+
+113
+00:08:31.680 --> 00:08:38.160
+This is the document id,
+document 1 and the frequency is 1.
+
+114
+00:08:38.160 --> 00:08:45.240
+The tf is one for news, in the second
+document it's also 1, et cetera.
+
+115
+00:08:45.240 --> 00:08:50.864
+So from this list, we can get all
+the documents that match the term news and
+
+116
+00:08:50.864 --> 00:08:55.320
+we can also know the frequency
+of news in these documents.
+
+117
+00:08:55.320 --> 00:08:58.214
+So, if the query has just one word,
+news, and
+
+118
+00:08:58.214 --> 00:09:01.628
+we have easily look up to this
+table to find the entry and
+
+119
+00:09:01.628 --> 00:09:06.780
+go quicker into the postings to fetch
+all the documents that matching yours.
+
+120
+00:09:06.780 --> 00:09:08.180
+So, let's take a look at another term.
+
+121
+00:09:09.280 --> 00:09:12.600
+This time, let's take a look
+at the word presidential.
+
+122
+00:09:14.130 --> 00:09:17.950
+This would occur in only one document,
+document 3.
+
+123
+00:09:17.950 --> 00:09:23.490
+So the document frequency is 1 but
+it occurred twice in this document.
+
+124
+00:09:23.490 --> 00:09:29.210
+So the frequency count is two, and
+the frequency count is used for
+
+125
+00:09:29.210 --> 00:09:33.250
+some other reachable method where
+we might use the frequency to
+
+126
+00:09:34.490 --> 00:09:38.770
+assess the popularity of
+a term in the collection.
+
+127
+00:09:38.770 --> 00:09:42.930
+Similarly we'll have a pointer
+to the postings here,
+
+128
+00:09:42.930 --> 00:09:47.490
+and in this case,
+there is only one entry here because
+
+129
+00:09:48.900 --> 00:09:53.570
+the term occurred in just one document and
+that's here.
+
+130
+00:09:53.570 --> 00:09:57.320
+The document id is 3 and
+it occurred twice.
+
+131
+00:09:59.610 --> 00:10:02.550
+So this is the basic
+idea of inverted index.
+
+132
+00:10:02.550 --> 00:10:04.340
+It's actually pretty simple, right?
+
+133
+00:10:06.580 --> 00:10:12.370
+With this structure we can easily fetch
+all the documents that match a term.
+
+134
+00:10:12.370 --> 00:10:15.760
+And this will be the basis for
+scoring documents for a query.
+
+135
+00:10:15.760 --> 00:10:23.770
+Now sometimes we also want to store
+the positions of these terms.
+
+136
+00:10:25.220 --> 00:10:31.960
+So in many of these cases the term
+occurred just once in the document.
+
+137
+00:10:31.960 --> 00:10:34.320
+So there's only one position for
+example in this case.
+
+138
+00:10:35.810 --> 00:10:40.990
+But in this case, the term occurred
+twice so there's two positions.
+
+139
+00:10:40.990 --> 00:10:44.690
+Now the position information is very
+useful for the checking whether
+
+140
+00:10:44.690 --> 00:10:48.400
+the matching of query terms is
+actually within a small window of,
+
+141
+00:10:48.400 --> 00:10:51.360
+let's say, five words or ten words.
+
+142
+00:10:52.410 --> 00:11:00.700
+Or, whether the matching of the two query
+terms is, in fact, a phrase of two words.
+
+143
+00:11:00.700 --> 00:11:04.540
+That this can all be checked quickly
+by using the position from each.
+
+144
+00:11:05.920 --> 00:11:10.160
+So, why is inverted index good for
+fast search?
+
+145
+00:11:10.160 --> 00:11:16.349
+Well, we just talked about the possibility
+of using the two answer single-term query.
+
+146
+00:11:16.349 --> 00:11:17.990
+And that's very easy.
+
+147
+00:11:17.990 --> 00:11:19.910
+What about the multiple term queries?
+
+148
+00:11:19.910 --> 00:11:23.800
+Well let's first look at the some
+special cases of the Boolean query.
+
+149
+00:11:23.800 --> 00:11:27.740
+A Boolean query is basically
+a Boolean expression like this.
+
+150
+00:11:27.740 --> 00:11:36.290
+So I want the value in the document
+to match both term A and term B.
+
+151
+00:11:36.290 --> 00:11:38.770
+So that's one conjunctive query.
+
+152
+00:11:38.770 --> 00:11:45.440
+Or I want the web documents
+to match term A or term B.
+
+153
+00:11:45.440 --> 00:11:46.540
+That's a disjunctive query.
+
+154
+00:11:46.540 --> 00:11:51.070
+But how can we answer such
+a query by using inverted index?
+
+155
+00:11:52.090 --> 00:11:53.860
+Well if you think a bit about it,
+
+156
+00:11:53.860 --> 00:11:58.130
+it would be obvious because
+we have simply fetch all
+
+157
+00:11:58.130 --> 00:12:03.170
+the documents that match term A and also
+fetch all the documents that match term B.
+
+158
+00:12:03.170 --> 00:12:08.160
+And then just take the intersection
+to answer a query like A and B.
+
+159
+00:12:08.160 --> 00:12:13.050
+Or to take the union to
+answer the query A or B.
+
+160
+00:12:13.050 --> 00:12:16.020
+So this is all very easy to answer.
+
+161
+00:12:16.020 --> 00:12:17.780
+It's going to be very quick.
+
+162
+00:12:17.780 --> 00:12:20.850
+Now what about the multi-term
+keyword query?
+
+163
+00:12:20.850 --> 00:12:24.390
+We talked about the vector space model for
+example and
+
+164
+00:12:24.390 --> 00:12:28.940
+we will do a match such query with
+document and generate the score.
+
+165
+00:12:28.940 --> 00:12:32.330
+And the score is based on
+aggregated term weights.
+
+166
+00:12:32.330 --> 00:12:35.670
+So in this case it's not
+the Boolean query but
+
+167
+00:12:35.670 --> 00:12:38.770
+the scoring can be actually
+done in similar way.
+
+168
+00:12:38.770 --> 00:12:42.430
+Basically it's similar to
+disjunctive Boolean query.
+
+169
+00:12:42.430 --> 00:12:45.140
+Basically, it's like A or B.
+
+170
+00:12:45.140 --> 00:12:50.680
+We take the union of all the documents
+that match at least one query term and
+
+171
+00:12:50.680 --> 00:12:53.320
+then we would aggregate the term weights.
+
+172
+00:12:53.320 --> 00:13:01.420
+So this is a basic idea of using inverted
+index for scoring documents in general.
+
+173
+00:13:01.420 --> 00:13:05.210
+And we're going to talk about
+this in more detail later.
+
+174
+00:13:05.210 --> 00:13:06.000
+But for now,
+
+175
+00:13:06.000 --> 00:13:12.210
+let's just look at the question
+why is in both index, a good idea?
+
+176
+00:13:12.210 --> 00:13:17.470
+Basically why is more efficient than
+sequentially just scanning documents.
+
+177
+00:13:17.470 --> 00:13:20.770
+This is the obvious approach.
+
+178
+00:13:20.770 --> 00:13:27.518
+You can just compute a score for each
+document and then you can then sort them.
+
+179
+00:13:27.518 --> 00:13:29.936
+And this is a straightforward method but
+
+180
+00:13:29.936 --> 00:13:34.496
+this is going to be very slow imagine
+the wealth, there's a lot of documents.
+
+181
+00:13:34.496 --> 00:13:39.620
+If you do this then it will take
+a long time to answer your query.
+
+182
+00:13:39.620 --> 00:13:44.975
+So the question now is why would
+the invert index be much faster?
+
+183
+00:13:44.975 --> 00:13:48.780
+Well it has to do is the word
+distribution in text.
+
+184
+00:13:48.780 --> 00:13:54.010
+So, here's some common phenomena
+of word distribution in the text.
+
+185
+00:13:54.010 --> 00:13:58.720
+There are some languages independent
+of patterns that seem to be stable.
+
+186
+00:14:00.300 --> 00:14:07.690
+And these patterns are basically
+characterized by the following pattern.
+
+187
+00:14:07.690 --> 00:14:10.830
+A few words like the common
+words like the, a, or
+
+188
+00:14:10.830 --> 00:14:14.780
+we occur very, very frequently in text.
+
+189
+00:14:14.780 --> 00:14:18.210
+So they account for
+a large percent of occurrences of words.
+
+190
+00:14:19.405 --> 00:14:22.885
+But most words would occur just rarely.
+
+191
+00:14:22.885 --> 00:14:25.615
+There are many words that occur just once,
+
+192
+00:14:25.615 --> 00:14:29.790
+let's say, in a document or
+once in the collection.
+
+193
+00:14:29.790 --> 00:14:33.306
+And there are many such.
+
+194
+00:14:33.306 --> 00:14:37.977
+It's also true that the most
+frequent the words in one corpus
+
+195
+00:14:37.977 --> 00:14:40.462
+they have to be rare in another.
+
+196
+00:14:40.462 --> 00:14:45.800
+That means although the general
+phenomenon is applicable,
+
+197
+00:14:45.800 --> 00:14:51.060
+was observed in many cases that
+exact words that are common
+
+198
+00:14:51.060 --> 00:14:54.770
+may vary from context to context.
+
+199
+00:14:54.770 --> 00:14:59.450
+So this phenomena is characterized
+by what's called a Zipf's Law.
+
+200
+00:14:59.450 --> 00:15:02.210
+This law says that the rank of a word
+
+201
+00:15:02.210 --> 00:15:06.370
+multiplied by the frequency of
+the word is roughly constant.
+
+202
+00:15:07.450 --> 00:15:13.045
+So formally if we use F(w)
+to denote the frequency,
+
+203
+00:15:13.045 --> 00:15:16.310
+r(w) to denote the rank of a word.
+
+204
+00:15:16.310 --> 00:15:17.390
+Then this is the formula.
+
+205
+00:15:17.390 --> 00:15:21.300
+It basically says the same thing,
+just mathematical term.
+
+206
+00:15:21.300 --> 00:15:28.510
+Where C is basically a constant and
+so, and there is also a parameter,
+
+207
+00:15:28.510 --> 00:15:34.180
+alpha, that might be adjusted to
+better fit any empirical observations.
+
+208
+00:15:34.180 --> 00:15:38.128
+So if I plot the word
+frequencies in sorted order,
+
+209
+00:15:38.128 --> 00:15:40.980
+then you can see this more easily.
+
+210
+00:15:40.980 --> 00:15:43.660
+The x axis is basically the word rank.
+
+211
+00:15:43.660 --> 00:15:50.393
+This is r(w) and
+the y axis is word frequency or F(w).
+
+212
+00:15:50.393 --> 00:15:57.448
+Now this curve shows that the product
+of the two is roughly the constant.
+
+213
+00:15:57.448 --> 00:16:02.524
+Now if you look at these words, we can see
+They can be separated into three groups.
+
+214
+00:16:02.524 --> 00:16:06.870
+In the middle,
+it's the intermediary frequency words.
+
+215
+00:16:06.870 --> 00:16:11.440
+These words tend to occur
+quite in a few documents, but
+
+216
+00:16:11.440 --> 00:16:14.890
+they are not like those
+most frequent words.
+
+217
+00:16:14.890 --> 00:16:17.070
+And they are also not very rare.
+
+218
+00:16:18.190 --> 00:16:21.620
+So they tend to be often used in
+
+219
+00:16:22.700 --> 00:16:28.240
+queries and they also tend
+to have high TF-IDF weights.
+
+220
+00:16:28.240 --> 00:16:31.290
+These intermediate frequency words.
+
+221
+00:16:31.290 --> 00:16:34.480
+But if you look at the left
+part of the curve,
+
+222
+00:16:35.820 --> 00:16:38.330
+these are the highest frequency words.
+
+223
+00:16:38.330 --> 00:16:39.620
+They are covered very frequently.
+
+224
+00:16:39.620 --> 00:16:45.540
+They are usually words,
+like the, we, of Etc.
+
+225
+00:16:45.540 --> 00:16:49.440
+Those words are very, very frequent and
+they are in fact the two frequent to be
+
+226
+00:16:49.440 --> 00:16:54.226
+discriminated, and they are generally
+not very useful for retrieval.
+
+227
+00:16:54.226 --> 00:17:01.900
+So they are often removed and
+this is called the stop words removal.
+
+228
+00:17:01.900 --> 00:17:06.960
+So you can use pretty much just the kind
+of words in the collection to kind of
+
+229
+00:17:06.960 --> 00:17:09.620
+infer what words might be stop words.
+
+230
+00:17:09.620 --> 00:17:12.690
+Those are basically
+the highest frequency words.
+
+231
+00:17:13.780 --> 00:17:18.500
+And they also occupy a lot of
+space in the inverted index.
+
+232
+00:17:18.500 --> 00:17:23.048
+You can imagine the posting entries for
+such a word would be very long.
+
+233
+00:17:23.048 --> 00:17:24.370
+And then therefore,
+
+234
+00:17:24.370 --> 00:17:28.299
+if you can remove such words you can save
+a lot of space in the inverted index.
+
+235
+00:17:29.890 --> 00:17:35.100
+We also show the tail part,
+which has a lot of rare words.
+
+236
+00:17:35.100 --> 00:17:38.470
+Those words don't occur very frequently,
+and there are many such words.
+
+237
+00:17:39.680 --> 00:17:41.330
+Those words are actually very useful for
+
+238
+00:17:41.330 --> 00:17:45.630
+search also, if a user happens to
+be interested in such a topic.
+
+239
+00:17:45.630 --> 00:17:49.730
+But because they're rare,
+it's often true that users
+
+240
+00:17:49.730 --> 00:17:54.030
+aren't necessarily
+interested in those words.
+
+241
+00:17:54.030 --> 00:17:58.970
+But retain them would allow us to
+match such a document accurately.
+
+242
+00:17:58.970 --> 00:18:00.610
+They generally have very high IDF.
+
+243
+00:18:05.559 --> 00:18:10.840
+So what kind of data structures should
+we use to store inverted index?
+
+244
+00:18:10.840 --> 00:18:11.970
+Well, it has two parts, right.
+
+245
+00:18:11.970 --> 00:18:16.720
+If you recall, we have a dictionary and
+we also have postings.
+
+246
+00:18:16.720 --> 00:18:21.810
+The dictionary has modest size, although
+for the web it's still going to be very
+
+247
+00:18:21.810 --> 00:18:24.810
+large but compare it with
+postings it's more distinct.
+
+248
+00:18:26.220 --> 00:18:29.710
+And we also need to have fast
+random access to the entries
+
+249
+00:18:29.710 --> 00:18:32.940
+because we're going to look up
+on the query term very quickly.
+
+250
+00:18:32.940 --> 00:18:39.200
+So therefore, we'd prefer to keep such
+a dictionary in memory if it's possible.
+
+251
+00:18:39.200 --> 00:18:43.333
+If the collection is not very large,
+this is feasible, but
+
+252
+00:18:43.333 --> 00:18:47.810
+if the collection is very large
+then it's in general not possible.
+
+253
+00:18:47.810 --> 00:18:52.100
+If the vocabulary size is very large,
+obviously we can't do that.
+
+254
+00:18:52.100 --> 00:18:55.800
+So, in general that's how it goes.
+
+255
+00:18:55.800 --> 00:18:58.578
+So the data structures
+that we often use for
+
+256
+00:18:58.578 --> 00:19:01.390
+storing dictionary,
+it would be direct access.
+
+257
+00:19:01.390 --> 00:19:04.375
+There are structures like hash table, or
+
+258
+00:19:04.375 --> 00:19:09.090
+b-tree if we can't store
+everything in memory or use disk.
+
+259
+00:19:09.090 --> 00:19:12.760
+And then try to build a structure that
+would allow it to quickly look up entries.
+
+260
+00:19:14.530 --> 00:19:16.705
+For postings they are huge.
+
+261
+00:19:18.045 --> 00:19:24.815
+And in general, we don't have to have
+direct access to a specific entry.
+
+262
+00:19:24.815 --> 00:19:29.145
+We generally would just look up
+a sequence of document IDs and
+
+263
+00:19:29.145 --> 00:19:32.850
+frequencies for all the documents
+that matches the query term.
+
+264
+00:19:33.930 --> 00:19:36.570
+So would read those entries sequentially.
+
+265
+00:19:37.670 --> 00:19:43.704
+And therefore because it's large and
+we generally have store postings on disc,
+
+266
+00:19:43.704 --> 00:19:49.826
+they have to stay on disc and they would
+contain information such as document IDs,
+
+267
+00:19:49.826 --> 00:19:53.392
+term frequency or
+term positions, etcetera.
+
+268
+00:19:53.392 --> 00:19:58.300
+Now because they are very large,
+compression is often desirable.
+
+269
+00:19:59.360 --> 00:20:04.390
+Now this is not only to save disc space,
+and this is of course
+
+270
+00:20:04.390 --> 00:20:09.080
+one benefit of compression, it It's
+not going to occupy that much space.
+
+271
+00:20:09.080 --> 00:20:11.750
+But it's also to help improving speed.
+
+272
+00:20:13.110 --> 00:20:15.980
+Can you see why?
+
+273
+00:20:15.980 --> 00:20:23.470
+Well, we know that input and
+output would cost a lot of time.
+
+274
+00:20:23.470 --> 00:20:28.320
+In comparison with the time taken by CPU.
+
+275
+00:20:28.320 --> 00:20:33.410
+So, CPU is much faster but
+IO takes time and
+
+276
+00:20:33.410 --> 00:20:39.335
+so by compressing the inverter index,
+opposing files will become smaller, and
+
+277
+00:20:39.335 --> 00:20:45.115
+the entries, that we have the readings,
+and memory to process a query term,
+
+278
+00:20:45.115 --> 00:20:50.150
+would be smaller, and
+then, so we can reduce
+
+279
+00:20:50.150 --> 00:20:55.080
+the amount of tracking IO and
+that can save a lot of time.
+
+280
+00:20:55.080 --> 00:21:00.270
+Of course, we have to then do more
+processing of the data when we
+
+281
+00:21:00.270 --> 00:21:03.630
+uncompress the data in the memory.
+
+282
+00:21:03.630 --> 00:21:05.550
+But as I said CPU is fast.
+
+283
+00:21:05.550 --> 00:21:07.019
+So over all we can still save time.
+
+284
+00:21:08.360 --> 00:21:11.301
+So compression here is both
+to save disc space and
+
+285
+00:21:11.301 --> 00:21:14.035
+to speed up the loading of the index.
+
+286
+00:21:14.035 --> 00:21:24.035
+[MUSIC]

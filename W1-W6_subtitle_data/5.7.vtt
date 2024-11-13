@@ -1,0 +1,1056 @@
+WEBVTT
+
+1
+00:00:00.049 --> 00:00:03.810
+[MUSIC]
+
+2
+00:00:09.183 --> 00:00:12.025
+So let's take a look at this in detail.
+
+3
+00:00:12.025 --> 00:00:17.269
+So in this random surfing
+model at any page would assume
+
+4
+00:00:17.269 --> 00:00:22.575
+random surfer would choose
+the next page to visit.
+
+5
+00:00:22.575 --> 00:00:25.225
+So this is a small graph here.
+
+6
+00:00:25.225 --> 00:00:29.490
+That's of course, over simplification
+of the complicated web.
+
+7
+00:00:29.490 --> 00:00:35.207
+But let's say there are four
+documents here, d1, d2, d3 and d4.
+
+8
+00:00:35.207 --> 00:00:41.360
+And let's assume that a random surfer or
+random walker can be any of these pages.
+
+9
+00:00:41.360 --> 00:00:46.373
+And then the random
+surfer could decide to,
+
+10
+00:00:46.373 --> 00:00:50.439
+just randomly jumping to any page or
+
+11
+00:00:50.439 --> 00:00:55.330
+follow a link and
+then visit the next page.
+
+12
+00:00:56.440 --> 00:00:59.650
+So if the random surfer is at d1,
+
+13
+00:01:01.100 --> 00:01:06.260
+then there is some probability that
+random surfer will follow the links.
+
+14
+00:01:06.260 --> 00:01:09.510
+Now there are two outlinks here,
+one is pointing to d3,
+
+15
+00:01:09.510 --> 00:01:12.740
+the other is pointing to d4.
+
+16
+00:01:12.740 --> 00:01:19.020
+So the random surfer could pick any
+of these two to reach d3 and d4.
+
+17
+00:01:19.020 --> 00:01:25.800
+But it also assumes that the random so
+far might get bore sometimes.
+
+18
+00:01:25.800 --> 00:01:30.586
+So the random surfing which decide
+to ignore the actual links and
+
+19
+00:01:30.586 --> 00:01:34.050
+simply randomly jump
+into any page in the web.
+
+20
+00:01:34.050 --> 00:01:39.760
+So if it does that, it would be able
+to reach any of the other pages even
+
+21
+00:01:39.760 --> 00:01:45.090
+though there's no link you actually,
+you want from that page.
+
+22
+00:01:46.170 --> 00:01:49.713
+So this is to assume that
+random surfing model.
+
+23
+00:01:49.713 --> 00:01:54.852
+Imagine a random surfer is
+really doing surfing like this,
+
+24
+00:01:54.852 --> 00:01:59.989
+then we can ask the question how
+likely on average the surfer
+
+25
+00:01:59.989 --> 00:02:05.864
+would actually reach a particular
+page like a d1, a d2, or a d3.
+
+26
+00:02:05.864 --> 00:02:09.824
+That's the average probability of
+visiting a particular page and
+
+27
+00:02:09.824 --> 00:02:13.830
+this probability is precisely
+what a page ranker computes.
+
+28
+00:02:13.830 --> 00:02:17.558
+So the page rank score of
+the document is the average
+
+29
+00:02:17.558 --> 00:02:21.644
+probability that the surfer
+visits a particular page.
+
+30
+00:02:21.644 --> 00:02:27.220
+Now intuitively, this would basically
+capture the inlink account, why?
+
+31
+00:02:27.220 --> 00:02:30.970
+Because if a page has a lot of inlinks,
+
+32
+00:02:30.970 --> 00:02:34.580
+then it would have a higher
+chance of being visited.
+
+33
+00:02:34.580 --> 00:02:37.650
+Because there will be more
+opportunities of having the server to
+
+34
+00:02:37.650 --> 00:02:39.940
+follow a link to come to this page.
+
+35
+00:02:41.290 --> 00:02:45.030
+And this is why the random surfing model
+
+36
+00:02:45.030 --> 00:02:48.510
+actually captures the ID
+of counting the inlinks.
+
+37
+00:02:48.510 --> 00:02:52.700
+Note that it also considers
+the interacting links, why?
+
+38
+00:02:52.700 --> 00:02:59.690
+Because if the page is that point then
+you have themselves a lot of inlinks.
+
+39
+00:02:59.690 --> 00:03:04.550
+That would mean the random surfer would
+very likely reach one of them and
+
+40
+00:03:04.550 --> 00:03:07.680
+therefore, it increase
+the chance of visiting you.
+
+41
+00:03:07.680 --> 00:03:13.580
+So this is just a nice way to capture
+both indirect and a direct links.
+
+42
+00:03:13.580 --> 00:03:18.440
+So mathematically, how can we compute this
+problem in a day in order to see that,
+
+43
+00:03:18.440 --> 00:03:22.390
+we need to take a look at how this
+problem there is a computing.
+
+44
+00:03:22.390 --> 00:03:25.184
+So first of all let's take a look
+at the transition metrics here.
+
+45
+00:03:25.184 --> 00:03:29.437
+And this is just metrics with
+values indicating how likely
+
+46
+00:03:29.437 --> 00:03:33.273
+the random surfer would go
+from one page to another.
+
+47
+00:03:33.273 --> 00:03:37.230
+So each rule stands for a starting page.
+
+48
+00:03:37.230 --> 00:03:41.754
+For example, rule one would
+indicate the probability of going
+
+49
+00:03:41.754 --> 00:03:44.581
+to any of the other four pages from d1.
+
+50
+00:03:44.581 --> 00:03:53.097
+And here we see there are only
+2 non 0 entries which is 1/2.
+
+51
+00:03:53.097 --> 00:04:01.492
+So this is because if you look at
+the graph d1 is pointing to d3 and d4.
+
+52
+00:04:01.492 --> 00:04:05.918
+There is no link from d1 or d2.
+
+53
+00:04:05.918 --> 00:04:10.579
+So we've got 0s for the first 2
+
+54
+00:04:10.579 --> 00:04:15.762
+columns and 0.5 for d3 and d4.
+
+55
+00:04:15.762 --> 00:04:19.416
+In general, the M in this matrix,
+
+56
+00:04:19.416 --> 00:04:24.586
+M sub ij is the probability
+of going from di to dj.
+
+57
+00:04:24.586 --> 00:04:29.668
+And obviously for each rule,
+the values should sum to 1,
+
+58
+00:04:29.668 --> 00:04:36.115
+because the surfer would have to go to
+precisely one of these other pages.
+
+59
+00:04:36.115 --> 00:04:39.196
+So this is a transition metric.
+
+60
+00:04:39.196 --> 00:04:43.690
+Now how can we compute the probability
+of a surfer visiting a page?
+
+61
+00:04:44.900 --> 00:04:49.900
+Well if you look at the surf
+model then basically,
+
+62
+00:04:50.910 --> 00:04:56.280
+we can compute the probability
+of reaching a page as follows.
+
+63
+00:04:56.280 --> 00:05:01.140
+So here on the left hand side,
+you see it's the probability
+
+64
+00:05:02.170 --> 00:05:08.540
+visiting page dj at time plus 1,
+so it's the next time point.
+
+65
+00:05:08.540 --> 00:05:14.740
+On the right hand side, you can see
+the equation involves the probability
+
+66
+00:05:14.740 --> 00:05:20.000
+of at page di at time t.
+
+67
+00:05:21.408 --> 00:05:26.020
+So you can see the subscript
+in that t here, and
+
+68
+00:05:26.020 --> 00:05:34.314
+that indicates that's the probability that
+the server was at a document at time t.
+
+69
+00:05:34.314 --> 00:05:38.500
+So the equation basically,
+captures the two
+
+70
+00:05:38.500 --> 00:05:43.790
+possibilities of reaching
+at dj at the time t plus 1.
+
+71
+00:05:43.790 --> 00:05:45.510
+What are these two possibilities?
+
+72
+00:05:45.510 --> 00:05:48.200
+Well one is through random surfing and
+
+73
+00:05:48.200 --> 00:05:51.930
+one is through following a link,
+as we just explained.
+
+74
+00:05:53.500 --> 00:05:56.612
+So the first part captures the probability
+
+75
+00:05:56.612 --> 00:06:01.373
+that the random surfer would reach
+this page by following a link.
+
+76
+00:06:01.373 --> 00:06:06.283
+And you can see the random
+surfer chooses this strategy
+
+77
+00:06:06.283 --> 00:06:10.455
+with probability 1 minus
+alpha as we assume.
+
+78
+00:06:10.455 --> 00:06:14.200
+And so
+there is a factor of 1 minus alpha here.
+
+79
+00:06:14.200 --> 00:06:18.250
+But the main party is realist
+sum over all the possible pages
+
+80
+00:06:18.250 --> 00:06:22.060
+that the surfer could have been at time t.
+
+81
+00:06:23.760 --> 00:06:27.890
+There are n pages so
+it's a sum over all possible n pages.
+
+82
+00:06:27.890 --> 00:06:31.730
+Inside the sum is a product
+of two probabilities.
+
+83
+00:06:31.730 --> 00:06:36.763
+One is the probability that the surfer
+
+84
+00:06:36.763 --> 00:06:42.115
+was at di at time t, that's p sub t of di.
+
+85
+00:06:42.115 --> 00:06:47.422
+The other is the transition
+probability from di to dj.
+
+86
+00:06:47.422 --> 00:06:52.217
+And so in order to reach this dj page,
+
+87
+00:06:52.217 --> 00:06:57.880
+the surfer must first be at di at time t.
+
+88
+00:06:57.880 --> 00:07:03.090
+And then also, would also have to
+follow the link to go from di to dj.
+
+89
+00:07:03.090 --> 00:07:09.090
+So the probability is the probability
+of being at di at time t multiplied by
+
+90
+00:07:09.090 --> 00:07:15.950
+the probability of going from that
+page to the target page, dj here.
+
+91
+00:07:15.950 --> 00:07:20.792
+The second part is a similar sum, the only
+difference is that now the transition
+
+92
+00:07:20.792 --> 00:07:23.980
+probability is a uniform
+transition probability.
+
+93
+00:07:23.980 --> 00:07:27.708
+1 over n and
+this part of captures is the probability
+
+94
+00:07:27.708 --> 00:07:31.110
+of reaching this page
+through random jumping.
+
+95
+00:07:32.630 --> 00:07:37.520
+So the form is exactly the same and
+this also allows us to
+
+96
+00:07:37.520 --> 00:07:43.310
+see on why PageRank is essentially assumed
+a smoothing of the transition matrix.
+
+97
+00:07:43.310 --> 00:07:49.070
+If you think about this 1 over n as
+coming from another transition matrix
+
+98
+00:07:49.070 --> 00:07:55.320
+that has all the elements being
+1 over n in uniform matrix.
+
+99
+00:07:55.320 --> 00:07:59.621
+Then you can see very clearly
+essentially we can merge the two parts,
+
+100
+00:07:59.621 --> 00:08:01.784
+because they are of the same form.
+
+101
+00:08:01.784 --> 00:08:07.310
+We can imagine there's a different
+metrics that's combination of this m and
+
+102
+00:08:07.310 --> 00:08:11.340
+that uniform metrics where
+every m is 1 over n.
+
+103
+00:08:11.340 --> 00:08:16.347
+And in this sense PageRank uses
+this idea of smoothing and
+
+104
+00:08:16.347 --> 00:08:22.312
+ensuring that there's no zero entry
+in such as transition matrix.
+
+105
+00:08:22.312 --> 00:08:28.530
+Now of course this is the time dependent
+the calculation of the probabilities.
+
+106
+00:08:28.530 --> 00:08:32.480
+Now we can imagine, if we'll compute
+the average of the probabilities,
+
+107
+00:08:32.480 --> 00:08:36.420
+the average of probabilities probably
+with the sets of file this equation
+
+108
+00:08:36.420 --> 00:08:38.320
+without considering the time index.
+
+109
+00:08:38.320 --> 00:08:41.780
+So let's drop the time index and
+just assume that they will be equal.
+
+110
+00:08:42.910 --> 00:08:47.100
+Now this would give us any equations,
+because for
+
+111
+00:08:47.100 --> 00:08:49.520
+each page we have such equation.
+
+112
+00:08:49.520 --> 00:08:52.800
+And if you look at the what
+variables we have in these equations
+
+113
+00:08:52.800 --> 00:08:55.170
+there are also precisely n variables.
+
+114
+00:08:58.280 --> 00:09:03.220
+So this basically means,
+we now have a system of
+
+115
+00:09:04.600 --> 00:09:10.260
+n equations with n variables and
+these are linear equations.
+
+116
+00:09:10.260 --> 00:09:16.420
+So basically, now the problem boils
+down to solve this system of equations.
+
+117
+00:09:16.420 --> 00:09:20.950
+And here, I also show
+the equations in the metric form.
+
+118
+00:09:20.950 --> 00:09:26.690
+It's the vector p here equals a matrix or
+
+119
+00:09:26.690 --> 00:09:31.390
+the transpose of the matrix here and
+multiplied by the vector again.
+
+120
+00:09:32.580 --> 00:09:36.890
+Now, if you still remember some knowledge
+that you've learned from linear algebra
+
+121
+00:09:36.890 --> 00:09:42.140
+and then you will realize, this is
+precisely the equation for eigenvector.
+
+122
+00:09:42.140 --> 00:09:47.690
+When multiply the metrics by this vector,
+you get the same value as this matter and
+
+123
+00:09:47.690 --> 00:09:52.280
+this can be solved by
+using iterative algorithm.
+
+124
+00:09:54.700 --> 00:09:57.380
+So because the equations here
+
+125
+00:09:57.380 --> 00:10:02.002
+on the back are basically
+taken from the previous slide.
+
+126
+00:10:02.002 --> 00:10:09.170
+So you'll see the relation between the
+page that ran sports on different pages.
+
+127
+00:10:09.170 --> 00:10:13.844
+And this iterative approach or
+power approach,
+
+128
+00:10:13.844 --> 00:10:19.093
+we simply start with s
+randomly initialized vector p.
+
+129
+00:10:19.093 --> 00:10:24.242
+And then we repeatedly
+just update this p by
+
+130
+00:10:24.242 --> 00:10:29.970
+multiplying the metrics
+here by this p factor.
+
+131
+00:10:31.360 --> 00:10:37.820
+I also show a concrete example here.
+
+132
+00:10:37.820 --> 00:10:40.130
+So you can see this now.
+
+133
+00:10:40.130 --> 00:10:43.368
+If we assume alpha is 0.2,
+
+134
+00:10:43.368 --> 00:10:49.066
+then with the example that
+we show here on the slide,
+
+135
+00:10:49.066 --> 00:10:54.393
+we have the original
+transition matrix is here.
+
+136
+00:10:54.393 --> 00:10:59.943
+That includes the graph, the actual links
+and we have this smoothing transition
+
+137
+00:10:59.943 --> 00:11:04.856
+metrics, uniform transition metrics
+representing random jumping.
+
+138
+00:11:04.856 --> 00:11:09.707
+And we can combine them together with
+a liner interpolation to form another
+
+139
+00:11:09.707 --> 00:11:12.260
+metric that would be like this.
+
+140
+00:11:12.260 --> 00:11:13.320
+So essentially,
+
+141
+00:11:13.320 --> 00:11:18.300
+we can imagine now the web looks like
+this and can be captured like that.
+
+142
+00:11:18.300 --> 00:11:22.300
+They're all virtual links
+between all the pages now.
+
+143
+00:11:22.300 --> 00:11:27.210
+The page we're on now would just
+initialize the p vector first and
+
+144
+00:11:27.210 --> 00:11:30.270
+then just computed the updating of this
+
+145
+00:11:30.270 --> 00:11:34.899
+p vector by using this
+metrics multiplication.
+
+146
+00:11:36.600 --> 00:11:40.640
+Now if you rewrite this
+metric multiplication in
+
+147
+00:11:42.020 --> 00:11:45.080
+terms of individual equations,
+you'll see this.
+
+148
+00:11:46.530 --> 00:11:51.435
+And this is basically,
+the updating formula for
+
+149
+00:11:51.435 --> 00:11:54.385
+this particular pages and page score.
+
+150
+00:11:54.385 --> 00:11:59.364
+So you can also see if you want to compute
+the value of this updated score for d1.
+
+151
+00:11:59.364 --> 00:12:04.617
+You basically multiply
+this rule by this column,
+
+152
+00:12:04.617 --> 00:12:09.379
+and we'll take the third
+product of the two.
+
+153
+00:12:09.379 --> 00:12:13.950
+And that will give us the value for
+this value.
+
+154
+00:12:16.000 --> 00:12:20.170
+So this is how we updated the vector
+we started with an initial values for
+
+155
+00:12:20.170 --> 00:12:23.270
+these guys for this.
+
+156
+00:12:23.270 --> 00:12:28.080
+And then we just revise
+the scores which generate a new
+
+157
+00:12:28.080 --> 00:12:31.550
+set of scores and
+the updating formula is this one.
+
+158
+00:12:33.150 --> 00:12:37.590
+So we just repeatedly apply this and
+here it converges.
+
+159
+00:12:37.590 --> 00:12:41.432
+And when the matrix is like this,
+where there's no 0 values and
+
+160
+00:12:41.432 --> 00:12:43.510
+it can be guaranteed to converge.
+
+161
+00:12:44.790 --> 00:12:49.765
+And at that point the we will just have
+the PageRank scores for all the pages.
+
+162
+00:12:49.765 --> 00:12:53.101
+We typically go to sets of
+initial values just to 1 over n.
+
+163
+00:12:55.300 --> 00:12:58.543
+So interestingly,
+this updating formula can be
+
+164
+00:12:58.543 --> 00:13:03.296
+also interpreted as propagating
+scores on the graph, can you see why?
+
+165
+00:13:03.296 --> 00:13:08.847
+Or if you look at this formula and
+then compare that with this graph and
+
+166
+00:13:08.847 --> 00:13:13.440
+can you imagine,
+how we might be able to interpret this as
+
+167
+00:13:13.440 --> 00:13:17.479
+essentially propagating
+scores over the graph.
+
+168
+00:13:17.479 --> 00:13:19.801
+I hope you will see that indeed,
+
+169
+00:13:19.801 --> 00:13:24.565
+we can imagine we have values
+initialized on each of these pages.
+
+170
+00:13:24.565 --> 00:13:30.220
+So we can have values here and
+say, that's a 1 over 4 for each.
+
+171
+00:13:30.220 --> 00:13:35.170
+And then we're going to use these
+metrics to update this the scores.
+
+172
+00:13:35.170 --> 00:13:42.290
+And if you look at the equation here
+this one, basically we're going
+
+173
+00:13:42.290 --> 00:13:48.890
+to combine the scores of the pages that
+possibly would lead to reaching this page.
+
+174
+00:13:48.890 --> 00:13:54.067
+So we'll look at all the pages
+that are pointing to this page and
+
+175
+00:13:54.067 --> 00:14:00.916
+then combine this score and propagate the
+sum of the scores to this document, d1.
+
+176
+00:14:00.916 --> 00:14:06.145
+To look at the scores that we present
+the probability that the random
+
+177
+00:14:06.145 --> 00:14:11.410
+surfer would be visiting the other
+pages before it reached d1.
+
+178
+00:14:11.410 --> 00:14:16.275
+And then just do
+the propagation to simulate
+
+179
+00:14:16.275 --> 00:14:21.409
+the probability of reaching this page, d1.
+
+180
+00:14:21.409 --> 00:14:23.910
+So there are two interpretations here.
+
+181
+00:14:23.910 --> 00:14:26.364
+One is just the matrix multiplication.
+
+182
+00:14:26.364 --> 00:14:31.498
+We repeat the multiplying
+that by these metrics.
+
+183
+00:14:31.498 --> 00:14:35.204
+The other is to just think
+of it as a propagating
+
+184
+00:14:35.204 --> 00:14:38.180
+these scores repeatedly on the web.
+
+185
+00:14:38.180 --> 00:14:43.150
+So in practice, the combination of
+PageRank score is actually efficient.
+
+186
+00:14:43.150 --> 00:14:48.820
+Because the matrices is fast and there
+are some, ways we transform the equation.
+
+187
+00:14:48.820 --> 00:14:53.820
+So that you avoid actually
+literally computing the values for
+
+188
+00:14:53.820 --> 00:14:55.260
+all those elements.
+
+189
+00:14:56.670 --> 00:15:00.670
+Sometimes you may also normalize the
+equation and that will give you a somewhat
+
+190
+00:15:00.670 --> 00:15:05.249
+different form of the equation, but
+then the ranking of pages will not change.
+
+191
+00:15:06.290 --> 00:15:09.650
+The results of this potential
+problem of zero-outlink problem.
+
+192
+00:15:10.740 --> 00:15:17.540
+In that case, if a page does not have
+any outlink then the probability of
+
+193
+00:15:17.540 --> 00:15:22.250
+these pages would not sum to 1.
+
+194
+00:15:22.250 --> 00:15:26.349
+Basically, the probability of reaching the
+next page from this page would not sum to
+
+195
+00:15:26.349 --> 00:15:29.246
+1, mainly because we have lost
+some probability to mass.
+
+196
+00:15:29.246 --> 00:15:33.588
+One would assume there's some probability
+that the surfer would try to follow
+
+197
+00:15:33.588 --> 00:15:37.160
+the links, but
+then there is no link to follow.
+
+198
+00:15:37.160 --> 00:15:42.980
+And one possible solution is simply to use
+a page that is specific damping factor,
+
+199
+00:15:42.980 --> 00:15:45.270
+and that could easily fix this.
+
+200
+00:15:46.740 --> 00:15:50.750
+Basically, that's to say alpha would
+be 1.0 for a page with no outlink.
+
+201
+00:15:50.750 --> 00:15:54.130
+In that case,
+the surfer would just have to
+
+202
+00:15:54.130 --> 00:15:57.330
+randomly jump to another page
+instead of trying to follow a link.
+
+203
+00:15:59.120 --> 00:16:05.060
+There are many extensions of PageRank, one
+extension is to topic-specific PageRank.
+
+204
+00:16:05.060 --> 00:16:11.639
+Note that PageRank doesn't merely
+use the query information.
+
+205
+00:16:11.639 --> 00:16:15.370
+So we can make PageRank specific however.
+
+206
+00:16:15.370 --> 00:16:19.260
+So for example,
+at the top of a specific page you rank,
+
+207
+00:16:19.260 --> 00:16:22.567
+we can simply assume
+when the surfer is bored.
+
+208
+00:16:22.567 --> 00:16:25.660
+The surfer is not randomly
+jumping to any page on the web.
+
+209
+00:16:25.660 --> 00:16:32.320
+Instead, he's going to jump to only those
+pages that are relevant to our query.
+
+210
+00:16:32.320 --> 00:16:36.780
+For example, if the query is not sports
+then we can assume that when it's
+
+211
+00:16:36.780 --> 00:16:40.670
+doing random jumping, it's going
+to randomly jump to a sports page.
+
+212
+00:16:40.670 --> 00:16:45.350
+By doing this, then we can buy
+a PageRank through topic and sports.
+
+213
+00:16:45.350 --> 00:16:49.054
+And then if you know the current
+theory is about sports, and
+
+214
+00:16:49.054 --> 00:16:53.368
+then you can use this specialized
+PageRank score to rank documents.
+
+215
+00:16:53.368 --> 00:16:57.754
+That would be better than if you
+use the generic PageRank score.
+
+216
+00:16:57.754 --> 00:17:01.877
+PageRank is also a channel that can be
+used in many other applications for
+
+217
+00:17:01.877 --> 00:17:06.100
+network analysis particularly for
+example, social networks.
+
+218
+00:17:06.100 --> 00:17:09.970
+You can imagine if you compute
+the PageRank scores for
+
+219
+00:17:09.970 --> 00:17:14.356
+social network, where a link
+might indicate a friendship or
+
+220
+00:17:14.356 --> 00:17:18.744
+a relation, you would get some
+meaningful scores for people
+
+221
+00:17:18.744 --> 00:17:28.744
+[MUSIC]

@@ -1,0 +1,1138 @@
+WEBVTT
+
+1
+00:00:00.012 --> 00:00:03.576
+[SOUND]
+
+2
+00:00:08.498 --> 00:00:10.214
+This lecture is about
+
+3
+00:00:10.214 --> 00:00:14.988
+Document Length Normalization
+in the Vector Space Model.
+
+4
+00:00:14.988 --> 00:00:19.740
+In this lecture, we will continue
+the discussion of the vector space model.
+
+5
+00:00:19.740 --> 00:00:23.990
+In particular, we're going to discuss the
+issue of document length normalization.
+
+6
+00:00:25.850 --> 00:00:30.330
+So far in the lectures about the vector
+space model, we have used the various
+
+7
+00:00:30.330 --> 00:00:37.480
+signals from the document to assess
+the matching of the document with a query.
+
+8
+00:00:37.480 --> 00:00:40.000
+In particular,
+we have considered the tone frequency.
+
+9
+00:00:40.000 --> 00:00:42.750
+The count of a tone in a document.
+
+10
+00:00:42.750 --> 00:00:48.055
+We have also considered it's
+global statistics such as,
+
+11
+00:00:48.055 --> 00:00:50.795
+IDF, Inverse Document Frequency.
+
+12
+00:00:50.795 --> 00:00:53.620
+But we have not considered
+document lengths.
+
+13
+00:00:54.855 --> 00:01:00.899
+So here I show two example documents,
+d4 is much shorter with only 100 words.
+
+14
+00:01:01.910 --> 00:01:05.098
+D6 on the other hand, has a 5000 words.
+
+15
+00:01:05.098 --> 00:01:08.882
+If you look at the matching
+of these query words,
+
+16
+00:01:08.882 --> 00:01:13.878
+we see that in d6, there are more
+matchings of the query words.
+
+17
+00:01:13.878 --> 00:01:18.958
+But one might reason that,
+d6 may have matched
+
+18
+00:01:18.958 --> 00:01:23.410
+these query words in a scattered manner.
+
+19
+00:01:24.450 --> 00:01:30.060
+So maybe the topic of d6, is not
+really about the topic of the query.
+
+20
+00:01:31.350 --> 00:01:34.980
+So, the discussion of the campaign
+at the beginning of the document,
+
+21
+00:01:34.980 --> 00:01:38.739
+may have nothing to do with the managing
+of presidential at the end.
+
+22
+00:01:40.810 --> 00:01:44.600
+In general,
+if you think about the long documents,
+
+23
+00:01:44.600 --> 00:01:47.370
+they would have a higher chance for
+matching any query.
+
+24
+00:01:47.370 --> 00:01:54.760
+In fact, if you generate a long document
+randomly by assembling words from
+
+25
+00:01:54.760 --> 00:01:59.690
+a distribution of words, then eventually
+you probably will match an inquiry.
+
+26
+00:02:00.760 --> 00:02:05.800
+So in this sense, we should penalize on
+documents because they just naturally have
+
+27
+00:02:05.800 --> 00:02:10.400
+better chance matching to any query, and
+this is idea of document normalization.
+
+28
+00:02:12.300 --> 00:02:18.600
+We also need to be careful in avoiding
+to over penalize long documents.
+
+29
+00:02:19.770 --> 00:02:22.790
+On the one hand,
+we want to penalize the long document.
+
+30
+00:02:22.790 --> 00:02:27.202
+But on the other hand,
+we also don't want to over-penalize them.
+
+31
+00:02:27.202 --> 00:02:30.790
+Now, the reasoning is because
+a document that may be long because of
+
+32
+00:02:30.790 --> 00:02:31.309
+different reasons.
+
+33
+00:02:32.770 --> 00:02:36.950
+In one case, the document may be
+long because it uses more words.
+
+34
+00:02:38.270 --> 00:02:44.460
+So for example, think about the vortex
+article on the research paper.
+
+35
+00:02:44.460 --> 00:02:47.620
+It would use more words than
+the corresponding abstract.
+
+36
+00:02:49.560 --> 00:02:53.140
+So, this is a case where we probably
+should penalize the matching of
+
+37
+00:02:54.980 --> 00:02:57.278
+long documents such as a full paper.
+
+38
+00:02:57.278 --> 00:03:02.520
+When we compare the matching
+of words in such a long
+
+39
+00:03:02.520 --> 00:03:06.410
+document with matching of
+the words in the shop abstract.
+
+40
+00:03:07.830 --> 00:03:10.700
+Then long papers in general,
+
+41
+00:03:10.700 --> 00:03:15.380
+have a higher chance of matching clearer
+words, therefore, we should penalize them.
+
+42
+00:03:15.380 --> 00:03:18.550
+However, there is another case
+when the document is long, and
+
+43
+00:03:18.550 --> 00:03:21.750
+that is when the document
+simply has more content.
+
+44
+00:03:21.750 --> 00:03:24.040
+Now consider another
+case of long document,
+
+45
+00:03:24.040 --> 00:03:29.450
+where we simply concatenate a lot
+of abstracts of different papers.
+
+46
+00:03:29.450 --> 00:03:34.190
+In such a case, obviously, we don't want
+to over-penalize such a long document.
+
+47
+00:03:34.190 --> 00:03:38.270
+Indeed, we probably don't want to penalize
+such a document because it's long.
+
+48
+00:03:39.700 --> 00:03:46.490
+So that's why, we need to be careful about
+using the right degree of penalization.
+
+49
+00:03:48.360 --> 00:03:52.420
+A method of that has been working well,
+based on recent results,
+
+50
+00:03:52.420 --> 00:03:54.890
+is called a pivoted length normalization.
+
+51
+00:03:54.890 --> 00:03:55.860
+And in this case,
+
+52
+00:03:55.860 --> 00:04:01.550
+the idea is to use the average document
+length as a pivot, as a reference point.
+
+53
+00:04:01.550 --> 00:04:05.820
+That means we'll assume that for
+the average length documents,
+
+54
+00:04:05.820 --> 00:04:10.335
+the score is about right so
+the normalizer would be 1.
+
+55
+00:04:10.335 --> 00:04:13.035
+But if the document is longer
+than the average document length,
+
+56
+00:04:14.125 --> 00:04:16.275
+then there will be some penalization.
+
+57
+00:04:16.275 --> 00:04:20.785
+Whereas if it's a shorter,
+then there is even some reward.
+
+58
+00:04:20.785 --> 00:04:26.050
+So this is illustrated at
+using this slide, on the axis,
+
+59
+00:04:26.050 --> 00:04:28.578
+x-axis you can see the length of document.
+
+60
+00:04:28.578 --> 00:04:33.390
+On the y-axis, we show the normalizer.
+
+61
+00:04:33.390 --> 00:04:39.080
+In this case, the Pivoted Length
+Normalization formula for the normalizer,
+
+62
+00:04:39.080 --> 00:04:45.850
+is seeing to be interpolation of 1 and
+
+63
+00:04:45.850 --> 00:04:50.460
+the normalize the document in length
+controlled by a parameter B here.
+
+64
+00:04:53.110 --> 00:04:58.640
+So you can see here,
+when we first divide the length
+
+65
+00:04:58.640 --> 00:05:03.470
+of the document by the average documents,
+this not only gives us some
+
+66
+00:05:03.470 --> 00:05:07.890
+sense about how this document is
+compared with average documents, but
+
+67
+00:05:07.890 --> 00:05:16.120
+also gives us a benefit of not
+worrying about the unit of length.
+
+68
+00:05:16.120 --> 00:05:18.990
+We can measure the length by words or
+by characters.
+
+69
+00:05:20.760 --> 00:05:24.260
+Anyway, this normalizer
+has interesting property.
+
+70
+00:05:24.260 --> 00:05:29.660
+First we see that, if we set the parameter
+b to 0 then the value would be 1.
+
+71
+00:05:29.660 --> 00:05:33.580
+So, there's no lens normalization at all.
+
+72
+00:05:33.580 --> 00:05:37.540
+So, b, in this sense,
+controls the lens normalization.
+
+73
+00:05:39.450 --> 00:05:44.980
+Whereas, if we set b to a nonzero value,
+then the normalizer would look like this.
+
+74
+00:05:44.980 --> 00:05:49.010
+All right, so
+the value would be higher for
+
+75
+00:05:49.010 --> 00:05:52.179
+documents that are longer than
+the average document lens.
+
+76
+00:05:53.860 --> 00:05:56.580
+Whereas, the value of
+the normalizer would be shorter,
+
+77
+00:05:56.580 --> 00:05:59.460
+would be smaller for shorter documents.
+
+78
+00:05:59.460 --> 00:06:02.720
+So in this sense,
+we see there is a penalization for
+
+79
+00:06:02.720 --> 00:06:07.230
+long documents, and
+there's a reward for short documents.
+
+80
+00:06:09.040 --> 00:06:11.500
+The degree of penalization
+is controlled by b,
+
+81
+00:06:11.500 --> 00:06:16.750
+because if we set b to a larger value,
+then the normalizer would look like this.
+
+82
+00:06:16.750 --> 00:06:20.580
+There's even more penalization for
+long documents and more reward for
+
+83
+00:06:20.580 --> 00:06:22.380
+the short documents.
+
+84
+00:06:22.380 --> 00:06:25.440
+By adjusting b, which varies from 0 to 1,
+
+85
+00:06:25.440 --> 00:06:29.450
+we can control the degree
+of length normalization.
+
+86
+00:06:29.450 --> 00:06:35.050
+So, if we plug in this length
+normalization fact that into
+
+87
+00:06:35.050 --> 00:06:40.490
+the vector space model, ranking functions
+is that we have already examined them.
+
+88
+00:06:41.510 --> 00:06:45.270
+Then we will end up having
+the following formulas.
+
+89
+00:06:46.370 --> 00:06:51.569
+And these are in fact the state of
+the vector space model formulas.
+
+90
+00:06:51.569 --> 00:06:55.290
+Let's take a look at each of them.
+
+91
+00:06:55.290 --> 00:07:00.972
+The first one is called a pivoted length
+normalization vector space model,
+
+92
+00:07:00.972 --> 00:07:04.980
+and a reference in [INAUDIBLE]
+duration of this model.
+
+93
+00:07:04.980 --> 00:07:11.836
+And here we see that, it's basically
+a TFI model that we have discussed,
+
+94
+00:07:11.836 --> 00:07:16.830
+the idea of component should
+be very familiar to you.
+
+95
+00:07:18.010 --> 00:07:21.608
+There is also a query term
+frequency component here.
+
+96
+00:07:24.628 --> 00:07:30.504
+And then, in the middle, there is
+the normalizer tf and in this case,
+
+97
+00:07:30.504 --> 00:07:35.486
+we see we use the double logarithm
+as we discussed before and
+
+98
+00:07:35.486 --> 00:07:40.460
+this is to achieve
+a sublinear transformation.
+
+99
+00:07:40.460 --> 00:07:45.488
+But we also put a document
+the length normalizer in the bottom.
+
+100
+00:07:45.488 --> 00:07:50.596
+Right, so this would cause
+penalization for long document,
+
+101
+00:07:50.596 --> 00:07:56.698
+because the larger the denominator is,
+then the smaller the is.
+
+102
+00:07:56.698 --> 00:07:59.660
+And this is of course controlled
+by the parameter b here.
+
+103
+00:08:01.420 --> 00:08:06.130
+And you can see again, if b is set to 0
+then there is no length normalization.
+
+104
+00:08:08.760 --> 00:08:16.350
+Okay, so this is one of the two most
+effective at these base model formulas.
+
+105
+00:08:16.350 --> 00:08:20.652
+The next one called a BM25 or Okapi,
+
+106
+00:08:20.652 --> 00:08:26.971
+is also similar in that it
+also has a IDF component here,
+
+107
+00:08:26.971 --> 00:08:30.478
+and query IDF component here.
+
+108
+00:08:32.958 --> 00:08:36.150
+But in the middle,
+the normal issue's a little bit different.
+
+109
+00:08:36.150 --> 00:08:41.450
+As we explained,
+there is our copy tf transformation here,
+
+110
+00:08:41.450 --> 00:08:46.460
+and that does sublinear
+transformation with the upper bound.
+
+111
+00:08:48.340 --> 00:08:53.610
+In this case we have put the length
+normalization factor here.
+
+112
+00:08:53.610 --> 00:08:58.160
+We're adjusting k but
+it achieves a similar factor,
+
+113
+00:08:58.160 --> 00:09:02.610
+because we put a normalizer
+in the denominator.
+
+114
+00:09:02.610 --> 00:09:08.680
+Therefore, again, if a document is longer
+then the term weight will be smaller.
+
+115
+00:09:10.110 --> 00:09:16.070
+So you can see after we have gone through
+all the n answers that we talked about,
+
+116
+00:09:16.070 --> 00:09:24.226
+and we have in the end reached
+the basically the state of god functions.
+
+117
+00:09:24.226 --> 00:09:28.726
+So, So far, we have talked about
+
+118
+00:09:28.726 --> 00:09:33.530
+mainly how to place the document
+vector in the vector space.
+
+119
+00:09:35.010 --> 00:09:39.752
+And, this has played an important role
+in determining the effectiveness of
+
+120
+00:09:39.752 --> 00:09:41.169
+the simple function.
+
+121
+00:09:41.169 --> 00:09:45.728
+But there are also other dimensions,
+where we did not really examine details.
+
+122
+00:09:45.728 --> 00:09:50.343
+For example, can we further
+improve the instantiation of
+
+123
+00:09:50.343 --> 00:09:53.648
+the dimension of the Vector Space Model?
+
+124
+00:09:53.648 --> 00:09:57.424
+Now, we've just assumed that the bag
+of words representation should issue
+
+125
+00:09:57.424 --> 00:10:01.240
+dimension as a word but obviously,
+we can see there are many other choices.
+
+126
+00:10:01.240 --> 00:10:07.040
+For example, a stemmed word, those
+are the words that haven't transformed
+
+127
+00:10:07.040 --> 00:10:11.110
+into the same root form, so
+
+128
+00:10:11.110 --> 00:10:16.510
+that computation and computing were all
+become the same and they can be match.
+
+129
+00:10:16.510 --> 00:10:18.740
+We get those stop word removal.
+
+130
+00:10:18.740 --> 00:10:25.270
+This is to remove some very common words
+that don't carry any content like the off.
+
+131
+00:10:26.760 --> 00:10:29.750
+We get use of phrases
+to define dimensions.
+
+132
+00:10:29.750 --> 00:10:33.630
+We can even use later in
+the semantical analysis, it will find
+
+133
+00:10:33.630 --> 00:10:38.540
+some clusters of words that represent the
+a late in the concept as one by an engine.
+
+134
+00:10:39.700 --> 00:10:44.080
+We can also use smaller unit,
+like a character end grams those
+
+135
+00:10:44.080 --> 00:10:48.820
+are sequences of and
+the characters for dimensions.
+
+136
+00:10:50.320 --> 00:10:57.087
+However, in practice, people have found
+that the bag-of-words representation with
+
+137
+00:10:57.087 --> 00:11:02.148
+phrases is still the most effective
+one and it's also efficient.
+
+138
+00:11:02.148 --> 00:11:08.930
+So, this is still so far the most
+popular dimension instantiation method.
+
+139
+00:11:10.120 --> 00:11:12.560
+And it's used in all major search engines.
+
+140
+00:11:13.960 --> 00:11:18.910
+I should also mention, that sometimes
+we need to do language specific and
+
+141
+00:11:18.910 --> 00:11:21.300
+domain specific tokenization.
+
+142
+00:11:21.300 --> 00:11:27.991
+And this is actually very important, as we
+might have variations of terms that might
+
+143
+00:11:27.991 --> 00:11:33.545
+prevent us from matching them with each
+other, even when they mean the same thing.
+
+144
+00:11:33.545 --> 00:11:39.660
+In some languages like Chinese,
+there is also the challenge in segmenting
+
+145
+00:11:40.860 --> 00:11:47.290
+text to obtain word band rates because
+it's just a sequence of characters.
+
+146
+00:11:47.290 --> 00:11:51.505
+A word might correspond to one
+character or two characters or
+
+147
+00:11:51.505 --> 00:11:53.248
+even three characters.
+
+148
+00:11:53.248 --> 00:11:58.164
+So, it's easier in English when we
+have a space to separate the words.
+
+149
+00:11:58.164 --> 00:12:02.590
+In some other languages, we may need
+to do some Americanize processing to
+
+150
+00:12:02.590 --> 00:12:05.098
+figure a way out of what
+are the boundaries for words.
+
+151
+00:12:05.098 --> 00:12:10.850
+There is also the possibility to
+improve the similarity of the function.
+
+152
+00:12:10.850 --> 00:12:13.510
+And so
+far we have used as a top product, but
+
+153
+00:12:13.510 --> 00:12:16.137
+one can imagine there are other measures.
+
+154
+00:12:16.137 --> 00:12:20.550
+For example, we can measure the cosine
+of the angle between two vectors.
+
+155
+00:12:20.550 --> 00:12:23.740
+Or we can use Euclidean distance measure.
+
+156
+00:12:24.880 --> 00:12:27.280
+And these are all possible, but
+
+157
+00:12:27.280 --> 00:12:32.680
+dot product seems still the best and
+one reason is because it's very general.
+
+158
+00:12:33.780 --> 00:12:38.143
+In fact that it's sufficiently general,
+
+159
+00:12:38.143 --> 00:12:43.280
+if you consider the possibilities
+of doing waiting in different ways.
+
+160
+00:12:44.280 --> 00:12:45.390
+So, for example,
+
+161
+00:12:45.390 --> 00:12:50.440
+cosine measure can be thought of as the
+thought product of two normalized factors.
+
+162
+00:12:50.440 --> 00:12:54.720
+That means, we first normalize each factor
+and then we take the thought product.
+
+163
+00:12:54.720 --> 00:12:57.720
+That would be critical
+to the cosine measure.
+
+164
+00:12:57.720 --> 00:13:03.860
+I just mentioned that the BM25, seems to
+be one of the most effective formulas.
+
+165
+00:13:04.930 --> 00:13:09.420
+But there has been also further
+developments in improving BM25.
+
+166
+00:13:09.420 --> 00:13:15.478
+Although, none of these words have
+changed the BM25 fundamental.
+
+167
+00:13:15.478 --> 00:13:20.090
+So in one line work,
+people have divide the BM25 F.
+
+168
+00:13:20.090 --> 00:13:26.663
+Here, F stands for field, and this is
+use BM25 for documents with structures.
+
+169
+00:13:26.663 --> 00:13:30.960
+So for example, you might consider
+a title field, the abstract,
+
+170
+00:13:30.960 --> 00:13:33.240
+or body of the research article.
+
+171
+00:13:33.240 --> 00:13:39.800
+Or even anchor text on the web page,
+those are the text fields that describe
+
+172
+00:13:39.800 --> 00:13:44.970
+links to other pages and
+these can all be combined with
+
+173
+00:13:44.970 --> 00:13:50.490
+a proper way of different fields to help
+improve scoring for different documents.
+
+174
+00:13:50.490 --> 00:13:55.430
+When we use BM25 for such a document and
+
+175
+00:13:55.430 --> 00:14:00.750
+the obvious choice is to apply BM25 for
+each field and then combine the scores.
+
+176
+00:14:00.750 --> 00:14:06.620
+Basically, the idea of BM25F is
+to first combine the frequency
+
+177
+00:14:06.620 --> 00:14:11.670
+counts of terms in all the fields,
+and then apply BM25.
+
+178
+00:14:11.670 --> 00:14:19.430
+Now, this has advantage of avoiding over
+counting the first occurrence of the term.
+
+179
+00:14:19.430 --> 00:14:22.000
+Remember in the sublinear
+transformation of TF,
+
+180
+00:14:22.000 --> 00:14:27.800
+the first occurrence is very important and
+it contributes a large weight.
+
+181
+00:14:27.800 --> 00:14:29.660
+And if we do that for all the fields,
+
+182
+00:14:29.660 --> 00:14:35.110
+then the same term might have gained
+a lot of advantage in every field.
+
+183
+00:14:35.110 --> 00:14:38.820
+But when we combine these
+word frequencies together,
+
+184
+00:14:38.820 --> 00:14:42.110
+we just do the transformation one time.
+
+185
+00:14:42.110 --> 00:14:42.870
+At that time,
+
+186
+00:14:42.870 --> 00:14:47.170
+then the extra occurrences will not be
+counted as fresh first recurrences.
+
+187
+00:14:48.790 --> 00:14:54.039
+And this method has been working very well
+for scoring structure with documents.
+
+188
+00:14:55.810 --> 00:14:59.283
+The other line of extension
+is called a BM25+.
+
+189
+00:14:59.283 --> 00:15:03.810
+In this line,
+risk is to have to address the problem of
+
+190
+00:15:03.810 --> 00:15:05.980
+over penalization of
+long documents by BM25.
+
+191
+00:15:08.880 --> 00:15:13.990
+So to address this problem,
+the fix is actually quite simple.
+
+192
+00:15:13.990 --> 00:15:18.180
+We can simply add a small constant
+to the TF normalization formula.
+
+193
+00:15:18.180 --> 00:15:23.400
+But what's interesting is that,
+we can analytically prove that by
+
+194
+00:15:23.400 --> 00:15:28.340
+doing such a small modification,
+we will fix
+
+195
+00:15:28.340 --> 00:15:33.570
+the problem of over penalization of
+law documents by the original BM25.
+
+196
+00:15:33.570 --> 00:15:36.380
+So the new formula called BM25+,
+
+197
+00:15:36.380 --> 00:15:40.990
+is empirically and
+analytically shown to be better than BM25.
+
+198
+00:15:42.590 --> 00:15:48.432
+So to summarize all what we have
+said about vector space model,
+
+199
+00:15:48.432 --> 00:15:52.100
+here are the major take away points.
+
+200
+00:15:52.100 --> 00:15:57.590
+First, in such a model,
+we use the similarity of relevance.
+
+201
+00:15:57.590 --> 00:16:01.780
+Assuming that relevance of a document
+with respect to a query, is
+
+202
+00:16:02.820 --> 00:16:08.030
+basically proportional to the similarity
+between the query and the document.
+
+203
+00:16:08.030 --> 00:16:10.640
+So naturally,
+that implies that the query and
+
+204
+00:16:10.640 --> 00:16:13.830
+document must have been
+represented in the same way.
+
+205
+00:16:13.830 --> 00:16:19.050
+And in this case, we will present them as
+vectors in high-dimensional vector space.
+
+206
+00:16:19.050 --> 00:16:24.170
+Where the dimensions are defined by words,
+or concepts, or terms, in general.
+
+207
+00:16:25.470 --> 00:16:29.850
+And we generally, need to use a lot of
+heuristics to design the ranking function.
+
+208
+00:16:29.850 --> 00:16:34.560
+We use some examples, which show
+the needs for several heuristics,
+
+209
+00:16:34.560 --> 00:16:37.200
+including Tf weighting and transformation.
+
+210
+00:16:38.740 --> 00:16:41.950
+And IDF weighting, and
+document length normalization.
+
+211
+00:16:41.950 --> 00:16:45.890
+These major heuristics are the most
+important of heuristics,
+
+212
+00:16:45.890 --> 00:16:51.544
+to ensure such a general ranking function
+to work well for all kinds of test.
+
+213
+00:16:51.544 --> 00:16:55.640
+And finally, BM25 and
+pivoted normalization seem
+
+214
+00:16:55.640 --> 00:16:59.890
+to be the most effective formulas
+out of the vector space model.
+
+215
+00:16:59.890 --> 00:17:05.100
+Now I have to say that, I put BM25 in
+the category of vector space model, but
+
+216
+00:17:05.100 --> 00:17:09.759
+in fact, the BM25 has been derived
+using probabilistic model.
+
+217
+00:17:11.970 --> 00:17:17.470
+So the reason why I've put it in
+the vector space model is first,
+
+218
+00:17:17.470 --> 00:17:22.540
+the ranking function actually has a nice
+interpretation in the vector space model.
+
+219
+00:17:22.540 --> 00:17:23.450
+We can easily see,
+
+220
+00:17:23.450 --> 00:17:27.390
+it looks very much like a vector space
+model, with a special waiting function.
+
+221
+00:17:28.890 --> 00:17:34.640
+The second reason is because the original
+BM25, has somewhat different form of IDF.
+
+222
+00:17:36.070 --> 00:17:39.420
+And that form of IDF after
+the [INAUDIBLE] doesn't work so
+
+223
+00:17:39.420 --> 00:17:44.630
+well as the standard IDF
+that you have seen here.
+
+224
+00:17:44.630 --> 00:17:47.910
+So as effective retrieval function,
+
+225
+00:17:47.910 --> 00:17:53.360
+BM25 should probably use a heuristic
+modification of the IDF.
+
+226
+00:17:53.360 --> 00:17:55.628
+To make them even more look
+like a vector space model
+
+227
+00:17:59.218 --> 00:18:01.460
+There are some additional readings.
+
+228
+00:18:01.460 --> 00:18:05.330
+The first is, a paper about
+the pivoted length normalization.
+
+229
+00:18:05.330 --> 00:18:09.224
+It's an excellent example
+of using empirical data
+
+230
+00:18:09.224 --> 00:18:13.650
+analysis to suggest the need for
+length normalization and
+
+231
+00:18:13.650 --> 00:18:17.590
+then further derive the length
+normalization formula.
+
+232
+00:18:17.590 --> 00:18:22.830
+The second, is the original paper
+where the BM25 was proposed.
+
+233
+00:18:24.180 --> 00:18:28.452
+The third paper,
+has a thorough discussion of BM25 and
+
+234
+00:18:28.452 --> 00:18:31.660
+its extensions, particularly BM25 F.
+
+235
+00:18:32.860 --> 00:18:38.305
+And finally, in the last paper
+has a discussion of improving
+
+236
+00:18:38.305 --> 00:18:43.768
+BM25 to correct the over
+penalization of long documents.
+
+237
+00:18:43.768 --> 00:18:53.768
+[MUSIC]

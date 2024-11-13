@@ -1,0 +1,818 @@
+WEBVTT
+
+1
+00:00:00.012 --> 00:00:07.558
+[SOUND]
+This
+
+2
+00:00:07.558 --> 00:00:10.370
+lecture is about the feedback
+in the vector space model.
+
+3
+00:00:12.910 --> 00:00:18.040
+In this lecture, we continue talking
+about the feedback in text retrieval.
+
+4
+00:00:18.040 --> 00:00:21.210
+Particularly, we're going to talk about
+feedback in the vector space model.
+
+5
+00:00:23.930 --> 00:00:29.210
+As we have discussed before,
+in the case of feedback the task
+
+6
+00:00:29.210 --> 00:00:34.890
+of text retrieval system is removed from
+examples in improved retrieval accuracy.
+
+7
+00:00:34.890 --> 00:00:37.467
+We will have positive examples.
+
+8
+00:00:37.467 --> 00:00:40.669
+Those are the documents that
+assume would be relevant or
+
+9
+00:00:40.669 --> 00:00:42.610
+be charged with being relevant.
+
+10
+00:00:42.610 --> 00:00:45.160
+All the documents that
+are viewed by users.
+
+11
+00:00:45.160 --> 00:00:46.910
+We also have negative examples.
+
+12
+00:00:46.910 --> 00:00:49.590
+Those are documents known
+to be non-relevant.
+
+13
+00:00:49.590 --> 00:00:52.960
+They can also be the documents
+that are skipped by users.
+
+14
+00:00:55.350 --> 00:00:58.570
+The general method in
+the vector space model for
+
+15
+00:00:58.570 --> 00:01:02.690
+feedback is to modify our query vector.
+
+16
+00:01:04.010 --> 00:01:08.500
+We want to place the query vector in
+a better position to make it accurate.
+
+17
+00:01:10.120 --> 00:01:11.520
+And what does that mean exactly?
+
+18
+00:01:11.520 --> 00:01:14.930
+Well, if we think about the query vector
+that would mean we would have to do
+
+19
+00:01:14.930 --> 00:01:17.270
+something to the vector elements.
+
+20
+00:01:17.270 --> 00:01:21.240
+And in general,
+that would mean we might add new terms.
+
+21
+00:01:21.240 --> 00:01:27.129
+Or we might just weight of old terms or
+assign weights to new terms.
+
+22
+00:01:29.230 --> 00:01:32.780
+As a result, in general,
+the query will have more terms.
+
+23
+00:01:32.780 --> 00:01:35.110
+We often call this query expansion.
+
+24
+00:01:37.960 --> 00:01:40.920
+The most effective method in
+the vector space model for feedback
+
+25
+00:01:40.920 --> 00:01:44.900
+is called the Rocchio Feedback, which was
+actually proposed several decades ago.
+
+26
+00:01:47.490 --> 00:01:49.110
+So the idea is quite simple.
+
+27
+00:01:49.110 --> 00:01:53.402
+We illustrate this idea by
+using a two dimensional display
+
+28
+00:01:53.402 --> 00:01:58.231
+of all the documents in the collection and
+also the query vector.
+
+29
+00:01:58.231 --> 00:02:03.935
+So now we can see the query
+vector is here in the center,
+
+30
+00:02:03.935 --> 00:02:07.428
+and these are all the documents.
+
+31
+00:02:07.428 --> 00:02:11.230
+So when we use the query back there and
+use the same narrative function to find
+
+32
+00:02:11.230 --> 00:02:14.780
+the most similar documents,
+we are basically doing a circle here and
+
+33
+00:02:14.780 --> 00:02:18.960
+that these documents would be
+basically the top-ranked documents.
+
+34
+00:02:18.960 --> 00:02:22.512
+And these process are relevant documents,
+and
+
+35
+00:02:22.512 --> 00:02:27.762
+these are relevant documents,
+for example, it's relevant, etc.
+
+36
+00:02:27.762 --> 00:02:32.360
+And then these minuses are negative
+documents, like these.
+
+37
+00:02:34.310 --> 00:02:40.150
+So our goal here is trying to move
+this query back to some position,
+
+38
+00:02:40.150 --> 00:02:42.780
+to improve the retrieval accuracy.
+
+39
+00:02:42.780 --> 00:02:48.390
+By looking at this diagram,
+what do you think?
+
+40
+00:02:48.390 --> 00:02:50.650
+Where should we move the query vector so
+
+41
+00:02:50.650 --> 00:02:53.930
+that we can improve
+the retrieval accuracy?
+
+42
+00:02:53.930 --> 00:02:56.990
+Intuitively, where do you
+want to move query vector?
+
+43
+00:02:58.050 --> 00:03:01.330
+If you want to think more,
+you can pause the video.
+
+44
+00:03:02.980 --> 00:03:10.090
+If you think about this picture, you can
+realize that in order to work well in this
+
+45
+00:03:10.090 --> 00:03:15.520
+case you want the query vector to be as
+close to the positive vectors as possible.
+
+46
+00:03:15.520 --> 00:03:20.462
+That means ideally, you want to place
+the query vectors somewhere here.
+
+47
+00:03:20.462 --> 00:03:24.640
+Or we want to move the query
+vector closer to this point.
+
+48
+00:03:26.510 --> 00:03:29.100
+Now so what exactly is this point?
+
+49
+00:03:29.100 --> 00:03:35.710
+Well, if you want these relevant
+documents to rank on the top,
+
+50
+00:03:35.710 --> 00:03:41.340
+you want this to be in the center of
+all these relevant documents, right?
+
+51
+00:03:41.340 --> 00:03:44.710
+Because then if you draw
+a circle around this one,
+
+52
+00:03:44.710 --> 00:03:47.240
+you'll get all these relevant documents.
+
+53
+00:03:47.240 --> 00:03:52.250
+So that means we can move the query
+vector towards the centroid of
+
+54
+00:03:52.250 --> 00:03:54.510
+all the relevant document vectors.
+
+55
+00:03:55.680 --> 00:03:59.106
+And this is basically the idea of Rocchio.
+
+56
+00:03:59.106 --> 00:04:03.645
+Of course, you can consider
+the centroid of negative documents and
+
+57
+00:04:03.645 --> 00:04:07.040
+we want to move away from
+the negative documents.
+
+58
+00:04:07.040 --> 00:04:11.971
+Now your match that we're talking about
+moving vector closer to some other vec and
+
+59
+00:04:11.971 --> 00:04:14.202
+away from other vectors.
+
+60
+00:04:14.202 --> 00:04:18.340
+It just means that we have this formula.
+
+61
+00:04:18.340 --> 00:04:22.891
+Here you can see this is
+original query vector and
+
+62
+00:04:22.891 --> 00:04:29.680
+this average basically is the centroid
+vector of relevant documents.
+
+63
+00:04:29.680 --> 00:04:32.250
+When we take the average of these vectors,
+
+64
+00:04:32.250 --> 00:04:35.580
+then were computing
+the centroid of these vectors.
+
+65
+00:04:35.580 --> 00:04:41.070
+Similarly, this is the average of
+non-relevant document like this.
+
+66
+00:04:41.070 --> 00:04:46.080
+So it's essentially of
+non-relevant documents.
+
+67
+00:04:46.080 --> 00:04:51.710
+And we have these three parameters here,
+alpha, beta, and gamma.
+
+68
+00:04:51.710 --> 00:04:55.200
+They are controlling
+the amount of movement.
+
+69
+00:04:55.200 --> 00:04:57.560
+When we add these two vectors together,
+
+70
+00:04:57.560 --> 00:05:02.290
+we're moving the query vector
+closer to the centroid.
+
+71
+00:05:03.620 --> 00:05:05.740
+This is when we add them together.
+
+72
+00:05:05.740 --> 00:05:08.350
+When we subtracted this part,
+
+73
+00:05:08.350 --> 00:05:14.660
+we kind of move the query
+vector away from that centroid.
+
+74
+00:05:14.660 --> 00:05:18.420
+So this is the main idea
+of Rocchio feedback.
+
+75
+00:05:18.420 --> 00:05:20.720
+And after we have done this,
+
+76
+00:05:20.720 --> 00:05:25.710
+we will get a new query vector which
+can be used to score documents.
+
+77
+00:05:25.710 --> 00:05:31.905
+This new query vector,
+will then reflect the move of this
+
+78
+00:05:31.905 --> 00:05:38.878
+original query vector toward this
+relevant centroid vector and
+
+79
+00:05:38.878 --> 00:05:42.900
+away from the non-relevant value.
+
+80
+00:05:45.110 --> 00:05:48.200
+Okay, so let's take a look at the example.
+
+81
+00:05:48.200 --> 00:05:51.360
+This is the example that
+we've seen earlier.
+
+82
+00:05:51.360 --> 00:05:55.600
+Only that I deemed that display
+of the actual documents.
+
+83
+00:05:55.600 --> 00:05:59.210
+I only showed the vector
+representation of these documents.
+
+84
+00:05:59.210 --> 00:06:03.240
+We have five documents here and we have
+
+85
+00:06:04.760 --> 00:06:09.667
+to read in the documents here, right.
+
+86
+00:06:09.667 --> 00:06:12.650
+And they're displayed in red.
+
+87
+00:06:12.650 --> 00:06:14.760
+And these are the term vectors.
+
+88
+00:06:14.760 --> 00:06:18.190
+Now I have just assumed some of weights.
+
+89
+00:06:18.190 --> 00:06:20.549
+A lot of terms,
+we have zero weights of course.
+
+90
+00:06:20.549 --> 00:06:22.745
+Now these are negative arguments.
+
+91
+00:06:22.745 --> 00:06:23.952
+There are two here.
+
+92
+00:06:23.952 --> 00:06:26.120
+There is another one here.
+
+93
+00:06:26.120 --> 00:06:32.520
+Now in this Rocchio method, we first
+compute the centroid of each category.
+
+94
+00:06:32.520 --> 00:06:37.540
+And so let's see,
+look at the centroid vector of
+
+95
+00:06:37.540 --> 00:06:42.910
+the positive documents, we simply just,
+so it's very easy to see.
+
+96
+00:06:42.910 --> 00:06:48.490
+We just add this with this one
+the corresponding element.
+
+97
+00:06:48.490 --> 00:06:51.560
+And then that's down here and
+take the average.
+
+98
+00:06:51.560 --> 00:06:54.801
+And then we're going to add
+the corresponding elements and
+
+99
+00:06:54.801 --> 00:06:56.580
+then just take the average.
+
+100
+00:06:56.580 --> 00:06:58.790
+And so we do this for all this.
+
+101
+00:06:58.790 --> 00:07:02.520
+In the end, what we have is this one.
+
+102
+00:07:02.520 --> 00:07:08.380
+This is the average vector of these two,
+so it's a centroid of these two.
+
+103
+00:07:10.030 --> 00:07:13.770
+Let's also look at the centroid
+of the negative documents.
+
+104
+00:07:13.770 --> 00:07:15.052
+This is basically the same.
+
+105
+00:07:15.052 --> 00:07:18.150
+We're going to take the average
+of the three elements.
+
+106
+00:07:18.150 --> 00:07:22.420
+And these are the corresponding
+elements in the three vectors, and so
+
+107
+00:07:22.420 --> 00:07:23.020
+on and so forth.
+
+108
+00:07:23.020 --> 00:07:25.120
+So in the end, we have this one.
+
+109
+00:07:26.230 --> 00:07:29.340
+Now in the Rocchio feedback
+method we're going to combine all
+
+110
+00:07:29.340 --> 00:07:32.920
+these with the original
+query vector which is this.
+
+111
+00:07:32.920 --> 00:07:36.083
+So now let's see how we
+combine them together.
+
+112
+00:07:36.083 --> 00:07:37.420
+Well, that's basically this.
+
+113
+00:07:38.830 --> 00:07:42.385
+So we have a parameter alpha
+controlling the original
+
+114
+00:07:42.385 --> 00:07:45.210
+query times weight that's one.
+
+115
+00:07:45.210 --> 00:07:49.626
+And now we have beta to control
+the inference of the positive
+
+116
+00:07:49.626 --> 00:07:52.820
+centroid of the weight, that's 1.5.
+
+117
+00:07:52.820 --> 00:07:54.285
+That comes from here.
+
+118
+00:07:54.285 --> 00:08:00.400
+All right, so this goes here.
+
+119
+00:08:00.400 --> 00:08:07.555
+And we also have this negative
+weight here gamma here.
+
+120
+00:08:07.555 --> 00:08:14.520
+And this way, it has come from,
+of course, the negative centroid here.
+
+121
+00:08:14.520 --> 00:08:19.051
+And we do exactly the same for
+other terms, each is for one term.
+
+122
+00:08:22.244 --> 00:08:23.840
+And this is our new vector.
+
+123
+00:08:25.700 --> 00:08:31.530
+And we're going to use this new query
+vector, this one to rank the documents.
+
+124
+00:08:31.530 --> 00:08:33.840
+You can imagine what would happen, right?
+
+125
+00:08:33.840 --> 00:08:38.000
+Because of the movement that this one
+would matches these red documents much
+
+126
+00:08:38.000 --> 00:08:42.520
+better because we moved
+this vector closer to them.
+
+127
+00:08:42.520 --> 00:08:47.290
+And it's going to penalize these black
+documents, these non relevent documents.
+
+128
+00:08:47.290 --> 00:08:49.790
+So this is precisely what
+we wanted from feedback.
+
+129
+00:08:50.820 --> 00:08:57.220
+Now of course if we apply this method in
+practice we will see one potential problem
+
+130
+00:08:58.240 --> 00:09:04.290
+and that is the original query has
+only four terms that are now zero.
+
+131
+00:09:06.410 --> 00:09:08.480
+But after we do query explaining and
+
+132
+00:09:08.480 --> 00:09:13.210
+merging, we'll have many times
+that would have non zero weights.
+
+133
+00:09:13.210 --> 00:09:16.580
+So the calculation will
+have to involve more terms.
+
+134
+00:09:18.090 --> 00:09:22.160
+In practice,
+we often truncate this matter and
+
+135
+00:09:22.160 --> 00:09:25.470
+only retain the terms
+with highest weights.
+
+136
+00:09:27.000 --> 00:09:29.440
+So let's talk about how we
+use this method in practice.
+
+137
+00:09:30.660 --> 00:09:34.220
+I just mentioned that they're
+often truncated vector.
+
+138
+00:09:34.220 --> 00:09:37.400
+Consider only a small number of
+words that have highest weights in
+
+139
+00:09:37.400 --> 00:09:38.690
+the centroid vector.
+
+140
+00:09:38.690 --> 00:09:39.900
+This is for efficiency concern.
+
+141
+00:09:41.390 --> 00:09:45.580
+I also said here that negative examples,
+or non-relevant examples
+
+142
+00:09:45.580 --> 00:09:49.430
+tend not to be very useful, especially
+compared with positive examples.
+
+143
+00:09:50.860 --> 00:09:52.500
+Now you can think about why.
+
+144
+00:09:55.320 --> 00:09:59.771
+One reason is because negative documents
+tend to distract the query in all
+
+145
+00:09:59.771 --> 00:10:00.645
+directions.
+
+146
+00:10:00.645 --> 00:10:02.391
+So, when you take the average,
+
+147
+00:10:02.391 --> 00:10:06.860
+it doesn't really tell you where
+exactly it should be moving to.
+
+148
+00:10:06.860 --> 00:10:10.110
+Whereas positive documents
+tend to be clustered together.
+
+149
+00:10:10.110 --> 00:10:14.569
+And they will point you to
+a consistent direction.
+
+150
+00:10:14.569 --> 00:10:19.090
+So that also means that sometimes we don't
+have to use those negative examples.
+
+151
+00:10:19.090 --> 00:10:24.580
+But note that in some cases, in difficult
+queries where most results are negative,
+
+152
+00:10:24.580 --> 00:10:26.390
+negative feedback after is very useful.
+
+153
+00:10:27.550 --> 00:10:29.370
+Another thing is to avoid over-fitting.
+
+154
+00:10:29.370 --> 00:10:34.425
+That means we have to keep relatively
+high weight on the original query terms.
+
+155
+00:10:34.425 --> 00:10:35.724
+Why?
+
+156
+00:10:35.724 --> 00:10:42.250
+Because the sample that we see in
+feedback Is a relatively small sample.
+
+157
+00:10:42.250 --> 00:10:45.580
+We don't want to overly
+trust the small sample.
+
+158
+00:10:45.580 --> 00:10:49.390
+And the original query terms
+are still very important.
+
+159
+00:10:49.390 --> 00:10:51.753
+Those terms are heightened by the user and
+
+160
+00:10:51.753 --> 00:10:55.850
+the user has decided that those
+terms are most important.
+
+161
+00:10:55.850 --> 00:11:02.530
+So in order to prevent
+the us from over-fitting or
+
+162
+00:11:02.530 --> 00:11:08.910
+drifting, prevent topic drifting due to
+the bias toward the feed backing symbols.
+
+163
+00:11:08.910 --> 00:11:12.740
+We generally would have to keep a pretty
+high weight on the original terms so
+
+164
+00:11:12.740 --> 00:11:13.980
+it was safe to do that.
+
+165
+00:11:15.040 --> 00:11:18.910
+And this is especially true for
+pseudo relevance feedback.
+
+166
+00:11:18.910 --> 00:11:20.910
+Now, this method can be used for
+
+167
+00:11:20.910 --> 00:11:23.790
+both relevance feedback and
+pseudo-relevance feedback.
+
+168
+00:11:23.790 --> 00:11:28.780
+In the case of pseudo-feedback, the prime
+and the beta should be set to a smaller
+
+169
+00:11:28.780 --> 00:11:32.930
+value because the relevant examples
+are assumed not to be relevant.
+
+170
+00:11:32.930 --> 00:11:36.780
+They're not as reliable as
+the relevance feedback.
+
+171
+00:11:36.780 --> 00:11:40.830
+In the case of relevance feedback,
+we obviously could use a larger value.
+
+172
+00:11:40.830 --> 00:11:43.580
+So those parameters,
+they have to be set empirically.
+
+173
+00:11:45.020 --> 00:11:48.550
+And the Rocchio Method is
+usually robust and effective.
+
+174
+00:11:48.550 --> 00:11:51.961
+It's still a very popular method for
+feedback.
+
+175
+00:11:51.961 --> 00:12:01.961
+[MUSIC]

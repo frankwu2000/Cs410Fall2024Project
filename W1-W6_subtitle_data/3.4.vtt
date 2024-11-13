@@ -1,0 +1,733 @@
+WEBVTT
+
+1
+00:00:00.012 --> 00:00:03.467
+[SOUND]
+
+2
+00:00:11.647 --> 00:00:13.963
+So average precision is computer for
+
+3
+00:00:13.963 --> 00:00:14.690
+just one.
+
+4
+00:00:14.690 --> 00:00:18.290
+one query.
+But we generally experiment with many
+
+5
+00:00:18.290 --> 00:00:24.570
+different queries and this is to
+avoid the variance across queries.
+
+6
+00:00:24.570 --> 00:00:29.530
+Depending on the queries you use you
+might make different conclusions.
+
+7
+00:00:29.530 --> 00:00:31.870
+Right, so
+it's better then using more queries.
+
+8
+00:00:33.610 --> 00:00:36.580
+If you use more queries then,
+you will also have to
+
+9
+00:00:36.580 --> 00:00:39.850
+take the average of the average
+precision over all these queries.
+
+10
+00:00:41.600 --> 00:00:42.470
+So how can we do that?
+
+11
+00:00:43.560 --> 00:00:46.160
+Well, you can naturally.
+
+12
+00:00:46.160 --> 00:00:49.260
+Think of just doing arithmetic mean as we
+
+13
+00:00:50.670 --> 00:00:56.000
+always tend to, to think in, in this way.
+
+14
+00:00:56.000 --> 00:01:02.000
+So, this would give us what's called
+a "Mean Average Position", or MAP.
+
+15
+00:01:02.000 --> 00:01:02.540
+In this case,
+
+16
+00:01:02.540 --> 00:01:08.370
+we take arithmetic mean of all the average
+precisions over several queries or topics.
+
+17
+00:01:09.930 --> 00:01:13.840
+But as I just mentioned in
+another lecture, is this good?
+
+18
+00:01:15.370 --> 00:01:16.580
+We call that.
+
+19
+00:01:16.580 --> 00:01:21.190
+We talked about the different ways
+of combining precision and recall.
+
+20
+00:01:21.190 --> 00:01:27.340
+And we conclude that the arithmetic
+mean is not as good as the MAP measure.
+
+21
+00:01:27.340 --> 00:01:28.420
+But here it's the same.
+
+22
+00:01:28.420 --> 00:01:32.120
+We can also think about the alternative
+ways of aggregating the numbers.
+
+23
+00:01:32.120 --> 00:01:34.850
+Don't just automatically assume that,
+though.
+
+24
+00:01:34.850 --> 00:01:37.785
+Let's just also take the arithmetic
+mean of the average position over
+
+25
+00:01:37.785 --> 00:01:38.590
+these queries.
+
+26
+00:01:38.590 --> 00:01:42.910
+Let's think about what's
+the best way of aggregating them.
+
+27
+00:01:42.910 --> 00:01:46.660
+If you think about the different ways,
+naturally you will,
+
+28
+00:01:46.660 --> 00:01:49.880
+probably be able to think about
+another way, which is geometric mean.
+
+29
+00:01:51.230 --> 00:01:53.680
+And we call this kind of average a gMAP.
+
+30
+00:01:55.650 --> 00:01:56.860
+This is another way.
+
+31
+00:01:56.860 --> 00:01:59.520
+So now, once you think about
+the two different ways.
+
+32
+00:01:59.520 --> 00:02:00.820
+Of doing the same thing.
+
+33
+00:02:00.820 --> 00:02:03.400
+The natural question to ask is,
+which one is better?
+
+34
+00:02:03.400 --> 00:02:03.900
+So.
+
+35
+00:02:05.230 --> 00:02:08.060
+So, do you use MAP or gMAP?
+
+36
+00:02:09.830 --> 00:02:11.200
+Again, that's important question.
+
+37
+00:02:11.200 --> 00:02:14.490
+Imagine you are again
+testing a new algorithm in,
+
+38
+00:02:14.490 --> 00:02:17.109
+by comparing the ways your old
+algorithms made the search engine.
+
+39
+00:02:18.390 --> 00:02:22.080
+Now you tested multiple topics.
+
+40
+00:02:22.080 --> 00:02:25.150
+Now you've got the average precision for
+these topics.
+
+41
+00:02:25.150 --> 00:02:28.470
+Now you are thinking of looking
+at the overall performance.
+
+42
+00:02:28.470 --> 00:02:29.470
+You have to take the average.
+
+43
+00:02:30.950 --> 00:02:32.840
+But which, which strategy would you use?
+
+44
+00:02:34.040 --> 00:02:38.360
+Now first, you should also think about the
+question, well did it make a difference?
+
+45
+00:02:38.360 --> 00:02:43.100
+Can you think of scenarios where using
+one of them would make a difference?
+
+46
+00:02:43.100 --> 00:02:45.920
+That is they would give different
+rankings of those methods.
+
+47
+00:02:45.920 --> 00:02:52.440
+And that also means depending on
+the way you average or detect the.
+
+48
+00:02:52.440 --> 00:02:54.450
+Average of these average positions.
+
+49
+00:02:55.600 --> 00:02:57.460
+You will get different conclusions.
+
+50
+00:02:57.460 --> 00:03:00.379
+This makes the question
+becoming even more important.
+
+51
+00:03:01.620 --> 00:03:03.480
+Right?
+So, which one would you use?
+
+52
+00:03:05.350 --> 00:03:08.320
+Well again, if you look at
+the difference between these.
+
+53
+00:03:08.320 --> 00:03:12.750
+Different ways of aggregating
+the average position.
+
+54
+00:03:12.750 --> 00:03:18.510
+You'll realize in arithmetic mean,
+the sum is dominating by large values.
+
+55
+00:03:18.510 --> 00:03:20.250
+So what does large value here mean?
+
+56
+00:03:20.250 --> 00:03:22.260
+It means the query is relatively easy.
+
+57
+00:03:22.260 --> 00:03:24.750
+You can have a high pres,
+average position.
+
+58
+00:03:25.950 --> 00:03:29.707
+Whereas gMAP tends to be
+affected more by low values.
+
+59
+00:03:30.870 --> 00:03:34.790
+And those are the queries that
+don't have good performance.
+
+60
+00:03:34.790 --> 00:03:36.370
+The average precision is low.
+
+61
+00:03:37.410 --> 00:03:41.260
+So if you think about the,
+improving the search engine for
+
+62
+00:03:41.260 --> 00:03:45.840
+those difficult queries,
+then gMAP would be preferred, right?
+
+63
+00:03:47.480 --> 00:03:50.000
+On the other hand, if you just want to.
+
+64
+00:03:50.000 --> 00:03:50.960
+Have improved a lot.
+
+65
+00:03:52.060 --> 00:03:55.750
+Over all the kinds of queries or
+particular popular queries that might be
+
+66
+00:03:55.750 --> 00:04:00.890
+easy and you want to make the perfect and
+maybe MAP would be then preferred.
+
+67
+00:04:00.890 --> 00:04:05.150
+So again, the answer depends on
+your users, your users tasks and
+
+68
+00:04:05.150 --> 00:04:06.710
+their pref, their preferences.
+
+69
+00:04:08.020 --> 00:04:13.720
+So the point that here is to think
+about the multiple ways to solve
+
+70
+00:04:13.720 --> 00:04:18.750
+the same problem, and then compare them,
+and think carefully about the differences.
+
+71
+00:04:18.750 --> 00:04:20.610
+And which one makes more sense.
+
+72
+00:04:20.610 --> 00:04:24.970
+Often, when one of them might
+make sense in one situation and
+
+73
+00:04:24.970 --> 00:04:27.640
+another might make more sense
+in a different situation.
+
+74
+00:04:27.640 --> 00:04:31.620
+So it's important to pick out under
+what situations one is preferred.
+
+75
+00:04:35.209 --> 00:04:38.967
+As a special case of the mean average
+position, we can also think about
+
+76
+00:04:38.967 --> 00:04:43.100
+the case where there was precisely
+one rank in the document.
+
+77
+00:04:43.100 --> 00:04:47.210
+And this happens often, for example,
+in what's called a known item search.
+
+78
+00:04:47.210 --> 00:04:52.670
+Where you know a target page, let's
+say you have to find Amazon, homepage.
+
+79
+00:04:52.670 --> 00:04:56.140
+You have one relevant document there,
+and you hope to find it.
+
+80
+00:04:56.140 --> 00:04:58.250
+That's call a "known item search".
+
+81
+00:04:58.250 --> 00:05:01.330
+In that case,
+there's precisely one relevant document.
+
+82
+00:05:01.330 --> 00:05:03.470
+Or in another application,
+like a question and answering,
+
+83
+00:05:03.470 --> 00:05:04.640
+maybe there's only one answer.
+
+84
+00:05:04.640 --> 00:05:05.250
+Are there.
+
+85
+00:05:05.250 --> 00:05:07.110
+So if you rank the answers,
+
+86
+00:05:07.110 --> 00:05:12.100
+then your goal is to rank that one
+particular answer on top, right?
+
+87
+00:05:12.100 --> 00:05:16.480
+So in this case, you can easily
+verify the average position,
+
+88
+00:05:16.480 --> 00:05:21.710
+will basically boil down
+to reciprocal rank.
+
+89
+00:05:21.710 --> 00:05:28.220
+That is, 1 over r where r is the rank
+position of that single relevant document.
+
+90
+00:05:28.220 --> 00:05:32.210
+So if that document is ranked
+on the very top or is 1, and
+
+91
+00:05:32.210 --> 00:05:35.930
+then it's 1 for reciprocal rank.
+
+92
+00:05:35.930 --> 00:05:39.515
+If it's ranked at the,
+the second, then it's 1 over 2.
+
+93
+00:05:39.515 --> 00:05:40.015
+Et cetera.
+
+94
+00:05:41.145 --> 00:05:45.335
+And then we can also take a, a average
+of all these average precision or
+
+95
+00:05:45.335 --> 00:05:48.025
+reciprocal rank over a set of topics, and
+
+96
+00:05:48.025 --> 00:05:52.555
+that would give us something
+called a mean reciprocal rank.
+
+97
+00:05:52.555 --> 00:05:54.830
+It's a very popular measure.
+
+98
+00:05:54.830 --> 00:05:57.273
+For no item search or, you know,
+
+99
+00:05:57.273 --> 00:06:01.690
+an problem where you have
+just one relevant item.
+
+100
+00:06:03.070 --> 00:06:09.170
+Now again here, you can see this
+r actually is meaningful here.
+
+101
+00:06:09.170 --> 00:06:13.570
+And this r is basically
+indicating how much effort
+
+102
+00:06:13.570 --> 00:06:18.700
+a user would have to make in order
+to find that relevant document.
+
+103
+00:06:18.700 --> 00:06:23.780
+If it's ranked on the top it's low effort
+that you have to make, or little effort.
+
+104
+00:06:23.780 --> 00:06:26.860
+But if it's ranked at 100
+then you actually have to,
+
+105
+00:06:27.940 --> 00:06:32.260
+read presumably 100 documents
+in order to find it.
+
+106
+00:06:32.260 --> 00:06:37.380
+So, in this sense r is also a meaningful
+measure and the reciprocal rank will
+
+107
+00:06:37.380 --> 00:06:41.520
+take the reciprocal of r,
+instead of using r directly.
+
+108
+00:06:42.750 --> 00:06:45.895
+So my natural question here
+is why not simply using r?
+
+109
+00:06:45.895 --> 00:06:50.550
+I imagine if you were to design
+a ratio to, measure the performance
+
+110
+00:06:50.550 --> 00:06:54.680
+of a random system,
+when there is only one relevant item.
+
+111
+00:06:55.760 --> 00:07:00.070
+You might have thought about
+using r directly as the measure.
+
+112
+00:07:00.070 --> 00:07:02.906
+After all,
+that measures the user's effort, right?
+
+113
+00:07:02.906 --> 00:07:10.959
+But, think about if you take a average
+of this over a large number of topics.
+
+114
+00:07:12.200 --> 00:07:13.730
+Again it would make a difference.
+
+115
+00:07:13.730 --> 00:07:16.330
+Right, for one single topic, using r or
+
+116
+00:07:16.330 --> 00:07:19.140
+using 1 over r wouldn't
+make any difference.
+
+117
+00:07:19.140 --> 00:07:21.640
+It's the same.
+
+118
+00:07:21.640 --> 00:07:24.790
+Larger r with corresponds
+to a small 1 over r, right?
+
+119
+00:07:26.400 --> 00:07:32.700
+But the difference would only show when,
+show up when you have many topics.
+
+120
+00:07:32.700 --> 00:07:39.290
+So again, think about the average of Mean
+Reciprocal Rank versus average of just r.
+
+121
+00:07:39.290 --> 00:07:39.930
+What's the difference?
+
+122
+00:07:39.930 --> 00:07:41.730
+Do you see any difference?
+
+123
+00:07:41.730 --> 00:07:46.050
+And would, would this difference
+change the oath of systems.
+
+124
+00:07:46.050 --> 00:07:46.760
+In our conclusion.
+
+125
+00:07:49.050 --> 00:07:53.380
+And this, it turns out that,
+there is actually a big difference, and
+
+126
+00:07:53.380 --> 00:07:57.210
+if you think about it, if you want to
+think about it and then, yourself,
+
+127
+00:07:57.210 --> 00:07:58.230
+then pause the video.
+
+128
+00:07:59.410 --> 00:08:04.350
+Basically, the difference is,
+if you take some of our directory, then.
+
+129
+00:08:04.350 --> 00:08:07.810
+Again it will be dominated
+by large values of r.
+
+130
+00:08:07.810 --> 00:08:08.840
+So what are those values?
+
+131
+00:08:08.840 --> 00:08:15.240
+Those are basically large values that
+indicate that lower ranked results.
+
+132
+00:08:15.240 --> 00:08:20.530
+That means the relevant items
+rank very low down on the list.
+
+133
+00:08:20.530 --> 00:08:25.160
+And the sum that's also the average
+that would then be dominated by.
+
+134
+00:08:25.160 --> 00:08:28.328
+Where those relevant documents
+are ranked in, in ,in,
+
+135
+00:08:28.328 --> 00:08:30.774
+in the lower portion of the ranked.
+
+136
+00:08:30.774 --> 00:08:35.850
+But from a users perspective we care
+more about the highly ranked documents.
+
+137
+00:08:35.850 --> 00:08:39.529
+So by taking this transformation
+by using reciprocal rank.
+
+138
+00:08:40.650 --> 00:08:43.920
+Here we emphasize more on
+the difference on the top.
+
+139
+00:08:43.920 --> 00:08:48.121
+You know, think about
+the difference between 1 and the 2,
+
+140
+00:08:48.121 --> 00:08:52.390
+it would make a big difference, in 1 over
+r, but think about the 100, and 1, and
+
+141
+00:08:52.390 --> 00:08:57.030
+where and when won't make much
+difference if you use this.
+
+142
+00:08:57.030 --> 00:09:01.370
+But if you use this there will
+be a big difference in 100 and
+
+143
+00:09:01.370 --> 00:09:03.468
+let's say 1,000, right.
+
+144
+00:09:03.468 --> 00:09:05.000
+So this is not the desirable.
+
+145
+00:09:06.260 --> 00:09:09.320
+On the other hand, a 1 and
+2 won't make much difference.
+
+146
+00:09:09.320 --> 00:09:13.150
+So this is yet another case where there
+may be multiple choices of doing the same
+
+147
+00:09:13.150 --> 00:09:15.840
+thing and then you need to figure
+out which one makes more sense.
+
+148
+00:09:17.470 --> 00:09:22.360
+So to summarize,
+we showed that the precision-recall curve.
+
+149
+00:09:22.360 --> 00:09:25.738
+Can characterize the overall
+accuracy of a ranked list.
+
+150
+00:09:25.738 --> 00:09:30.650
+And we emphasized that the actual
+utility of a ranked list depends
+
+151
+00:09:30.650 --> 00:09:34.570
+on how many top ranked results
+a user would actually examine.
+
+152
+00:09:34.570 --> 00:09:37.000
+Some users will examine more.
+
+153
+00:09:37.000 --> 00:09:38.390
+Than others.
+
+154
+00:09:38.390 --> 00:09:42.100
+An average person uses a standard measure
+for comparing two ranking methods.
+
+155
+00:09:42.100 --> 00:09:44.837
+It combines precision and recall and
+
+156
+00:09:44.837 --> 00:09:48.904
+it's sensitive to the rank
+of every random document.
+
+157
+00:09:48.904 --> 00:09:58.904
+[MUSIC]

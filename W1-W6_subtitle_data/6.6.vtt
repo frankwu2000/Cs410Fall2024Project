@@ -1,0 +1,671 @@
+WEBVTT
+
+1
+00:00:00.012 --> 00:00:03.574
+[SOUND]
+
+2
+00:00:09.704 --> 00:00:11.535
+There are some interesting challenges
+
+3
+00:00:11.535 --> 00:00:15.015
+in threshold for
+the learning the filtering problem.
+
+4
+00:00:15.015 --> 00:00:19.965
+So here I show the historical data that
+you can collect in the filtering system,
+
+5
+00:00:19.965 --> 00:00:25.195
+so you can see the scores and
+the status of relevance.
+
+6
+00:00:25.195 --> 00:00:30.682
+So the first one has a score of 36.5 and
+it's relevant.
+
+7
+00:00:30.682 --> 00:00:34.852
+The second one is not relevant and
+it's separate.
+
+8
+00:00:34.852 --> 00:00:37.902
+Of course, we have a lot of documents for
+which we don't know the status,
+
+9
+00:00:37.902 --> 00:00:40.910
+because we have never
+delivered them to the user.
+
+10
+00:00:40.910 --> 00:00:42.060
+So as you can see here,
+
+11
+00:00:42.060 --> 00:00:47.380
+we only see the judgements of
+documents delivered to the user.
+
+12
+00:00:47.380 --> 00:00:52.100
+So this is not a random sample,
+so it's a sensitive data.
+
+13
+00:00:52.100 --> 00:00:56.930
+It's kind of biased, so that creates
+some difficultly for learning.
+
+14
+00:00:58.366 --> 00:01:04.230
+Secondly, there are in general very little
+labeled data and very few relevant data,
+
+15
+00:01:04.230 --> 00:01:07.920
+so it's also challenging for
+machine learning approaches,
+
+16
+00:01:07.920 --> 00:01:12.550
+typically they require more training data.
+
+17
+00:01:13.830 --> 00:01:17.560
+And in the extreme case at
+the beginning we don't even have any
+
+18
+00:01:17.560 --> 00:01:18.550
+labeled data as well.
+
+19
+00:01:18.550 --> 00:01:20.940
+The system there has to make a decision,
+
+20
+00:01:20.940 --> 00:01:24.440
+so that's a very difficult
+problem at the beginning.
+
+21
+00:01:24.440 --> 00:01:29.348
+Finally, there is also this issue of
+exploration versus exploitation tradeoff.
+
+22
+00:01:29.348 --> 00:01:34.987
+Now, this means we also want
+to explore the document
+
+23
+00:01:34.987 --> 00:01:39.983
+space a little bit and
+to see if the user might be
+
+24
+00:01:39.983 --> 00:01:45.899
+interested in documents that
+we have in data labeled.
+
+25
+00:01:45.899 --> 00:01:51.330
+So in other words, we're going to
+explore the space of user interests
+
+26
+00:01:51.330 --> 00:01:54.890
+by testing whether the user might be
+interested in some other documents that
+
+27
+00:01:56.550 --> 00:02:00.530
+currently are not matching
+the user's interests so well.
+
+28
+00:02:01.660 --> 00:02:02.650
+So how do we do that?
+
+29
+00:02:02.650 --> 00:02:06.580
+Well, we could lower the threshold
+a little bit until we just
+
+30
+00:02:06.580 --> 00:02:11.260
+deliver some near misses to the user
+to see what the user would respond,
+
+31
+00:02:13.160 --> 00:02:18.870
+to see how the user would
+respond to this extra document.
+
+32
+00:02:20.540 --> 00:02:24.920
+And this is a tradeoff, because on
+the one hand, you want to explore, but
+
+33
+00:02:24.920 --> 00:02:28.130
+on the other hand,
+you don't want to really explore too much,
+
+34
+00:02:28.130 --> 00:02:31.960
+because then you will over
+deliver non-relevant Information.
+
+35
+00:02:31.960 --> 00:02:36.310
+So exploitation means you would
+exploit what you learn about the user.
+
+36
+00:02:36.310 --> 00:02:39.790
+Let's say you know the user is
+interested in this particular topic, so
+
+37
+00:02:39.790 --> 00:02:42.950
+you don't want to deviate that much, but
+
+38
+00:02:42.950 --> 00:02:47.220
+if you don't deviate at all then you don't
+exploit so that's also are not good.
+
+39
+00:02:47.220 --> 00:02:50.710
+You might miss opportunity to learn
+another interest of the user.
+
+40
+00:02:51.930 --> 00:02:53.700
+So this is a dilemma.
+
+41
+00:02:54.790 --> 00:02:57.710
+And that's also a difficulty
+problem to solve.
+
+42
+00:02:58.890 --> 00:03:00.320
+Now, how do we solve these problems?
+
+43
+00:03:00.320 --> 00:03:04.499
+In general, I think one can use the
+empirical utility optimization strategy.
+
+44
+00:03:04.499 --> 00:03:09.611
+And this strategy is basically to optimize
+the threshold based on historical data,
+
+45
+00:03:09.611 --> 00:03:12.480
+just as you have seen
+on the previous slide.
+
+46
+00:03:12.480 --> 00:03:16.610
+Right, so you can just compute
+the utility on the training data for
+
+47
+00:03:16.610 --> 00:03:18.950
+each candidate score threshold.
+
+48
+00:03:18.950 --> 00:03:21.830
+Pretend that, what if I cut at this point.
+
+49
+00:03:21.830 --> 00:03:27.090
+What if I cut at the different scoring
+threshold point, what would happen?
+
+50
+00:03:27.090 --> 00:03:28.900
+What's utility?
+
+51
+00:03:28.900 --> 00:03:34.030
+Since these are training data,
+we can kind of compute the utility,
+
+52
+00:03:34.030 --> 00:03:38.440
+and we know that relevant status,
+or we assume that we know
+
+53
+00:03:38.440 --> 00:03:43.220
+relevant status based on
+approximation of click-throughs.
+
+54
+00:03:43.220 --> 00:03:47.190
+So then we can just choose the threshold
+that gives the maximum utility
+
+55
+00:03:47.190 --> 00:03:49.810
+on the training data.
+
+56
+00:03:49.810 --> 00:03:55.160
+But this of course, doesn't account for
+exploration that we just talked about.
+
+57
+00:03:56.870 --> 00:04:00.400
+And there is also the difficulty of
+biased training sample, as we mentioned.
+
+58
+00:04:01.530 --> 00:04:07.300
+So, in general, we can only get the upper
+bound for the true optimal threshold,
+
+59
+00:04:07.300 --> 00:04:13.190
+because the threshold might
+be actually lower than this.
+
+60
+00:04:13.190 --> 00:04:17.115
+So, it's possible that this could
+discarded item might be actually
+
+61
+00:04:17.115 --> 00:04:18.610
+interesting to the user.
+
+62
+00:04:19.790 --> 00:04:21.400
+So how do we solve this problem?
+
+63
+00:04:21.400 --> 00:04:22.896
+Well, we generally, and
+
+64
+00:04:22.896 --> 00:04:27.190
+as I said we can low with this
+threshold to explore a little bit.
+
+65
+00:04:27.190 --> 00:04:30.760
+So here's on particular approach
+called beta-gamma threshold learning.
+
+66
+00:04:30.760 --> 00:04:32.680
+So the idea is falling.
+
+67
+00:04:32.680 --> 00:04:37.400
+So here I show a ranked list of all the
+training documents that we have seen so
+
+68
+00:04:37.400 --> 00:04:40.610
+far, and
+they are ranked by their positions.
+
+69
+00:04:40.610 --> 00:04:44.680
+And on the y axis we show the utility,
+of course, this function depends on
+
+70
+00:04:44.680 --> 00:04:48.670
+how you specify the coefficients
+in the utility function, but
+
+71
+00:04:48.670 --> 00:04:53.160
+we can then imagine, that depending on the
+cutoff position, we will have a utility.
+
+72
+00:04:54.930 --> 00:04:59.828
+Suppose I cut at this position and
+that would be a utility.
+
+73
+00:04:59.828 --> 00:05:06.690
+For example,
+identify some cutting cutoff point.
+
+74
+00:05:06.690 --> 00:05:11.640
+The optimal point,
+theta optimal, is the point
+
+75
+00:05:11.640 --> 00:05:16.355
+when it will achieve the maximum utility
+if we had chosen this as threshold.
+
+76
+00:05:17.510 --> 00:05:23.097
+And there is also zero utility threshold.
+
+77
+00:05:23.097 --> 00:05:27.720
+You can see at this cutoff
+the utility is zero.
+
+78
+00:05:27.720 --> 00:05:28.740
+What does that mean?
+
+79
+00:05:28.740 --> 00:05:34.250
+That means if I lower the threshold
+a little bit, now I reach this threshold.
+
+80
+00:05:34.250 --> 00:05:41.305
+The utility would be lower but
+it's still non-active at least, right?
+
+81
+00:05:41.305 --> 00:05:45.835
+So it's not as high as
+the optimal utility.
+
+82
+00:05:45.835 --> 00:05:51.492
+But it gives us as a safe point
+to explore the threshold,
+
+83
+00:05:51.492 --> 00:05:56.052
+as I have explained, it's desirable
+to explore the interest of space.
+
+84
+00:05:56.052 --> 00:06:00.622
+So it's desirable to lower the threshold
+based on your training there.
+
+85
+00:06:00.622 --> 00:06:04.850
+So that means, in general, we want to set
+the threshold somewhere in this range.
+
+86
+00:06:04.850 --> 00:06:06.730
+Let's say we can use the alpha to control
+
+87
+00:06:08.310 --> 00:06:13.210
+the deviation from
+the optimal utility point.
+
+88
+00:06:13.210 --> 00:06:16.570
+So you can see the formula of the
+threshold would be just the interpolation
+
+89
+00:06:16.570 --> 00:06:21.210
+of the zero utility threshold and
+the optimal utility threshold.
+
+90
+00:06:22.490 --> 00:06:25.600
+Now, the question is,
+how should we set alpha?
+
+91
+00:06:27.420 --> 00:06:31.880
+And when should we deviate more
+from the optimal utility point?
+
+92
+00:06:33.720 --> 00:06:38.450
+Well, this can depend on multiple factors,
+and the one way to solve the problem is to
+
+93
+00:06:38.450 --> 00:06:43.880
+encourage this threshold
+mechanism to explore
+
+94
+00:06:43.880 --> 00:06:48.630
+up to the zero point, and
+that's a safe point, but
+
+95
+00:06:48.630 --> 00:06:52.990
+we're not going to necessarily reach
+all the way to the zero point.
+
+96
+00:06:52.990 --> 00:06:57.947
+Rather, we're going to use other
+parameters to further define alpha and
+
+97
+00:06:57.947 --> 00:07:01.030
+this specifically is as follows.
+
+98
+00:07:01.030 --> 00:07:06.680
+So there will be a beta parameter to
+control the deviation from the optimal
+
+99
+00:07:06.680 --> 00:07:12.000
+threshold and this can be based on can
+be accounting for the over-fitting
+
+100
+00:07:12.000 --> 00:07:17.960
+to the training data let's say, and so
+this can be just an adjustment factor.
+
+101
+00:07:17.960 --> 00:07:20.500
+But what's more interesting
+is this gamma parameter.
+
+102
+00:07:20.500 --> 00:07:25.510
+Here, and you can see in this formula,
+
+103
+00:07:25.510 --> 00:07:31.134
+gamma is controlling the inference
+
+104
+00:07:31.134 --> 00:07:36.210
+of the number of examples
+in training that are set.
+
+105
+00:07:36.210 --> 00:07:43.340
+So you can see in this formula as N which
+denotes the number of training examples
+
+106
+00:07:43.340 --> 00:07:50.820
+becomes bigger, then it would
+actually encourage less exploration.
+
+107
+00:07:50.820 --> 00:07:55.140
+In other words, when these very
+small it would try to explore more.
+
+108
+00:07:55.140 --> 00:07:59.630
+And that just means if we have seen few
+
+109
+00:07:59.630 --> 00:08:04.330
+examples we're not sure whether we
+have exhausted the space of interest.
+
+110
+00:08:04.330 --> 00:08:09.590
+So we need to explore but as we have
+seen many examples from the user
+
+111
+00:08:09.590 --> 00:08:13.510
+many that have we feel that we
+probably don't have to explore more.
+
+112
+00:08:13.510 --> 00:08:17.950
+So this gives us a beta gamma for
+exploration, right.
+
+113
+00:08:17.950 --> 00:08:21.500
+The more examples we have seen
+the less exploration we need to do.
+
+114
+00:08:21.500 --> 00:08:25.960
+So the threshold would be closer
+to the optimal threshold so
+
+115
+00:08:25.960 --> 00:08:28.490
+that's the basic idea of this approach.
+
+116
+00:08:28.490 --> 00:08:34.120
+This approach actually has been working
+well in some evaluation studies,
+
+117
+00:08:34.120 --> 00:08:36.030
+particularly effective.
+
+118
+00:08:36.030 --> 00:08:42.300
+And also can work on arbitrary utility
+with the appropriate lower bound.
+
+119
+00:08:43.710 --> 00:08:48.020
+And explicitly addresses
+the exploration-exploitation tradeoff and
+
+120
+00:08:48.020 --> 00:08:53.234
+it kind of uses the zero utility
+threshold point as a safeguard for
+
+121
+00:08:53.234 --> 00:08:56.810
+exploration-exploitation tradeoff.
+
+122
+00:08:56.810 --> 00:09:02.770
+We're not never going to explore
+further than the zero utility point.
+
+123
+00:09:02.770 --> 00:09:05.530
+So if you take the analogy of gambling,
+and
+
+124
+00:09:05.530 --> 00:09:08.950
+you don't want to risk on losing money.
+
+125
+00:09:08.950 --> 00:09:12.140
+So it's a safe spend, really
+conservative strategy for exploration.
+
+126
+00:09:13.270 --> 00:09:18.250
+And the problem is of course,
+this approach is purely heuristic and
+
+127
+00:09:18.250 --> 00:09:23.643
+the zero utility lower boundary is also
+often too conservative, and there are, of
+
+128
+00:09:23.643 --> 00:09:28.855
+course, more advance in machine learning
+approaches that have been proposed for
+
+129
+00:09:28.855 --> 00:09:33.815
+solving this problems and
+this is their active research area.
+
+130
+00:09:35.225 --> 00:09:41.550
+So to summarize, there are two
+strategies for recommended systems or
+
+131
+00:09:41.550 --> 00:09:47.070
+filtering systems, one is content based,
+which is looking at the item similarity,
+
+132
+00:09:47.070 --> 00:09:51.302
+and the other is collaborative filtering
+that was looking at the user similarity.
+
+133
+00:09:51.302 --> 00:09:56.710
+We've covered content-based
+filtering approach.
+
+134
+00:09:56.710 --> 00:09:59.566
+In the next lecture, we will talk
+about the collaborative filtering.
+
+135
+00:09:59.566 --> 00:10:07.030
+In content-based filtering system,
+we generally have to solve
+
+136
+00:10:07.030 --> 00:10:11.750
+several problems relative to
+filtering decision and learning, etc.
+
+137
+00:10:11.750 --> 00:10:17.130
+And such a system can actually be
+built based on a search engine system
+
+138
+00:10:17.130 --> 00:10:22.978
+by adding a threshold mechanism and
+adding adaptive learning algorithm to
+
+139
+00:10:22.978 --> 00:10:28.011
+allow the system to learn from
+long term feedback from the user.
+
+140
+00:10:30.357 --> 00:10:40.357
+[MUSIC]

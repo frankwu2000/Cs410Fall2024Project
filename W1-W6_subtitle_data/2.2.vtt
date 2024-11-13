@@ -1,0 +1,574 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:05.293
+[MUSIC]
+
+2
+00:00:10.067 --> 00:00:15.310
+In this lecture, we continue
+the discussion of vector space model.
+
+3
+00:00:15.310 --> 00:00:18.810
+In particular, we're going to
+talk about the TF transformation.
+
+4
+00:00:18.810 --> 00:00:20.100
+In the previous lecture,
+
+5
+00:00:20.100 --> 00:00:25.880
+we have derived a TF idea of weighting
+formula using the vector space model.
+
+6
+00:00:27.100 --> 00:00:31.760
+And we have assumed that this model
+actually works pretty well for
+
+7
+00:00:31.760 --> 00:00:37.302
+these examples as shown on this slide,
+except for
+
+8
+00:00:37.302 --> 00:00:41.340
+d5, which has received a very high score.
+
+9
+00:00:41.340 --> 00:00:46.510
+Indeed, it has received the highest
+score among all these documents.
+
+10
+00:00:46.510 --> 00:00:51.980
+But this document is intuitive and
+non-relevant, so this is not desirable.
+
+11
+00:00:53.240 --> 00:00:55.390
+In this lecture,
+we're going to talk about,
+
+12
+00:00:55.390 --> 00:00:58.960
+how we're going to use TF
+transformation to solve this problem.
+
+13
+00:01:00.410 --> 00:01:04.870
+Before we discuss the details,
+let's take a look at the formula for
+
+14
+00:01:04.870 --> 00:01:08.820
+this simple TF-IDF
+weighting ranking function.
+
+15
+00:01:08.820 --> 00:01:13.520
+And see why this document has
+received such a high score.
+
+16
+00:01:13.520 --> 00:01:17.510
+So this is the formula, and
+if you look at the formula carefully,
+
+17
+00:01:17.510 --> 00:01:21.730
+then you will see it involves a sum
+over all the matched query terms.
+
+18
+00:01:23.810 --> 00:01:28.140
+And inside the sum, each matched
+query term has a particular weight.
+
+19
+00:01:28.140 --> 00:01:30.259
+And this weight is TF-IDF weighting.
+
+20
+00:01:31.580 --> 00:01:36.853
+So it has an idea of component,
+where we see two variables.
+
+21
+00:01:36.853 --> 00:01:42.586
+One is the total number of documents
+in the collection, and that is M.
+
+22
+00:01:42.586 --> 00:01:45.890
+The other is the document of frequency.
+
+23
+00:01:45.890 --> 00:01:48.220
+This is the number of
+documents that are contained.
+
+24
+00:01:48.220 --> 00:01:49.070
+This word w.
+
+25
+00:01:49.070 --> 00:01:53.810
+The other variables
+
+26
+00:01:53.810 --> 00:01:58.350
+involved in the formula include
+the count of the query term.
+
+27
+00:02:01.440 --> 00:02:06.100
+W in the query, and
+the count of the word in the document.
+
+28
+00:02:07.650 --> 00:02:12.150
+If you look at this document again,
+now it's not hard to realize that
+
+29
+00:02:12.150 --> 00:02:16.710
+the reason why it hasn't
+received a high score is because
+
+30
+00:02:16.710 --> 00:02:21.035
+it has a very high count of campaign.
+
+31
+00:02:21.035 --> 00:02:27.170
+So the count of campaign in this document
+is a 4, which is much higher than
+
+32
+00:02:27.170 --> 00:02:31.580
+the other documents, and has contributed
+to the high score of this document.
+
+33
+00:02:31.580 --> 00:02:35.485
+So in treating the amount
+to lower the score for
+
+34
+00:02:35.485 --> 00:02:40.695
+this document, we need to somehow
+restrict the contribution
+
+35
+00:02:40.695 --> 00:02:44.514
+of the matching of this
+term in the document.
+
+36
+00:02:44.514 --> 00:02:49.934
+And if you think about the matching
+of terms in the document carefully,
+
+37
+00:02:49.934 --> 00:02:52.193
+you actually would realize,
+
+38
+00:02:52.193 --> 00:02:57.540
+we probably shouldn't reward
+multiple occurrences so generously.
+
+39
+00:02:57.540 --> 00:03:02.406
+And by that I mean,
+the first occurrence of a term
+
+40
+00:03:02.406 --> 00:03:06.680
+says a lot about
+the matching of this term,
+
+41
+00:03:06.680 --> 00:03:11.570
+because it goes from zero
+count to a count of one.
+
+42
+00:03:11.570 --> 00:03:15.370
+And that increase means a lot.
+
+43
+00:03:17.160 --> 00:03:19.277
+Once we see a word in the document,
+
+44
+00:03:19.277 --> 00:03:23.219
+it's very likely that the document
+is talking about this word.
+
+45
+00:03:23.219 --> 00:03:27.934
+If we see a extra occurrence on
+top of the first occurrence,
+
+46
+00:03:27.934 --> 00:03:33.493
+that is to go from one to two,
+then we also can say that, well the second
+
+47
+00:03:33.493 --> 00:03:39.844
+occurrence kind of confirmed that it's
+not a accidental managing of the word.
+
+48
+00:03:39.844 --> 00:03:44.220
+Now we are more sure that this
+document is talking about this word.
+
+49
+00:03:44.220 --> 00:03:50.430
+But imagine we have seen, let's say,
+50 times of the word in the document.
+
+50
+00:03:50.430 --> 00:03:56.140
+Now, adding one extra occurrence is not
+going to test more about the evidence,
+
+51
+00:03:56.140 --> 00:03:59.580
+because we're already sure that
+this document is about this word.
+
+52
+00:04:01.160 --> 00:04:06.656
+So if you're thinking this way, it seems
+that we should restrict the contribution
+
+53
+00:04:06.656 --> 00:04:12.785
+of a high count of a term, and
+that is the idea of TF Transformation.
+
+54
+00:04:12.785 --> 00:04:17.965
+So this transformation function is
+going to turn the real count of
+
+55
+00:04:17.965 --> 00:04:22.990
+word into a term frequency weight for
+the word in the document.
+
+56
+00:04:22.990 --> 00:04:28.420
+So here I show in x axis that we'll count,
+and
+
+57
+00:04:28.420 --> 00:04:31.470
+y axis I show the term frequency weight.
+
+58
+00:04:33.360 --> 00:04:36.370
+So in the previous breaking functions,
+
+59
+00:04:36.370 --> 00:04:41.140
+we actually have imprison rate
+use some kind of transformation.
+
+60
+00:04:41.140 --> 00:04:43.480
+So for example,
+in the 0/1 bit vector recantation,
+
+61
+00:04:44.960 --> 00:04:49.070
+we actually use such a transformation
+function, as shown here.
+
+62
+00:04:49.070 --> 00:04:53.420
+Basically if the count is 0,
+then it has 0 weight,
+
+63
+00:04:53.420 --> 00:04:56.790
+otherwise it would have a weight of 1.
+
+64
+00:04:56.790 --> 00:04:57.940
+It's flat.
+
+65
+00:04:59.550 --> 00:05:04.870
+Now, what about using
+term count as TF weight?
+
+66
+00:05:04.870 --> 00:05:10.515
+Well, that's a linear function, so it has
+just exactly the same weight as the count.
+
+67
+00:05:11.575 --> 00:05:16.775
+Now we have just seen that
+this is not desirable.
+
+68
+00:05:18.395 --> 00:05:20.695
+So what we want is something like this.
+
+69
+00:05:20.695 --> 00:05:23.160
+So for example,
+with an algorithm function,
+
+70
+00:05:23.160 --> 00:05:26.620
+we can't have a sublinear
+transformation that looks like this.
+
+71
+00:05:26.620 --> 00:05:29.850
+And this will control the influence
+of really high weight,
+
+72
+00:05:29.850 --> 00:05:32.270
+because it's going to lower its inference.
+
+73
+00:05:32.270 --> 00:05:35.060
+Yet, it will retain
+the inference of small counts.
+
+74
+00:05:36.110 --> 00:05:41.570
+Or we might want to even bend the curve
+more by applying logarithm twice.
+
+75
+00:05:42.730 --> 00:05:45.320
+Now people have tried all these methods.
+
+76
+00:05:45.320 --> 00:05:48.870
+And they are indeed working better than
+the linear form of the transformation.
+
+77
+00:05:50.230 --> 00:05:54.820
+But so far, what works the best seems
+to be this special transformation,
+
+78
+00:05:54.820 --> 00:05:56.620
+called a BM25 transformation.
+
+79
+00:05:58.070 --> 00:05:59.480
+BM stands for best matching.
+
+80
+00:06:01.210 --> 00:06:04.830
+Now in this transformation,
+you can see there's a parameter k here.
+
+81
+00:06:06.460 --> 00:06:10.910
+And this k controls the upper
+bound of this function.
+
+82
+00:06:10.910 --> 00:06:15.165
+It's easy to see this
+function has a upper bound,
+
+83
+00:06:15.165 --> 00:06:21.748
+because if you look at the x divided by
+x + k, where k is a non-active number,
+
+84
+00:06:21.748 --> 00:06:28.060
+then the numerator will never be able
+to exceed the denominator, right?
+
+85
+00:06:28.060 --> 00:06:29.820
+So it's upper bounded by k+1.
+
+86
+00:06:29.820 --> 00:06:34.540
+Now, this is also difference between
+this transformation function and
+
+87
+00:06:34.540 --> 00:06:35.660
+a logarithm transformation.
+
+88
+00:06:37.010 --> 00:06:38.450
+Which it doesn't have upper bound.
+
+89
+00:06:39.830 --> 00:06:44.490
+Furthermore, one interesting property
+of this function is that, as we vary k,
+
+90
+00:06:45.610 --> 00:06:50.310
+we can actually simulate different
+transformation functions.
+
+91
+00:06:50.310 --> 00:06:52.900
+Including the two extremes
+that are shown here.
+
+92
+00:06:52.900 --> 00:06:57.480
+That is, the 0/1 bit transformation and
+the linear transformation.
+
+93
+00:06:57.480 --> 00:07:01.890
+So for example, if we set k to 0,
+now you can see
+
+94
+00:07:03.630 --> 00:07:06.710
+the function value will be 1.
+
+95
+00:07:06.710 --> 00:07:13.250
+So we precisely recover
+the 0/1 bit transformation.
+
+96
+00:07:15.630 --> 00:07:20.040
+If you set k to very large
+number on the other hand,
+
+97
+00:07:20.040 --> 00:07:22.919
+it's going to look more like
+the linear transformation function.
+
+98
+00:07:24.980 --> 00:07:29.400
+So in this sense,
+this transformation is very flexible.
+
+99
+00:07:29.400 --> 00:07:34.600
+It allows us to control
+the shape of the transformation.
+
+100
+00:07:34.600 --> 00:07:36.780
+It also has a nice property
+of the upper bound.
+
+101
+00:07:38.020 --> 00:07:42.390
+And this upper bound is useful to control
+the inference of a particular term.
+
+102
+00:07:43.860 --> 00:07:49.718
+And so that we can prevent a spammer
+from just increasing the count
+
+103
+00:07:49.718 --> 00:07:54.947
+of one term to spam all queries
+that might match this term.
+
+104
+00:07:57.258 --> 00:08:00.824
+In other words, this upper bound
+might also ensure that all
+
+105
+00:08:00.824 --> 00:08:05.330
+terms would be counted when we aggregate
+the weights to compute the score.
+
+106
+00:08:06.680 --> 00:08:10.620
+As I said, this transformation
+function has worked well so far.
+
+107
+00:08:12.300 --> 00:08:16.890
+So to summarize this lecture,
+the main point is that we need to do
+
+108
+00:08:16.890 --> 00:08:21.930
+Sublinear TF Transformation,
+and this is needed to
+
+109
+00:08:21.930 --> 00:08:25.550
+capture the intuition of diminishing
+return from higher term counts.
+
+110
+00:08:26.620 --> 00:08:30.980
+It's also to avoid the dominance by
+one single term over all others.
+
+111
+00:08:30.980 --> 00:08:37.050
+This BM25 transformation that we
+talked about is very interesting.
+
+112
+00:08:37.050 --> 00:08:43.130
+It's so far one of the best-performing
+TF Transformation formulas.
+
+113
+00:08:43.130 --> 00:08:46.520
+It has upper bound, and so
+it's also robust and effective.
+
+114
+00:08:47.830 --> 00:08:54.080
+Now if we're plugging this function into
+our TF-IDF weighting vector space model.
+
+115
+00:08:54.080 --> 00:08:57.730
+Then we'd end up having
+the following ranking function,
+
+116
+00:08:57.730 --> 00:09:00.720
+which has a BM25 TF component.
+
+117
+00:09:01.870 --> 00:09:06.833
+Now, this is already
+very close to a state of
+
+118
+00:09:06.833 --> 00:09:11.537
+the odd ranking function called BM25.
+
+119
+00:09:11.537 --> 00:09:17.890
+And we'll discuss how we can further
+improve this formula in the next lecture.
+
+120
+00:09:17.890 --> 00:09:27.890
+[MUSIC]

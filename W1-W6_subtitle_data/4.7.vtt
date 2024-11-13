@@ -1,0 +1,888 @@
+WEBVTT
+
+1
+00:00:00.006 --> 00:00:03.253
+[SOUND]
+
+2
+00:00:13.295 --> 00:00:15.326
+So let's plug in these model masses
+
+3
+00:00:15.326 --> 00:00:18.610
+into the ranking function to
+see what we will get, okay?
+
+4
+00:00:18.610 --> 00:00:20.780
+This is a general smoothing.
+
+5
+00:00:20.780 --> 00:00:24.570
+So a general ranking function for
+smoothing with subtraction and
+
+6
+00:00:24.570 --> 00:00:26.500
+you have seen this before.
+
+7
+00:00:28.060 --> 00:00:32.550
+And now we have a very specific smoothing
+method, the JM smoothing method.
+
+8
+00:00:33.690 --> 00:00:39.190
+So now let's see what what's a value for
+office of D here.
+
+9
+00:00:40.450 --> 00:00:42.900
+And what's the value for p sub c here?
+
+10
+00:00:42.900 --> 00:00:46.930
+Right, so we may need to decide this
+
+11
+00:00:46.930 --> 00:00:50.470
+in order to figure out the exact
+form of the ranking function.
+
+12
+00:00:50.470 --> 00:00:52.598
+And we also need to figure
+out of course alpha.
+
+13
+00:00:52.598 --> 00:00:55.910
+So let's see.
+
+14
+00:00:55.910 --> 00:01:00.666
+Well this ratio is basically this,
+right, so,
+
+15
+00:01:00.666 --> 00:01:05.315
+here, this is the probability
+of c board on the top,
+
+16
+00:01:05.315 --> 00:01:09.330
+and this is the probability
+of unseen war or,
+
+17
+00:01:09.330 --> 00:01:14.935
+in other words basically 11
+times basically the alpha here,
+
+18
+00:01:14.935 --> 00:01:18.530
+this, so it's easy to see that.
+
+19
+00:01:18.530 --> 00:01:21.681
+This can be then rewritten as this.
+
+20
+00:01:21.681 --> 00:01:24.500
+Very simple.
+
+21
+00:01:24.500 --> 00:01:26.810
+So we can plug this into here.
+
+22
+00:01:28.650 --> 00:01:30.710
+And then here, what's the value for alpha?
+
+23
+00:01:30.710 --> 00:01:31.660
+What do you think?
+
+24
+00:01:31.660 --> 00:01:35.250
+So it would be just lambda, right?
+
+25
+00:01:38.250 --> 00:01:43.900
+And what would happen if we plug in
+this value here, if this is lambda.
+
+26
+00:01:43.900 --> 00:01:45.350
+What can we say about this?
+
+27
+00:01:47.940 --> 00:01:49.640
+Does it depend on the document?
+
+28
+00:01:50.660 --> 00:01:52.170
+No, so it can be ignored.
+
+29
+00:01:53.570 --> 00:01:55.040
+Right?
+
+30
+00:01:55.040 --> 00:01:58.690
+So we'll end up having this
+ranking function shown here.
+
+31
+00:02:00.520 --> 00:02:02.690
+And in this case you can easy to see,
+
+32
+00:02:02.690 --> 00:02:07.780
+this a precisely a vector space
+model because this part is
+
+33
+00:02:07.780 --> 00:02:13.480
+a sum over all the matched query terms,
+this is an element of the query map.
+
+34
+00:02:13.480 --> 00:02:16.140
+What do you think is a element
+of the document up there?
+
+35
+00:02:18.670 --> 00:02:20.200
+Well it's this, right.
+
+36
+00:02:20.200 --> 00:02:23.210
+So that's our document left element.
+
+37
+00:02:23.210 --> 00:02:29.210
+And let's further examine what's
+inside of this logarithm.
+
+38
+00:02:30.370 --> 00:02:32.440
+Well one plus this.
+
+39
+00:02:32.440 --> 00:02:36.630
+So it's going to be nonnegative,
+this log of this,
+
+40
+00:02:36.630 --> 00:02:37.850
+it's going to be at least 1, right?
+
+41
+00:02:39.450 --> 00:02:42.900
+And these, this is a parameter,
+so lambda is parameter.
+
+42
+00:02:42.900 --> 00:02:44.340
+And let's look at this.
+
+43
+00:02:44.340 --> 00:02:45.480
+Now this is a TF.
+
+44
+00:02:45.480 --> 00:02:48.070
+Now we see very clearly
+this TF weighting here.
+
+45
+00:02:49.250 --> 00:02:54.080
+And the larger the count is,
+the higher the weighting will be.
+
+46
+00:02:54.080 --> 00:02:57.080
+We also see IDF weighting,
+which is given by this.
+
+47
+00:02:58.720 --> 00:03:00.996
+And we see docking the lan's
+relationship here.
+
+48
+00:03:00.996 --> 00:03:03.270
+So all these heuristics
+are captured in this formula.
+
+49
+00:03:04.532 --> 00:03:08.480
+What's interesting that
+we kind of have got this
+
+50
+00:03:08.480 --> 00:03:12.330
+weighting function automatically
+by making various assumptions.
+
+51
+00:03:12.330 --> 00:03:14.270
+Whereas in the vector space model,
+
+52
+00:03:14.270 --> 00:03:19.330
+we had to go through those heuristic
+design in order to get this.
+
+53
+00:03:19.330 --> 00:03:21.880
+And in this case note that
+there's a specific form.
+
+54
+00:03:21.880 --> 00:03:25.120
+And when you see whether this
+form actually makes sense.
+
+55
+00:03:26.690 --> 00:03:31.050
+All right so what do you think
+is the denominator here, hm?
+
+56
+00:03:31.050 --> 00:03:33.320
+This is a math of document.
+
+57
+00:03:33.320 --> 00:03:37.340
+Total number of words,
+multiplied by the probability of the word
+
+58
+00:03:38.400 --> 00:03:42.727
+given by the collection, right?
+
+59
+00:03:42.727 --> 00:03:48.090
+So this actually can be interpreted
+as expected account over word.
+
+60
+00:03:48.090 --> 00:03:53.730
+If we're going to draw, a word,
+from the connection that we model.
+
+61
+00:03:53.730 --> 00:03:57.980
+And, we're going to draw as many as
+the number of words in the document.
+
+62
+00:03:59.310 --> 00:04:02.940
+If you do that,
+the expected account of a word, w,
+
+63
+00:04:02.940 --> 00:04:06.950
+would be precisely given
+by this denominator.
+
+64
+00:04:08.240 --> 00:04:14.400
+So, this ratio basically,
+is comparing the actual count, here.
+
+65
+00:04:15.860 --> 00:04:21.280
+The actual count of the word in the
+document with expected count given by this
+
+66
+00:04:21.280 --> 00:04:29.570
+product if the word is in fact following
+the distribution in the clutch this.
+
+67
+00:04:29.570 --> 00:04:33.250
+And if this counter is larger than
+the expected counter in this part,
+
+68
+00:04:33.250 --> 00:04:34.789
+this ratio would be larger than one.
+
+69
+00:04:37.100 --> 00:04:40.460
+So that's actually a very
+interesting interpretation, right?
+
+70
+00:04:40.460 --> 00:04:43.930
+It's very natural and intuitive,
+it makes a lot of sense.
+
+71
+00:04:45.240 --> 00:04:49.580
+And this is one advantage of using
+this kind of probabilistic reasoning
+
+72
+00:04:49.580 --> 00:04:53.240
+where we have made explicit assumptions.
+
+73
+00:04:53.240 --> 00:04:56.490
+And, we know precisely why
+we have a logarithm here.
+
+74
+00:04:56.490 --> 00:04:58.800
+And, why we have these probabilities here.
+
+75
+00:05:00.280 --> 00:05:04.290
+And, we also have a formula that
+intuitively makes a lot of sense and
+
+76
+00:05:04.290 --> 00:05:07.190
+does TF-IDF weighting and
+documenting and some others.
+
+77
+00:05:09.010 --> 00:05:11.440
+Let's look at the,
+the Dirichlet Prior Smoothing.
+
+78
+00:05:11.440 --> 00:05:16.852
+It's very similar to
+the case of JM smoothing.
+
+79
+00:05:16.852 --> 00:05:21.540
+In this case,
+the smoothing parameter is mu and
+
+80
+00:05:21.540 --> 00:05:27.660
+that's different from
+lambda that we saw before.
+
+81
+00:05:27.660 --> 00:05:30.660
+But the format looks very similar.
+
+82
+00:05:30.660 --> 00:05:32.570
+The form of the function
+looks very similar.
+
+83
+00:05:34.540 --> 00:05:36.730
+So we still have linear operation here.
+
+84
+00:05:38.090 --> 00:05:40.130
+And when we compute this ratio,
+
+85
+00:05:40.130 --> 00:05:45.460
+one will find that is that
+the ratio is equal to this.
+
+86
+00:05:46.930 --> 00:05:51.620
+And what's interesting here is that we
+are doing another comparison here now.
+
+87
+00:05:51.620 --> 00:05:54.440
+We're comparing the actual count.
+
+88
+00:05:54.440 --> 00:05:59.400
+Which is the expected account of the world
+if we sampled meal worlds according to
+
+89
+00:05:59.400 --> 00:06:02.660
+the collection world probability.
+
+90
+00:06:02.660 --> 00:06:07.266
+So note that it's interesting we don't
+even see docking the lens here and
+
+91
+00:06:07.266 --> 00:06:08.910
+lighter in the JMs model.
+
+92
+00:06:08.910 --> 00:06:13.880
+All right so this of course
+should be plugged into this part.
+
+93
+00:06:15.290 --> 00:06:18.200
+So you might wonder, so
+where is docking lens.
+
+94
+00:06:18.200 --> 00:06:23.650
+Interestingly the docking lens
+is here in alpha sub d so
+
+95
+00:06:23.650 --> 00:06:26.850
+this would be plugged into this part.
+
+96
+00:06:26.850 --> 00:06:31.860
+As a result what we get is
+the following function here and
+
+97
+00:06:31.860 --> 00:06:35.239
+this is again a sum over
+all the match query words.
+
+98
+00:06:36.290 --> 00:06:40.050
+And we're against the queer,
+the query, time frequency here.
+
+99
+00:06:41.410 --> 00:06:45.425
+And you can interpret this as
+the element of a document vector,
+
+100
+00:06:45.425 --> 00:06:48.700
+but this is no longer
+a single dot product, right?
+
+101
+00:06:50.100 --> 00:06:55.165
+Because we have this part,
+I know that n is the name of the query,
+
+102
+00:06:55.165 --> 00:06:57.810
+right?
+
+103
+00:06:57.810 --> 00:07:01.510
+So that just means if
+we score this function,
+
+104
+00:07:01.510 --> 00:07:05.160
+we have to take a sum over
+all the query words, and
+
+105
+00:07:05.160 --> 00:07:09.270
+then do some adjustment of
+the score based on the document.
+
+106
+00:07:11.510 --> 00:07:15.974
+But it's still, it's still clear
+that it does documents lens
+
+107
+00:07:15.974 --> 00:07:19.765
+modulation because this lens
+is in the denominator so
+
+108
+00:07:19.765 --> 00:07:23.237
+a longer document will
+have a lower weight here.
+
+109
+00:07:23.237 --> 00:07:27.600
+And we can also see it has tf here and
+now idf.
+
+110
+00:07:27.600 --> 00:07:32.038
+Only that this time the form of the
+formula is different from the previous one
+
+111
+00:07:32.038 --> 00:07:34.580
+in JMs one.
+
+112
+00:07:34.580 --> 00:07:39.780
+But intuitively it still implements TFIDF
+waiting and document lens rendition again,
+
+113
+00:07:39.780 --> 00:07:44.340
+the form of the function is dictated
+by the probabilistic reasoning and
+
+114
+00:07:44.340 --> 00:07:45.938
+assumptions that we have made.
+
+115
+00:07:45.938 --> 00:07:50.420
+Now there are also
+disadvantages of this approach.
+
+116
+00:07:50.420 --> 00:07:53.600
+And that is, there's no guarantee
+that there's such a form
+
+117
+00:07:53.600 --> 00:07:55.800
+of the formula will actually work well.
+
+118
+00:07:55.800 --> 00:08:01.037
+So if we look about at this geo function,
+all those TF-IDF waiting and document lens
+
+119
+00:08:01.037 --> 00:08:06.860
+rendition for example it's unclear whether
+we have sub-linear transformation.
+
+120
+00:08:06.860 --> 00:08:13.110
+Unfortunately we can see here there
+is a logarithm function here.
+
+121
+00:08:13.110 --> 00:08:17.580
+So we do have also the,
+so it's here right?
+
+122
+00:08:17.580 --> 00:08:20.986
+So we do have the sublinear
+transformation, but
+
+123
+00:08:20.986 --> 00:08:23.320
+we do not intentionally do that.
+
+124
+00:08:23.320 --> 00:08:27.750
+That means there's no guarantee that
+we will end up in this, in this way.
+
+125
+00:08:27.750 --> 00:08:31.800
+Suppose we don't have logarithm,
+then there's no sub-linear transformation.
+
+126
+00:08:31.800 --> 00:08:35.810
+As we discussed before, perhaps
+the formula is not going to work so well.
+
+127
+00:08:35.810 --> 00:08:40.870
+So that's an example of the gap
+between a formal model like this and
+
+128
+00:08:40.870 --> 00:08:43.080
+the relevance that we have to model,
+
+129
+00:08:43.080 --> 00:08:48.720
+which is really a subject
+motion that is tied to users.
+
+130
+00:08:50.640 --> 00:08:53.390
+So it doesn't mean we cannot fix this.
+
+131
+00:08:53.390 --> 00:08:57.390
+For example, imagine if we did
+not have this logarithm, right?
+
+132
+00:08:57.390 --> 00:08:59.250
+So we can take a risk and
+we're going to add one,
+
+133
+00:08:59.250 --> 00:09:01.935
+or we can even add double logarithm.
+
+134
+00:09:01.935 --> 00:09:06.200
+But then, it would mean that the function
+is no longer a proper risk model.
+
+135
+00:09:06.200 --> 00:09:10.780
+So the consequence of
+the modification is no
+
+136
+00:09:10.780 --> 00:09:14.670
+longer as predictable as
+what we have been doing now.
+
+137
+00:09:15.810 --> 00:09:21.410
+So, that's also why, for example,
+PM45 remains very competitive and
+
+138
+00:09:21.410 --> 00:09:26.720
+still, open channel how to use
+public risk models as they arrive,
+
+139
+00:09:26.720 --> 00:09:28.690
+better model than the PM25.
+
+140
+00:09:30.420 --> 00:09:34.500
+In particular how do we use query
+like how to derive a model and
+
+141
+00:09:34.500 --> 00:09:37.650
+that would work consistently
+better than DM 25.
+
+142
+00:09:37.650 --> 00:09:39.070
+Currently we still cannot do that.
+
+143
+00:09:40.240 --> 00:09:41.640
+Still interesting open question.
+
+144
+00:09:43.450 --> 00:09:46.975
+So to summarize this part, we've talked
+about the two smoothing methods.
+
+145
+00:09:46.975 --> 00:09:52.550
+Jelinek-Mercer which is doing the fixed
+coefficient linear interpolation.
+
+146
+00:09:52.550 --> 00:09:58.430
+Dirichlet Prior this is what add a pseudo
+counts to every word and is doing adaptive
+
+147
+00:09:58.430 --> 00:10:04.160
+interpolation in that the coefficient
+would be larger for shorter documents.
+
+148
+00:10:05.940 --> 00:10:10.890
+In most cases we can see, by using these
+smoothing methods, we will be able to
+
+149
+00:10:10.890 --> 00:10:16.670
+reach a retrieval function where
+the assumptions are clearly articulate.
+
+150
+00:10:16.670 --> 00:10:17.790
+So they are less heuristic.
+
+151
+00:10:19.090 --> 00:10:23.810
+Explaining the results also show
+that these, retrieval functions.
+
+152
+00:10:23.810 --> 00:10:31.036
+Also are very effective and they are
+comparable to BM 25 or pm lens adultation.
+
+153
+00:10:31.036 --> 00:10:36.260
+So this is a major advantage
+of probably smaller
+
+154
+00:10:36.260 --> 00:10:39.480
+where we don't have to do
+a lot of heuristic design.
+
+155
+00:10:40.770 --> 00:10:44.240
+Yet in the end that we naturally
+implemented TF-IDF weighting and
+
+156
+00:10:44.240 --> 00:10:45.239
+doc length normalization.
+
+157
+00:10:46.480 --> 00:10:51.120
+Each of these functions also has
+precise ones smoothing parameter.
+
+158
+00:10:51.120 --> 00:10:54.840
+In this case of course we still need
+to set this smoothing parameter.
+
+159
+00:10:54.840 --> 00:10:58.850
+There are also methods that can be
+used to estimate these parameters.
+
+160
+00:10:59.950 --> 00:11:04.020
+So overall,
+this shows by using a probabilistic model,
+
+161
+00:11:04.020 --> 00:11:08.900
+we follow very different strategies
+then the vector space model.
+
+162
+00:11:08.900 --> 00:11:12.980
+Yet, in the end, we end up uh,with
+some retrievable functions that
+
+163
+00:11:12.980 --> 00:11:15.540
+look very similar to
+the vector space model.
+
+164
+00:11:15.540 --> 00:11:21.160
+With some advantages in having
+assumptions clearly stated.
+
+165
+00:11:21.160 --> 00:11:24.940
+And then, the form dictated
+by a probabilistic model.
+
+166
+00:11:24.940 --> 00:11:29.740
+Now, this also concludes our discussion of
+the query likelihood probabilistic model.
+
+167
+00:11:29.740 --> 00:11:34.680
+And let's recall what
+assumptions we have made
+
+168
+00:11:34.680 --> 00:11:39.390
+in order to derive the functions
+that we have seen in this lecture.
+
+169
+00:11:39.390 --> 00:11:42.130
+Well we basically have made four
+assumptions that I listed here.
+
+170
+00:11:42.130 --> 00:11:48.399
+The first assumption is that the relevance
+can be modeled by the query likelihood.
+
+171
+00:11:49.470 --> 00:11:53.450
+And the second assumption with med is, are
+query words are generated independently
+
+172
+00:11:53.450 --> 00:11:57.240
+that allows us to decompose
+the probability of the whole query
+
+173
+00:11:57.240 --> 00:12:01.690
+into a product of probabilities
+of old words in the query.
+
+174
+00:12:03.090 --> 00:12:07.850
+And then,
+the third assumption that we have made is,
+
+175
+00:12:07.850 --> 00:12:10.550
+if a word is not seen,
+the document or in the late,
+
+176
+00:12:10.550 --> 00:12:14.870
+its probability proportional to
+its probability in the collection.
+
+177
+00:12:14.870 --> 00:12:17.290
+That's a smoothing with
+a collection ama model.
+
+178
+00:12:17.290 --> 00:12:20.980
+And finally, we made one of these
+two assumptions about the smoothing.
+
+179
+00:12:20.980 --> 00:12:24.940
+So we either used JM smoothing or
+Dirichlet prior smoothing.
+
+180
+00:12:24.940 --> 00:12:28.820
+If we make these four assumptions
+then we have no choice but
+
+181
+00:12:28.820 --> 00:12:33.430
+to take the form of the retrieval
+function that we have seen earlier.
+
+182
+00:12:33.430 --> 00:12:37.730
+Fortunately the function has a nice
+property in that it implements TF-IDF
+
+183
+00:12:37.730 --> 00:12:44.510
+weighting and document machine and
+these functions also work very well.
+
+184
+00:12:44.510 --> 00:12:45.440
+So in that sense,
+
+185
+00:12:45.440 --> 00:12:48.920
+these functions are less heuristic
+compared with the vector space model.
+
+186
+00:12:50.460 --> 00:12:54.282
+And there are many extensions of this,
+this basic model and
+
+187
+00:12:54.282 --> 00:12:59.336
+you can find the discussion of them in
+the reference at the end of this lecture.
+
+188
+00:13:04.921 --> 00:13:14.921
+[MUSIC]

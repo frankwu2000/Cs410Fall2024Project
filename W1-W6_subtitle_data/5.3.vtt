@@ -1,0 +1,1263 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:07.194
+[SOUND]
+This
+
+2
+00:00:07.194 --> 00:00:10.660
+lecture is about the feedback in
+the language modeling approach.
+
+3
+00:00:12.540 --> 00:00:17.520
+In this lecture, we will continue the
+discussion of feedback in text retrieval.
+
+4
+00:00:17.520 --> 00:00:18.089
+In particular,
+
+5
+00:00:18.089 --> 00:00:20.659
+we're going to talk about the feedback
+in language modeling approaches.
+
+6
+00:00:23.450 --> 00:00:29.280
+So we derive the query likelihood ranking
+function by making various assumptions.
+
+7
+00:00:30.410 --> 00:00:35.860
+As a basic retrieval function,
+all those formulas worked well.
+
+8
+00:00:35.860 --> 00:00:39.920
+But if we think about the feedback
+information, it's a little bit awkward to
+
+9
+00:00:39.920 --> 00:00:44.730
+use query likelihood to perform feedback,
+because
+
+10
+00:00:44.730 --> 00:00:49.620
+a lot of times the feedback information is
+additional information about the query.
+
+11
+00:00:49.620 --> 00:00:53.260
+But we assume the query has
+generated it by assembling words
+
+12
+00:00:53.260 --> 00:00:56.850
+from a language model in
+the query likelihood method.
+
+13
+00:00:56.850 --> 00:01:03.170
+It's kind of unnatural to sample
+words that form feedback documents.
+
+14
+00:01:03.170 --> 00:01:10.330
+As a result, researchers proposed a way
+to generalize query likelihood function,
+
+15
+00:01:10.330 --> 00:01:14.070
+and it's called Kullback-Leibler
+divergence retrieval model.
+
+16
+00:01:15.450 --> 00:01:20.422
+And this model is actually going
+to make the query likelihood
+
+17
+00:01:20.422 --> 00:01:25.780
+retrieval function much
+closer to vector space model.
+
+18
+00:01:25.780 --> 00:01:32.380
+Yet this form of the language model
+can be regarded as a generalization of
+
+19
+00:01:32.380 --> 00:01:36.560
+query likelihood, in the sense that it can
+cover query likelihood as a special case.
+
+20
+00:01:38.180 --> 00:01:39.300
+And in this case,
+
+21
+00:01:39.300 --> 00:01:44.140
+then feedback can be achieved through
+simply query model estimation or updating.
+
+22
+00:01:44.140 --> 00:01:48.130
+This is very similar to Rocchio,
+which updates the query vector.
+
+23
+00:01:50.000 --> 00:01:55.720
+So let's see what is this
+KL-divergence retrieval model.
+
+24
+00:01:55.720 --> 00:02:02.306
+So on the top, what you see is a query
+likelihood retrieval function, this one.
+
+25
+00:02:05.072 --> 00:02:11.465
+And then KL-divergence, or
+also called cross entropy,
+
+26
+00:02:11.465 --> 00:02:16.292
+retrieval model is basically to generalize
+
+27
+00:02:16.292 --> 00:02:21.600
+the frequency part here
+into a language model.
+
+28
+00:02:21.600 --> 00:02:26.910
+So basically it's the difference given
+
+29
+00:02:26.910 --> 00:02:32.260
+by the probabilistic model here to
+characterize what the user is looking for,
+
+30
+00:02:32.260 --> 00:02:34.640
+versus the count of query words there.
+
+31
+00:02:35.820 --> 00:02:42.610
+And this difference allows us to plug in
+various different ways to estimate this.
+
+32
+00:02:42.610 --> 00:02:45.690
+So this can be estimated
+in many different ways,
+
+33
+00:02:45.690 --> 00:02:48.260
+including using feedback information.
+
+34
+00:02:48.260 --> 00:02:51.370
+But this is called a KL-divergence,
+because
+
+35
+00:02:51.370 --> 00:02:56.232
+this can be interpreted as matching
+the KL-divergence of two distributions.
+
+36
+00:02:56.232 --> 00:03:02.770
+One is the query model,
+denoted by this distribution.
+
+37
+00:03:02.770 --> 00:03:06.317
+One is the document
+language model here and
+
+38
+00:03:06.317 --> 00:03:11.255
+smooth them with a collection
+language model, of course.
+
+39
+00:03:11.255 --> 00:03:15.377
+And we are not going to talk
+about the detail of that, and
+
+40
+00:03:15.377 --> 00:03:18.107
+you'll find it in some references.
+
+41
+00:03:18.107 --> 00:03:22.023
+It's also called cross entropy because,
+in fact,
+
+42
+00:03:22.023 --> 00:03:26.207
+we ignore some terms in
+the KL-divergence function and
+
+43
+00:03:26.207 --> 00:03:29.690
+we will end up having
+actually cross entropy.
+
+44
+00:03:29.690 --> 00:03:32.109
+And both are terms of information theory.
+
+45
+00:03:34.390 --> 00:03:38.650
+But anyway, for our purposes here,
+
+46
+00:03:38.650 --> 00:03:42.820
+you can just see the two
+formulas look almost identical,
+
+47
+00:03:42.820 --> 00:03:48.330
+except that here we have a probability of
+a word given by a query language model.
+
+48
+00:03:52.140 --> 00:03:57.730
+And here the sum is over all the words
+that are in the document and
+
+49
+00:03:57.730 --> 00:04:02.340
+also with the nonzero probability for
+the query model.
+
+50
+00:04:02.340 --> 00:04:07.510
+So it's kind of, again, a generalization
+of sum over all the matching query words.
+
+51
+00:04:09.930 --> 00:04:15.980
+Now you can also easily see we can recover
+the query likelihood retrieval function
+
+52
+00:04:15.980 --> 00:04:22.130
+by simply setting this query model to the
+relative frequency of a word in the query.
+
+53
+00:04:23.450 --> 00:04:26.510
+This is very easy to
+see once you plug this
+
+54
+00:04:26.510 --> 00:04:30.005
+into here you can eliminate this
+query length as a constant.
+
+55
+00:04:30.005 --> 00:04:33.486
+And then you will get exactly like that.
+
+56
+00:04:33.486 --> 00:04:35.879
+So you can see the equivalence.
+
+57
+00:04:35.879 --> 00:04:41.581
+And that's also why this KL-divergence
+model can be regarded as a generalization
+
+58
+00:04:41.581 --> 00:04:47.085
+of query likelihood, because we can cover
+query likelihood as a special case.
+
+59
+00:04:47.085 --> 00:04:49.730
+But it would also allow us
+to do much more than that.
+
+60
+00:04:50.770 --> 00:04:56.104
+So this is how we can use the
+KL-divergence model to then do feedback.
+
+61
+00:04:56.104 --> 00:05:00.183
+The picture shows that we first
+estimate a document language model,
+
+62
+00:05:00.183 --> 00:05:04.836
+then we estimate a query language model,
+and we compute the KL-divergence.
+
+63
+00:05:04.836 --> 00:05:07.040
+This is often denoted by a D here.
+
+64
+00:05:09.560 --> 00:05:14.690
+But this basically means this is
+exactly like the vector space model,
+
+65
+00:05:14.690 --> 00:05:19.010
+because we compute a vector for the
+document, then compute another vector for
+
+66
+00:05:19.010 --> 00:05:22.450
+the query, and
+then we compute the distance.
+
+67
+00:05:22.450 --> 00:05:26.580
+Only that these vectors are of special
+forms, they are probability distributions.
+
+68
+00:05:27.910 --> 00:05:31.680
+And then we get the results and
+we can find some feedback documents.
+
+69
+00:05:31.680 --> 00:05:37.420
+Let's assume they are mostly
+positive documents,
+
+70
+00:05:37.420 --> 00:05:40.400
+although we could also consider
+both kinds of documents.
+
+71
+00:05:40.400 --> 00:05:44.974
+So what we could do is, like in Rocchio,
+we're going to compute another language
+
+72
+00:05:44.974 --> 00:05:48.570
+model called the feedback
+language model here.
+
+73
+00:05:48.570 --> 00:05:52.568
+Again, this is going to be another vector
+just like the computing centroid of vector
+
+74
+00:05:52.568 --> 00:05:53.227
+in Rocchio.
+
+75
+00:05:53.227 --> 00:05:58.060
+And then this model can be combined
+with the original query model using
+
+76
+00:05:58.060 --> 00:06:02.800
+a linear interpolation, and
+this would then give us an update model,
+
+77
+00:06:02.800 --> 00:06:06.260
+just like, again, in Rocchio.
+
+78
+00:06:06.260 --> 00:06:10.270
+So here we can see the parameter alpha
+can control the amount of feedback.
+
+79
+00:06:10.270 --> 00:06:14.170
+If it's set to zero,
+then essentially there is no feedback.
+
+80
+00:06:14.170 --> 00:06:19.050
+If it's set to one, we get full feedback
+and we ignore the original query.
+
+81
+00:06:19.050 --> 00:06:21.820
+And this is generally not desirable,
+right?
+
+82
+00:06:21.820 --> 00:06:26.370
+So unless you are absolutely sure you
+have seen a lot of relevant documents,
+
+83
+00:06:26.370 --> 00:06:29.250
+then the query terms are not important.
+
+84
+00:06:31.180 --> 00:06:34.870
+So of course, the main question here is,
+how do you compute this theta F?
+
+85
+00:06:34.870 --> 00:06:39.340
+This is the big question here, and
+once you can do that, the rest is easy.
+
+86
+00:06:39.340 --> 00:06:41.760
+So here we will talk about
+one of the approaches, and
+
+87
+00:06:41.760 --> 00:06:43.260
+there are many approaches, of course.
+
+88
+00:06:43.260 --> 00:06:45.891
+This approach is based
+on generative model, and
+
+89
+00:06:45.891 --> 00:06:47.823
+I'm going to show you how it works.
+
+90
+00:06:47.823 --> 00:06:50.560
+This will use a generative mixture model.
+
+91
+00:06:50.560 --> 00:06:55.030
+So this picture shows that
+we have this model here,
+
+92
+00:06:55.030 --> 00:06:57.060
+the feedback model that
+we want to estimate.
+
+93
+00:06:58.080 --> 00:07:00.490
+And the basis is the feedback documents.
+
+94
+00:07:00.490 --> 00:07:04.110
+Let's say we are observing
+the positive documents.
+
+95
+00:07:04.110 --> 00:07:09.012
+These are the clicked documents by users
+or random documents judged by users,
+
+96
+00:07:09.012 --> 00:07:12.679
+or are simply top ranked documents
+that we assume to be relevant.
+
+97
+00:07:14.710 --> 00:07:17.834
+Now imagine how we can
+compute a centroid for
+
+98
+00:07:17.834 --> 00:07:20.630
+these documents by using language model.
+
+99
+00:07:20.630 --> 00:07:23.330
+One approach is simply to assume
+
+100
+00:07:23.330 --> 00:07:26.820
+these documents are generated
+from this language model.
+
+101
+00:07:26.820 --> 00:07:31.287
+As we did before, what we could do
+is just normalize the word frequency
+
+102
+00:07:31.287 --> 00:07:34.940
+here to here and
+then we will get this word distribution.
+
+103
+00:07:36.210 --> 00:07:41.260
+Now the question is whether this
+distribution is good for feedback.
+
+104
+00:07:41.260 --> 00:07:45.430
+Well, you can imagine the top
+ranked word would be what?
+
+105
+00:07:45.430 --> 00:07:46.190
+What do you think?
+
+106
+00:07:48.280 --> 00:07:51.560
+Well, those words would be common words.
+
+107
+00:07:51.560 --> 00:07:53.770
+As we always see in a language model,
+
+108
+00:07:53.770 --> 00:07:57.850
+the top ranked words are actually
+common words like the, a, etc.
+
+109
+00:07:57.850 --> 00:08:02.570
+So it's not very good for feedback,
+because we would be adding a lot of such
+
+110
+00:08:02.570 --> 00:08:07.330
+words to our query when we interpolate
+this with the original query model.
+
+111
+00:08:08.880 --> 00:08:13.100
+So this was not good, so
+we need to do something.
+
+112
+00:08:13.100 --> 00:08:17.059
+In particular, we are trying to
+get rid of those common words.
+
+113
+00:08:17.059 --> 00:08:21.855
+And we have seen actually one way
+to do that by using background
+
+114
+00:08:21.855 --> 00:08:27.020
+language model in the case of
+learning the associations of words,
+
+115
+00:08:27.020 --> 00:08:30.830
+the words that are related
+to the word computer.
+
+116
+00:08:30.830 --> 00:08:34.590
+We could do that and that would be
+another way to do this, but here we
+
+117
+00:08:34.590 --> 00:08:39.160
+are going to talk about another approach
+which is a more principled approach.
+
+118
+00:08:39.160 --> 00:08:43.990
+In this case, we're going to say well,
+you said that there are common words here
+
+119
+00:08:43.990 --> 00:08:48.818
+in these documents that should not
+belong to this topic model, right?
+
+120
+00:08:50.310 --> 00:08:53.527
+So now what we can do is to assume that,
+well,
+
+121
+00:08:53.527 --> 00:08:58.019
+those words are generated from
+background language model, so
+
+122
+00:08:58.019 --> 00:09:02.020
+they will generate those words like the,
+for example.
+
+123
+00:09:02.020 --> 00:09:05.302
+And if we use maximum likelihood estimate,
+
+124
+00:09:05.302 --> 00:09:10.182
+note that if all the words here
+must be generated from this model,
+
+125
+00:09:10.182 --> 00:09:15.681
+then this model is forced to assign
+high probabilities to a word like the,
+
+126
+00:09:15.681 --> 00:09:19.620
+because it occurs so frequently here.
+
+127
+00:09:19.620 --> 00:09:25.100
+Note that in order to reduce its
+probability in this model, we have to have
+
+128
+00:09:25.100 --> 00:09:31.280
+another model, which is this one,
+to help explain the word the here.
+
+129
+00:09:31.280 --> 00:09:32.218
+And in this case,
+
+130
+00:09:32.218 --> 00:09:37.200
+it's not appropriate to use the background
+language model to achieve this
+
+131
+00:09:37.200 --> 00:09:42.320
+goal because this model would assign high
+probabilities to these common words.
+
+132
+00:09:43.370 --> 00:09:46.000
+So in this approach, then,
+
+133
+00:09:46.000 --> 00:09:50.810
+we assume this machine that was generating
+these words would work as follows.
+
+134
+00:09:50.810 --> 00:09:53.630
+We have a source control up here.
+
+135
+00:09:53.630 --> 00:09:59.110
+Imagine we flip a coin here to
+decide what distribution to use.
+
+136
+00:09:59.110 --> 00:10:03.238
+With probability of lambda,
+the coin shows up as head and
+
+137
+00:10:03.238 --> 00:10:05.400
+we're going to use
+the background language model.
+
+138
+00:10:05.400 --> 00:10:08.540
+And we're going to do that in
+sample word from that model.
+
+139
+00:10:08.540 --> 00:10:12.570
+With probability of 1 minus lambda,
+we're going to decide
+
+140
+00:10:12.570 --> 00:10:17.460
+to use a known topic model, here,
+that we would like to estimate.
+
+141
+00:10:17.460 --> 00:10:20.100
+And we're going to then
+generate a word here.
+
+142
+00:10:20.100 --> 00:10:25.450
+If we make this assumption and this whole
+thing will be just one model, and we call
+
+143
+00:10:25.450 --> 00:10:30.420
+this a mixture model because there are two
+distributions that are mixed together.
+
+144
+00:10:30.420 --> 00:10:33.940
+And we actually don't know when
+each distribution is used.
+
+145
+00:10:35.770 --> 00:10:40.320
+So again,
+think of this whole thing as one model,
+
+146
+00:10:42.270 --> 00:10:47.920
+and we can still ask for words and it will
+still give us a word in a random manner.
+
+147
+00:10:47.920 --> 00:10:51.920
+And of course, which word will show up
+will depend on both this distribution and
+
+148
+00:10:51.920 --> 00:10:53.003
+that distribution.
+
+149
+00:10:53.003 --> 00:10:55.780
+In addition,
+it would also depend on this lambda,
+
+150
+00:10:55.780 --> 00:10:58.751
+because if you say lambda is very high and
+it's going to
+
+151
+00:10:58.751 --> 00:11:02.769
+always use the background distribution,
+you will get different words.
+
+152
+00:11:02.769 --> 00:11:07.260
+Then if you say, well, lambda is
+very small, we're going to use this.
+
+153
+00:11:07.260 --> 00:11:12.353
+So all of these
+are parameters in this model.
+
+154
+00:11:12.353 --> 00:11:15.108
+And then if you're thinking this way,
+
+155
+00:11:15.108 --> 00:11:19.206
+basically we can do exactly
+the same as what we did before.
+
+156
+00:11:19.206 --> 00:11:23.445
+We're going to use maximum likelihood
+estimator to adjust this model,
+
+157
+00:11:23.445 --> 00:11:25.760
+to estimate the parameters.
+
+158
+00:11:25.760 --> 00:11:30.201
+Basically we're going to
+adjust this parameter so
+
+159
+00:11:30.201 --> 00:11:33.512
+that we can best explain all the data.
+
+160
+00:11:33.512 --> 00:11:41.200
+The difference now is that we are not
+asking this model a known to explain this.
+
+161
+00:11:41.200 --> 00:11:46.633
+But rather we are going to ask this whole
+model, mixture model, to explain the data.
+
+162
+00:11:46.633 --> 00:11:50.049
+Because it has got some help
+from the background model,
+
+163
+00:11:50.049 --> 00:11:54.080
+it doesn't have to assign high
+probabilities to words like the.
+
+164
+00:11:54.080 --> 00:11:58.890
+As a result, it will then assign higher
+probabilities to other words that
+
+165
+00:11:58.890 --> 00:12:04.950
+are common here but
+not having high probability here.
+
+166
+00:12:04.950 --> 00:12:06.877
+So those would be common here.
+
+167
+00:12:11.321 --> 00:12:14.907
+And if they're common, they would
+have to have high probabilities,
+
+168
+00:12:14.907 --> 00:12:17.661
+according to a maximum
+likelihood estimate method.
+
+169
+00:12:17.661 --> 00:12:23.692
+And if they are rare here,
+then you don't get
+
+170
+00:12:23.692 --> 00:12:29.620
+much help from this background model.
+
+171
+00:12:29.620 --> 00:12:33.940
+As a result, this topic model
+must assign high probabilities.
+
+172
+00:12:33.940 --> 00:12:37.410
+So the high probability words,
+according to the topic model,
+
+173
+00:12:37.410 --> 00:12:41.630
+would be those that are common here but
+rare in the background.
+
+174
+00:12:43.960 --> 00:12:48.897
+So this is basically a little bit
+like an idea of weighting here.
+
+175
+00:12:48.897 --> 00:12:53.664
+But this would allow us to achieve the
+effect of removing these topic words that
+
+176
+00:12:53.664 --> 00:12:55.770
+are meaningless in the feedback.
+
+177
+00:12:56.780 --> 00:13:01.200
+So mathematically, what we have is
+to compute the likelihood, again,
+
+178
+00:13:01.200 --> 00:13:04.794
+local likelihood,
+of the feedback documents.
+
+179
+00:13:06.200 --> 00:13:08.860
+And note that we also have another
+parameter, lambda here, but
+
+180
+00:13:08.860 --> 00:13:13.150
+we assume that the lambda denotes
+the noise in the feedback document.
+
+181
+00:13:13.150 --> 00:13:16.010
+So we are going to,
+let's say set this to a parameter.
+
+182
+00:13:16.010 --> 00:13:21.800
+Let's say 50% of the words are noise or
+90% are noise.
+
+183
+00:13:21.800 --> 00:13:24.295
+And this can then be
+assumed it will be fixed.
+
+184
+00:13:24.295 --> 00:13:30.896
+If we assume this is fixed, then we only
+have these probabilities as parameters,
+
+185
+00:13:30.896 --> 00:13:35.090
+just like in the simple
+unigram language model.
+
+186
+00:13:35.090 --> 00:13:39.090
+We have n parameters,
+n is the number of words.
+
+187
+00:13:39.090 --> 00:13:41.289
+And then the likelihood
+function would look like this.
+
+188
+00:13:42.760 --> 00:13:47.643
+It's very similar to the global
+likelihood function we see before,
+
+189
+00:13:47.643 --> 00:13:51.537
+except that inside the logarithm
+there's a sum here.
+
+190
+00:13:51.537 --> 00:13:57.070
+And this sum is because we
+consider two distributions.
+
+191
+00:13:57.070 --> 00:14:01.300
+And which one is used would depend on
+lambda, and that's why we have this form.
+
+192
+00:14:02.460 --> 00:14:08.790
+But mathematically, this is the function
+with theta as unknown variables.
+
+193
+00:14:08.790 --> 00:14:10.510
+So this is just a function.
+
+194
+00:14:10.510 --> 00:14:13.620
+All the other values are known except for
+this guy.
+
+195
+00:14:15.010 --> 00:14:19.834
+So we can then choose this
+probability distribution to maximize
+
+196
+00:14:19.834 --> 00:14:21.531
+this log likelihood,
+
+197
+00:14:21.531 --> 00:14:27.357
+the same idea as the maximum likelihood
+estimate as a mathematical problem.
+
+198
+00:14:27.357 --> 00:14:30.060
+We just have to solve this
+optimization problem.
+
+199
+00:14:30.060 --> 00:14:34.460
+We essentially would try all
+the theta values until we find one
+
+200
+00:14:34.460 --> 00:14:37.670
+that gives this whole thing
+the maximum probability.
+
+201
+00:14:37.670 --> 00:14:39.210
+So it's a well-defined math problem.
+
+202
+00:14:40.900 --> 00:14:45.720
+Once we have done that, we obtain this
+theta F that can then be interpolated with
+
+203
+00:14:45.720 --> 00:14:47.812
+original query model to the feedback.
+
+204
+00:14:50.980 --> 00:14:55.963
+So here are some examples of
+the feedback model learned from a web
+
+205
+00:14:55.963 --> 00:14:57.817
+document collection.
+
+206
+00:14:57.817 --> 00:15:01.673
+And we do pseudo-feedback we just
+use the top ten documents and
+
+207
+00:15:01.673 --> 00:15:03.750
+we use this mixture model.
+
+208
+00:15:03.750 --> 00:15:06.090
+So the query is airport security.
+
+209
+00:15:06.090 --> 00:15:11.480
+What we do is we first retrieve ten
+documents from the web database and
+
+210
+00:15:11.480 --> 00:15:14.520
+this is of course pseudo-feedback.
+
+211
+00:15:14.520 --> 00:15:20.000
+And then we're going to feed that
+mixture model to this ten document set.
+
+212
+00:15:21.130 --> 00:15:25.770
+And these are the words
+learned using this approach.
+
+213
+00:15:25.770 --> 00:15:30.220
+This is the probability of a word given
+by the feedback model in both cases.
+
+214
+00:15:31.600 --> 00:15:34.350
+So in both cases you can see the highest
+
+215
+00:15:34.350 --> 00:15:38.480
+probability words include the very
+relevant words to the query.
+
+216
+00:15:38.480 --> 00:15:40.208
+So airport security, for example,
+
+217
+00:15:40.208 --> 00:15:45.450
+these query words still show up as high
+probabilities in each case naturally,
+
+218
+00:15:45.450 --> 00:15:48.850
+because they occur frequently
+in the top ranked documents.
+
+219
+00:15:48.850 --> 00:15:53.830
+But we also see beverage,
+alcohol, bomb, terrorist, etc.
+
+220
+00:15:53.830 --> 00:15:59.436
+So these are relevant to this topic,
+and they,
+
+221
+00:15:59.436 --> 00:16:05.280
+if combined with original query, can help
+us much more accurately on documents.
+
+222
+00:16:05.280 --> 00:16:11.200
+And also they can help us bring up
+documents that only mention some of
+
+223
+00:16:11.200 --> 00:16:16.980
+these other words, maybe, for example,
+just airport and then bomb, for example.
+
+224
+00:16:18.070 --> 00:16:20.680
+So this is how pseudo-feedback works.
+
+225
+00:16:20.680 --> 00:16:26.790
+It shows that this model really works and
+picks up some related words to the query.
+
+226
+00:16:26.790 --> 00:16:31.546
+What's also interesting is that if
+you look at the two tables here and
+
+227
+00:16:31.546 --> 00:16:35.154
+you compare them,
+then you'll see, in this case,
+
+228
+00:16:35.154 --> 00:16:40.415
+when lambda is set to a small value,
+then we'll see some common words here.
+
+229
+00:16:40.415 --> 00:16:45.473
+And that means, well,
+we don't use the background model often.
+
+230
+00:16:45.473 --> 00:16:48.575
+Remember, lambda confuses the probability
+of using background model
+
+231
+00:16:48.575 --> 00:16:50.925
+to generate the text.
+
+232
+00:16:50.925 --> 00:16:53.245
+If we don't rely much on background model,
+
+233
+00:16:53.245 --> 00:16:58.100
+we still have to use this topic model
+to account for the common words.
+
+234
+00:16:58.100 --> 00:17:01.340
+Whereas if we set lambda
+to a very high value,
+
+235
+00:17:01.340 --> 00:17:05.550
+we will use the background model
+very often to explain these words.
+
+236
+00:17:05.550 --> 00:17:08.930
+Then there's no burden on
+expanding those common words
+
+237
+00:17:08.930 --> 00:17:11.790
+in the feedback documents
+by the topic model.
+
+238
+00:17:11.790 --> 00:17:17.430
+So as a result, the topic model
+here is very discriminative.
+
+239
+00:17:17.430 --> 00:17:20.060
+It contains all the relevant
+words without common words.
+
+240
+00:17:21.260 --> 00:17:26.100
+So this can be added to the original
+query to achieve feedback.
+
+241
+00:17:28.140 --> 00:17:29.900
+So to summarize,
+
+242
+00:17:29.900 --> 00:17:34.470
+in this lecture we have talked about
+the feedback in language model approach.
+
+243
+00:17:34.470 --> 00:17:38.290
+In general,
+feedback is to learn from examples.
+
+244
+00:17:38.290 --> 00:17:43.610
+These examples can be assumed examples,
+can be pseudo-examples,
+
+245
+00:17:43.610 --> 00:17:48.770
+like assume the top ten documents
+that are assumed to be relevant.
+
+246
+00:17:48.770 --> 00:17:51.419
+They could be based on user interactions,
+
+247
+00:17:51.419 --> 00:17:55.260
+like feedback based on clickthroughs or
+implicit feedback.
+
+248
+00:17:55.260 --> 00:17:59.308
+We talked about the three major
+feedback scenarios, relevance feedback,
+
+249
+00:17:59.308 --> 00:18:01.657
+pseudo feedback, and implicit feedback.
+
+250
+00:18:01.657 --> 00:18:08.108
+We talked about how to use Rocchio to
+do feedback in vector space model and
+
+251
+00:18:08.108 --> 00:18:14.047
+how to use query model estimation for
+feedback in language model.
+
+252
+00:18:14.047 --> 00:18:18.350
+And we briefly talked about
+the mixture model and the basic idea.
+
+253
+00:18:19.790 --> 00:18:21.650
+There are many other methods.
+
+254
+00:18:21.650 --> 00:18:22.170
+For example,
+
+255
+00:18:22.170 --> 00:18:26.990
+the relevance model is a very effective
+model for estimating query model.
+
+256
+00:18:26.990 --> 00:18:31.130
+So you can read more about these
+methods in the references that
+
+257
+00:18:32.170 --> 00:18:36.200
+are listed at the end of this lecture.
+
+258
+00:18:36.200 --> 00:18:38.420
+So there are two additional readings here.
+
+259
+00:18:38.420 --> 00:18:42.047
+The first one is a book that
+has a systematic review and
+
+260
+00:18:42.047 --> 00:18:46.170
+discussion of language models for
+information retrieval.
+
+261
+00:18:46.170 --> 00:18:49.745
+And the second one is a important research
+
+262
+00:18:49.745 --> 00:18:54.549
+paper that's about relevance
+based language models,
+
+263
+00:18:54.549 --> 00:18:59.471
+and it's a very effective way
+of computing query model.
+
+264
+00:18:59.471 --> 00:19:09.471
+[MUSIC]

@@ -1,0 +1,1119 @@
+WEBVTT
+
+1
+00:00:00.199 --> 00:00:03.699
+[MUSIC]
+
+2
+00:00:07.099 --> 00:00:11.070
+This lecture is about,
+how we can evaluate a ranked list?
+
+3
+00:00:13.290 --> 00:00:17.810
+In this lecture, we will continue
+the discussion of evaluation.
+
+4
+00:00:17.810 --> 00:00:18.470
+In particular,
+
+5
+00:00:18.470 --> 00:00:21.799
+we are going to look at, how we can
+evaluate a ranked list of results.
+
+6
+00:00:24.970 --> 00:00:30.410
+In the previous lecture,
+we talked about, precision-recall.
+
+7
+00:00:30.410 --> 00:00:33.430
+These are the two basic measures for,
+
+8
+00:00:33.430 --> 00:00:38.410
+quantitatively measuring
+the performance of a search result.
+
+9
+00:00:40.420 --> 00:00:44.247
+But, as we talked about, ranking, before,
+
+10
+00:00:44.247 --> 00:00:49.420
+we framed that the text of retrieval
+problem, as a ranking problem.
+
+11
+00:00:50.800 --> 00:00:55.820
+So, we also need to evaluate the,
+the quality of a ranked list.
+
+12
+00:00:56.910 --> 00:01:01.097
+How can we use precision-recall
+to evaluate, a ranked list?
+
+13
+00:01:01.097 --> 00:01:07.180
+Well, naturally, we have to look after the
+precision-recall at different, cut-offs.
+
+14
+00:01:07.180 --> 00:01:12.330
+Because in the end, the approximation
+of relevant documents, set,
+
+15
+00:01:12.330 --> 00:01:17.640
+given by a ranked list, is determined
+by where the user stops browsing.
+
+16
+00:01:17.640 --> 00:01:21.470
+Right?
+If we assume the user, securely browses,
+
+17
+00:01:21.470 --> 00:01:25.520
+the list of results, the user would,
+stop at some point, and
+
+18
+00:01:25.520 --> 00:01:27.790
+that point would determine the set.
+
+19
+00:01:27.790 --> 00:01:31.680
+And then,
+that's the most important, cut-off,
+
+20
+00:01:31.680 --> 00:01:35.400
+that we have to consider,
+when we compute the precision-recall.
+
+21
+00:01:35.400 --> 00:01:37.990
+Without knowing where
+exactly user would stop,
+
+22
+00:01:37.990 --> 00:01:42.380
+then we have to consider, all
+the positions where the user could stop.
+
+23
+00:01:42.380 --> 00:01:44.720
+So, let's look at these positions.
+
+24
+00:01:44.720 --> 00:01:49.020
+Look at this slide, and
+then, let's look at the,
+
+25
+00:01:49.020 --> 00:01:51.718
+what if the user stops at the,
+the first document?
+
+26
+00:01:51.718 --> 00:01:55.140
+What's the precision-recall at this point?
+
+27
+00:01:55.140 --> 00:01:55.800
+What do you think?
+
+28
+00:01:56.970 --> 00:02:02.920
+Well, it's easy to see, that this document
+is So, the precision is one out of one.
+
+29
+00:02:02.920 --> 00:02:05.960
+We have, got one document,
+and that's relevent.
+
+30
+00:02:05.960 --> 00:02:07.380
+What about the recall?
+
+31
+00:02:07.380 --> 00:02:11.990
+Well, note that, we're assuming that,
+there are ten relevant documents, for
+
+32
+00:02:11.990 --> 00:02:14.980
+this query in the collection,
+so, it's one out of ten.
+
+33
+00:02:16.310 --> 00:02:18.650
+What if the user stops
+at the second position?
+
+34
+00:02:19.820 --> 00:02:20.320
+Top two.
+
+35
+00:02:21.470 --> 00:02:25.820
+Well, the precision is the same,
+100%, two out of two.
+
+36
+00:02:25.820 --> 00:02:27.060
+And, the record is two out of ten.
+
+37
+00:02:28.600 --> 00:02:31.630
+What if the user stops
+at the third position?
+
+38
+00:02:31.630 --> 00:02:35.980
+Well, this is interesting,
+because in this case, we have not got any,
+
+39
+00:02:35.980 --> 00:02:40.030
+additional relevant document,
+so, the record does not change.
+
+40
+00:02:41.170 --> 00:02:45.600
+But the precision is lower,
+because we've got number [INAUDIBLE] so,
+
+41
+00:02:45.600 --> 00:02:46.680
+what's exactly the precision?
+
+42
+00:02:49.110 --> 00:02:52.020
+Well, it's two out of three, right?
+
+43
+00:02:52.020 --> 00:02:54.920
+And, recall is the same, two out of ten.
+
+44
+00:02:54.920 --> 00:02:58.930
+So, when would see another point,
+where the recall would be different?
+
+45
+00:02:58.930 --> 00:03:02.473
+Now, if you look down the list,
+well, it won't happen until,
+
+46
+00:03:02.473 --> 00:03:06.110
+we have, seeing another relevant document.
+
+47
+00:03:06.110 --> 00:03:10.800
+In this case D5, at that point, the,
+the recall is increased through
+
+48
+00:03:10.800 --> 00:03:13.840
+three out of ten, and,
+the precision is three out of five.
+
+49
+00:03:15.150 --> 00:03:20.200
+So, you can see, if we keep doing this,
+we can also get to D8.
+
+50
+00:03:20.200 --> 00:03:23.780
+And then, we will have
+a precision of four out of eight,
+
+51
+00:03:23.780 --> 00:03:26.150
+because there are eight documents,
+and four of them are relevant.
+
+52
+00:03:26.150 --> 00:03:28.200
+And, the recall is a four out of ten.
+
+53
+00:03:29.540 --> 00:03:33.500
+Now, when can we get,
+a recall of five out of ten?
+
+54
+00:03:33.500 --> 00:03:39.740
+Well, in this list, we don't have it,
+so, we have to go down on the list.
+
+55
+00:03:39.740 --> 00:03:40.560
+We don't know, where it is?
+
+56
+00:03:40.560 --> 00:03:45.700
+But, as convenience, we often assume that,
+the precision is zero,
+
+57
+00:03:47.230 --> 00:03:51.890
+at all the, the othe,
+the precision are zero at
+
+58
+00:03:51.890 --> 00:03:56.550
+all the other levels of recall,
+that are beyond the search results.
+
+59
+00:03:56.550 --> 00:03:59.140
+So, of course,
+this is a pessimistic assumption,
+
+60
+00:03:59.140 --> 00:04:04.040
+the actual position would be higher,
+but we make, make this assumption,
+
+61
+00:04:05.230 --> 00:04:09.390
+in order to, have an easy way to,
+
+62
+00:04:09.390 --> 00:04:12.980
+compute another measure called Average
+Precision, that we will discuss later.
+
+63
+00:04:14.300 --> 00:04:16.560
+Now, I should also say, now, here you see,
+
+64
+00:04:16.560 --> 00:04:21.230
+we make these assumptions that
+are clearly not, accurate.
+
+65
+00:04:22.270 --> 00:04:28.950
+But, this is okay, for
+the purpose of comparing to, text methods.
+
+66
+00:04:28.950 --> 00:04:34.870
+And, this is for the relative comparison,
+so, it's okay, if the actual measure,
+
+67
+00:04:34.870 --> 00:04:39.560
+or actual, actual number deviates
+a little bit, from the true number.
+
+68
+00:04:39.560 --> 00:04:41.970
+As long as the deviation,
+
+69
+00:04:41.970 --> 00:04:46.810
+is not biased toward any particular
+retrieval method, we are okay.
+
+70
+00:04:46.810 --> 00:04:50.560
+We can still,
+accurately tell which method works better.
+
+71
+00:04:50.560 --> 00:04:53.360
+And, this is important point,
+to keep in mind.
+
+72
+00:04:53.360 --> 00:04:55.550
+When you compare different algorithms,
+
+73
+00:04:55.550 --> 00:04:58.810
+the key's to avoid any
+bias toward each method.
+
+74
+00:04:58.810 --> 00:05:02.130
+And, as long as, you can avoid that.
+
+75
+00:05:02.130 --> 00:05:06.580
+It's okay, for you to do transformation
+of these measures anyway, so,
+
+76
+00:05:06.580 --> 00:05:07.640
+you can preserve the order.
+
+77
+00:05:09.380 --> 00:05:11.170
+Okay, so, we'll just talk about,
+
+78
+00:05:11.170 --> 00:05:16.030
+we can get a lot of precision-recall
+numbers at different positions.
+
+79
+00:05:16.030 --> 00:05:19.000
+So, now, you can imagine,
+we can plot a curve.
+
+80
+00:05:19.000 --> 00:05:22.389
+And, this just shows on the,
+x-axis, we show the recalls.
+
+81
+00:05:23.610 --> 00:05:30.110
+And, on the y-axis, we show the precision.
+
+82
+00:05:30.110 --> 00:05:35.336
+So, the precision line was marked as .1,
+.2, .3, and, 1.0.
+
+83
+00:05:35.336 --> 00:05:35.998
+Right?
+So,
+
+84
+00:05:35.998 --> 00:05:38.618
+this is, the different, levels of recall.
+
+85
+00:05:38.618 --> 00:05:44.390
+And,, the y-axis also has,
+different amounts, that's for precision.
+
+86
+00:05:45.450 --> 00:05:49.150
+So, we plot the, these, precision-recall
+numbers, that we have got,
+
+87
+00:05:49.150 --> 00:05:51.360
+as points on this picture.
+
+88
+00:05:51.360 --> 00:05:56.410
+Now, we can further, and
+link these points to form a curve.
+
+89
+00:05:56.410 --> 00:05:57.290
+As you'll see,
+
+90
+00:05:57.290 --> 00:06:02.040
+we assumed all the other, precision
+as the high-level recalls, be zero.
+
+91
+00:06:02.040 --> 00:06:08.232
+And, that's why, they are down here,
+so, they are all zero.
+
+92
+00:06:08.232 --> 00:06:14.980
+And this, the actual curve probably will
+be something like this, but, as we just
+
+93
+00:06:14.980 --> 00:06:19.410
+discussed, it, it doesn't matter that
+much, for comparing two methods.
+
+94
+00:06:20.430 --> 00:06:24.600
+because this would be,
+underestimated, for all the method.
+
+95
+00:06:25.950 --> 00:06:31.016
+Okay, so, now that we,
+have this precision-recall curve,
+
+96
+00:06:31.016 --> 00:06:34.290
+how can we compare ranked to back list?
+
+97
+00:06:34.290 --> 00:06:37.049
+All right, so, that means,
+we have to compare two PR curves.
+
+98
+00:06:38.430 --> 00:06:40.880
+And here, we show, two cases.
+
+99
+00:06:40.880 --> 00:06:47.260
+Where system A is showing red,
+system B is showing blue, there's crosses.
+
+100
+00:06:48.610 --> 00:06:50.820
+All right, so, which one is better?
+
+101
+00:06:50.820 --> 00:06:54.080
+I hope you can see,
+where system A is clearly better.
+
+102
+00:06:54.080 --> 00:06:56.900
+Why?
+Because, for the same level of recall,
+
+103
+00:06:58.340 --> 00:07:01.500
+see same level of recall here,
+and you can see,
+
+104
+00:07:01.500 --> 00:07:06.800
+the precision point by system A is better,
+system B.
+
+105
+00:07:06.800 --> 00:07:08.260
+So, there's no question.
+
+106
+00:07:08.260 --> 00:07:13.360
+In here, you can imagine, what does the
+code look like, for ideal search system?
+
+107
+00:07:13.360 --> 00:07:17.470
+Well, it has to have perfect,
+precision at all the recall points, so,
+
+108
+00:07:17.470 --> 00:07:18.450
+it has to be this line.
+
+109
+00:07:18.450 --> 00:07:21.300
+That would be the ideal system.
+
+110
+00:07:21.300 --> 00:07:24.230
+In general, the higher the curve is,
+the better, right?
+
+111
+00:07:24.230 --> 00:07:27.160
+The problem is that,
+we might see a case like this.
+
+112
+00:07:27.160 --> 00:07:29.110
+This actually happens often.
+
+113
+00:07:29.110 --> 00:07:30.790
+Like, the two curves cross each other.
+
+114
+00:07:32.430 --> 00:07:34.240
+Now, in this case, which one is better?
+
+115
+00:07:35.300 --> 00:07:35.800
+What do you think?
+
+116
+00:07:38.240 --> 00:07:41.730
+Now, this is a real problem,
+that you actually, might have face.
+
+117
+00:07:41.730 --> 00:07:47.150
+Suppose, you build a search engine,
+and you have a old algorithm,
+
+118
+00:07:47.150 --> 00:07:50.990
+that's shown here in blue, or system B.
+
+119
+00:07:50.990 --> 00:07:53.580
+And, you have come up with a new idea.
+
+120
+00:07:53.580 --> 00:07:54.500
+And, you test it.
+
+121
+00:07:54.500 --> 00:07:58.490
+And, the results are shown in red,
+curve A.
+
+122
+00:07:59.990 --> 00:08:04.550
+Now, your question is, is your new
+method better than the old method?
+
+123
+00:08:05.630 --> 00:08:10.510
+Or more, practically,
+do you have to replace the algorithm that
+
+124
+00:08:10.510 --> 00:08:15.410
+you're already using, your, in your search
+engine, with another, new algorithm?
+
+125
+00:08:15.410 --> 00:08:20.760
+So, should we use system,
+method A, to replace method B?
+
+126
+00:08:20.760 --> 00:08:23.250
+This is going to be a real decision,
+that you to have to make.
+
+127
+00:08:23.250 --> 00:08:29.430
+If you make the replacement, the search
+engine would behave like system A here,
+
+128
+00:08:29.430 --> 00:08:34.170
+whereas, if you don't do that,
+it will be like a system B.
+
+129
+00:08:34.170 --> 00:08:34.770
+So, what do you do?
+
+130
+00:08:36.210 --> 00:08:40.580
+Now, if you want to spend more time
+to think about this, pause the video.
+
+131
+00:08:40.580 --> 00:08:42.840
+And, it's actually very
+useful to think about that.
+
+132
+00:08:42.840 --> 00:08:46.350
+As I said, it's a real decision that you
+have to make, if you are building your own
+
+133
+00:08:46.350 --> 00:08:51.329
+search engine, or if you're working, for
+a company that, cares about the search.
+
+134
+00:08:52.330 --> 00:08:54.630
+Now, if you have thought about this for
+
+135
+00:08:54.630 --> 00:08:59.630
+a moment, you might realize that,
+well, in this case, it's hard to say.
+
+136
+00:08:59.630 --> 00:09:04.615
+Now, some users might like a system A,
+some users might like, like system B.
+
+137
+00:09:04.615 --> 00:09:05.895
+So, what's the difference here?
+
+138
+00:09:05.895 --> 00:09:08.545
+Well, the difference is just that,
+you know,
+
+139
+00:09:08.545 --> 00:09:14.145
+in the, low level of recall,
+in this region, system B is better.
+
+140
+00:09:14.145 --> 00:09:15.845
+There's a higher precision.
+
+141
+00:09:15.845 --> 00:09:19.520
+But in high recall region,
+system A is better.
+
+142
+00:09:20.910 --> 00:09:24.040
+Now, so, that also means,
+it depends on whether the user
+
+143
+00:09:24.040 --> 00:09:28.630
+cares about the high recall, or
+low recall, but high precision.
+
+144
+00:09:28.630 --> 00:09:32.200
+You can imagine, if someone is just going
+to check out, what's happening today, and
+
+145
+00:09:32.200 --> 00:09:33.489
+want to find out something
+relevant in the news.
+
+146
+00:09:34.750 --> 00:09:36.530
+Well, which one is better?
+
+147
+00:09:36.530 --> 00:09:37.060
+What do you think?
+
+148
+00:09:38.110 --> 00:09:41.510
+In this case, clearly, system B is better,
+
+149
+00:09:41.510 --> 00:09:44.920
+because the user is unlikely
+examining a lot of results.
+
+150
+00:09:44.920 --> 00:09:46.500
+The user doesn't care about high recall.
+
+151
+00:09:47.780 --> 00:09:50.673
+On the other hand,
+if you think about a case,
+
+152
+00:09:50.673 --> 00:09:54.800
+where a user is doing you are,
+starting a problem.
+
+153
+00:09:54.800 --> 00:10:00.320
+You want to find, whether your idea ha,
+has been started before.
+
+154
+00:10:00.320 --> 00:10:03.130
+In that case, you emphasize high recall.
+
+155
+00:10:03.130 --> 00:10:06.630
+So, you want to see,
+as many relevant documents as possible.
+
+156
+00:10:06.630 --> 00:10:09.570
+Therefore, you might, favor, system A.
+
+157
+00:10:09.570 --> 00:10:12.090
+So, that means, which one is better?
+
+158
+00:10:12.090 --> 00:10:18.420
+That actually depends on users,
+and more precisely, users task.
+
+159
+00:10:19.520 --> 00:10:24.040
+So, this means, you may not necessarily
+be able to come up with one number,
+
+160
+00:10:25.290 --> 00:10:28.810
+that would accurately
+depict the performance.
+
+161
+00:10:29.860 --> 00:10:31.750
+You have to look at the overall picture.
+
+162
+00:10:31.750 --> 00:10:35.620
+Yet, as I said, when you have
+a practical decision to make,
+
+163
+00:10:35.620 --> 00:10:38.210
+whether you replace ours with another,
+
+164
+00:10:38.210 --> 00:10:44.320
+then you may have to actually come up with
+a single number, to quantify each, method.
+
+165
+00:10:44.320 --> 00:10:49.800
+Or, when we compare many different
+methods in research, ideally, we have
+
+166
+00:10:49.800 --> 00:10:54.590
+one number to compare, them with, so, that
+we can easily make a lot of comparisons.
+
+167
+00:10:54.590 --> 00:11:00.258
+So, for all these reasons, it is desirable
+to have one, single number to match it up.
+
+168
+00:11:00.258 --> 00:11:01.510
+So, how do we do that?
+
+169
+00:11:01.510 --> 00:11:05.860
+And, that,
+needs a number to summarize the range.
+
+170
+00:11:05.860 --> 00:11:09.560
+So, here again it's
+the precision-recall curve, right?
+
+171
+00:11:09.560 --> 00:11:13.570
+And, one way to summarize
+this whole ranked, list, for
+
+172
+00:11:13.570 --> 00:11:18.090
+this whole curve,
+is look at the area underneath the curve.
+
+173
+00:11:19.330 --> 00:11:21.820
+Right?
+So, this is one way to measure that.
+
+174
+00:11:21.820 --> 00:11:25.209
+There are other ways to measure that,
+but, it just turns out that,,
+
+175
+00:11:26.430 --> 00:11:31.110
+this particular way of matching
+it has been very, popular, and
+
+176
+00:11:31.110 --> 00:11:36.260
+has been used, since a long time ago for
+text And, this is,
+
+177
+00:11:36.260 --> 00:11:41.140
+basically, in this way, and
+it's called the average precision.
+
+178
+00:11:41.140 --> 00:11:46.260
+Basically, we're going to take a, a look
+at the, every different, recall point.
+
+179
+00:11:47.600 --> 00:11:49.540
+And then, look out for the precision.
+
+180
+00:11:49.540 --> 00:11:51.930
+So, we know, you know,
+this is one precision.
+
+181
+00:11:51.930 --> 00:11:56.590
+And, this is another,
+with, different recall.
+
+182
+00:11:56.590 --> 00:11:59.362
+Now, this, we don't count to this one,
+
+183
+00:11:59.362 --> 00:12:04.511
+because the recall level is the same,
+and we're going to, look at the,
+
+184
+00:12:04.511 --> 00:12:10.120
+this number, and that's precision at
+a different recall level et cetera.
+
+185
+00:12:10.120 --> 00:12:13.580
+So, we have all these, you know, added up.
+
+186
+00:12:13.580 --> 00:12:16.180
+These are the precisions
+at the different points,
+
+187
+00:12:16.180 --> 00:12:21.130
+corresponding to retrieving the first
+relevant document, the second, and
+
+188
+00:12:21.130 --> 00:12:25.260
+then, the third, that follows, et cetera.
+
+189
+00:12:25.260 --> 00:12:29.265
+Now, we missed the many relevant
+documents, so, in all of those cases,
+
+190
+00:12:29.265 --> 00:12:32.380
+we just, assume,
+that they have zero precisions.
+
+191
+00:12:33.540 --> 00:12:35.740
+And then, finally, we take the average.
+
+192
+00:12:35.740 --> 00:12:37.900
+So, we divide it by ten, and
+
+193
+00:12:37.900 --> 00:12:40.510
+which is the total number of relevant
+documents in the collection.
+
+194
+00:12:41.670 --> 00:12:46.610
+Note that here,
+we're not dividing this sum by four.
+
+195
+00:12:46.610 --> 00:12:49.440
+Which is a number retrieved
+relevant documents.
+
+196
+00:12:49.440 --> 00:12:52.980
+Now, imagine, if I divide by four,
+what would happen?
+
+197
+00:12:54.370 --> 00:12:55.820
+Now, think about this, for a moment.
+
+198
+00:12:57.050 --> 00:13:01.300
+It's a common mistake that people,
+sometimes, overlook.
+
+199
+00:13:02.720 --> 00:13:08.208
+Right, so, if we, we divide this by four,
+it's actually not very good.
+
+200
+00:13:08.208 --> 00:13:13.180
+In fact, that you are favoring a system,
+that would retrieve very few random
+
+201
+00:13:13.180 --> 00:13:18.785
+documents, as in that case,
+the denominator would be very small.
+
+202
+00:13:18.785 --> 00:13:22.115
+So, this would be, not a good matching.
+
+203
+00:13:22.115 --> 00:13:25.862
+So, note that this denomina,
+denominator is ten,
+
+204
+00:13:25.862 --> 00:13:29.170
+the total number of relevant documents.
+
+205
+00:13:29.170 --> 00:13:33.620
+And, this will basically ,compute
+the area, and the needs occur.
+
+206
+00:13:33.620 --> 00:13:40.080
+And, this is the standard method,
+used for evaluating a ranked list.
+
+207
+00:13:41.210 --> 00:13:44.860
+Note that, it actually combines
+recall and, precision.
+
+208
+00:13:44.860 --> 00:13:49.230
+But first, you know, we have
+precision numbers here, but secondly,
+
+209
+00:13:49.230 --> 00:13:53.240
+we also consider recall, because if missed
+many, there would be many zeros here.
+
+210
+00:13:53.240 --> 00:13:57.470
+All right, so,
+it combines precision and recall.
+
+211
+00:13:57.470 --> 00:14:02.190
+And furthermore, you can see this
+measure is sensitive to a small change
+
+212
+00:14:02.190 --> 00:14:04.770
+of a position of a relevant document.
+
+213
+00:14:04.770 --> 00:14:09.520
+Let's say, if I move this relevant
+document up a little bit, now,
+
+214
+00:14:09.520 --> 00:14:12.670
+it would increase this means,
+this average precision.
+
+215
+00:14:12.670 --> 00:14:17.630
+Whereas, if I move any relevant document,
+down, let's say, I move this relevant
+
+216
+00:14:17.630 --> 00:14:23.720
+document down, then it would decrease,
+uh,the average precision.
+
+217
+00:14:23.720 --> 00:14:25.266
+So, this is a very good,
+
+218
+00:14:25.266 --> 00:14:30.570
+because it's a very sensitive to
+the ranking of every relevant document.
+
+219
+00:14:30.570 --> 00:14:34.740
+It can tell, small differences
+between two ranked lists.
+
+220
+00:14:34.740 --> 00:14:35.880
+And, that is what we want,
+
+221
+00:14:35.880 --> 00:14:40.430
+sometimes one algorithm only works
+slightly better than another.
+
+222
+00:14:40.430 --> 00:14:42.440
+And, we want to see this difference.
+
+223
+00:14:42.440 --> 00:14:46.110
+In contrast, if we look at
+the precision at the ten documents.
+
+224
+00:14:46.110 --> 00:14:49.520
+If we look at this, this whole set, well,
+
+225
+00:14:49.520 --> 00:14:52.000
+what, what's the precision,
+what do you think?
+
+226
+00:14:52.000 --> 00:14:54.328
+Well, it's easy to see,
+that's a four out of ten, right?
+
+227
+00:14:54.328 --> 00:15:02.200
+So, that precision is very meaningful,
+because it tells us, what user would see?
+
+228
+00:15:02.200 --> 00:15:04.580
+So, that's pretty useful, right?
+
+229
+00:15:04.580 --> 00:15:07.850
+So, it's a meaningful measure,
+from a users perspective.
+
+230
+00:15:07.850 --> 00:15:11.770
+But, if we use this measure to
+compare systems, it wouldn't be good,
+
+231
+00:15:11.770 --> 00:15:16.480
+because it wouldn't be sensitive to where
+these four relevant documents are ranked.
+
+232
+00:15:16.480 --> 00:15:21.910
+If I move them around the precision
+at ten, still, the same.
+
+233
+00:15:21.910 --> 00:15:22.570
+Right.
+So,
+
+234
+00:15:22.570 --> 00:15:25.590
+this is not a good measure for
+comparing different algorithms.
+
+235
+00:15:25.590 --> 00:15:29.990
+In contrast, the average precision
+is a much better measure.
+
+236
+00:15:29.990 --> 00:15:34.511
+It can tell the difference of, different,
+
+237
+00:15:34.511 --> 00:15:39.269
+a difference in ranked list in,
+subtle ways.
+
+238
+00:15:39.269 --> 00:15:49.269
+[MUSIC]

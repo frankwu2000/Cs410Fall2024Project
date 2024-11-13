@@ -1,0 +1,747 @@
+WEBVTT
+
+1
+00:00:07.440 --> 00:00:09.410
+This lecture is about Web Search.
+
+2
+00:00:11.950 --> 00:00:14.750
+In this lecture,
+we're going to talk about one
+
+3
+00:00:14.750 --> 00:00:19.150
+of the most important applications of
+text retrieval, web search engines.
+
+4
+00:00:19.150 --> 00:00:21.520
+So let's first look at some
+general challenges and
+
+5
+00:00:21.520 --> 00:00:23.380
+opportunities in web search.
+
+6
+00:00:23.380 --> 00:00:26.010
+Now, many informational
+retrieval algorithms
+
+7
+00:00:26.010 --> 00:00:29.010
+had been developed
+before the web was born.
+
+8
+00:00:29.010 --> 00:00:33.890
+So when the web was born,
+it created the best opportunity to apply
+
+9
+00:00:33.890 --> 00:00:39.890
+those algorithms to major application
+problem that everyone would care about.
+
+10
+00:00:39.890 --> 00:00:45.780
+So naturally, there have to be some
+further extensions of the classical
+
+11
+00:00:45.780 --> 00:00:53.460
+search algorithms to address new
+challenges encountered in web search.
+
+12
+00:00:53.460 --> 00:00:56.210
+So here are some general challenges.
+
+13
+00:00:56.210 --> 00:00:58.510
+First, this is a scalability challenge.
+
+14
+00:00:58.510 --> 00:01:00.200
+How to handle the size of the web and
+
+15
+00:01:00.200 --> 00:01:02.750
+ensure completeness of
+coverage of all information.
+
+16
+00:01:03.870 --> 00:01:07.820
+How to serve many users quickly and
+by answering all their queries.
+
+17
+00:01:07.820 --> 00:01:10.801
+And so that's one major challenge and
+
+18
+00:01:10.801 --> 00:01:16.480
+before the web was born the scale
+search was relatively small.
+
+19
+00:01:16.480 --> 00:01:20.190
+The second problem is that there's
+no quality information and
+
+20
+00:01:20.190 --> 00:01:21.960
+there are often spams.
+
+21
+00:01:21.960 --> 00:01:24.334
+The third challenge is
+Dynamics of the Web.
+
+22
+00:01:24.334 --> 00:01:31.879
+The new pages are constantly create and
+some pages may be updated very quickly,
+
+23
+00:01:31.879 --> 00:01:36.281
+so it makes it harder to
+keep it indexed fresh.
+
+24
+00:01:36.281 --> 00:01:40.391
+So these are some of the challenges
+that we have to solve in order to
+
+25
+00:01:40.391 --> 00:01:42.880
+deal with high quality web searching.
+
+26
+00:01:44.090 --> 00:01:47.492
+On the other hand there are also some
+interesting opportunities that we can
+
+27
+00:01:47.492 --> 00:01:49.930
+leverage to include the search results.
+
+28
+00:01:49.930 --> 00:01:53.330
+There are many additional heuristics,
+for example,
+
+29
+00:01:55.070 --> 00:02:00.020
+using links that we can
+leverage to improve scoring.
+
+30
+00:02:00.020 --> 00:02:03.510
+Now everything that we talked about
+such as the vector space model
+
+31
+00:02:03.510 --> 00:02:04.459
+are general algorithms.
+
+32
+00:02:05.630 --> 00:02:11.050
+They can be applied to any search
+applications, so that's the advantage.
+
+33
+00:02:11.050 --> 00:02:15.890
+On the other hand, they also don't take
+advantage of special characteristics
+
+34
+00:02:15.890 --> 00:02:21.375
+of pages or documents in the specific
+applications, such as web search.
+
+35
+00:02:21.375 --> 00:02:23.855
+Web pages are linked with each other,
+so obviously,
+
+36
+00:02:23.855 --> 00:02:28.645
+the linking is something
+that we can also leverage.
+
+37
+00:02:28.645 --> 00:02:33.610
+So, because of these challenges and
+opportunities and there are new techniques
+
+38
+00:02:33.610 --> 00:02:39.110
+that have been developed for
+web search or due to need for web search.
+
+39
+00:02:39.110 --> 00:02:41.390
+One is parallel indexing and searching and
+
+40
+00:02:41.390 --> 00:02:44.410
+this is to address
+the issue of scalability.
+
+41
+00:02:44.410 --> 00:02:49.930
+In particular, Google's imaging of
+map reduce is very influential and
+
+42
+00:02:49.930 --> 00:02:53.590
+has been very helpful in that aspect.
+
+43
+00:02:53.590 --> 00:02:56.680
+Second, there are techniques
+that are developing for
+
+44
+00:02:56.680 --> 00:03:00.460
+addressing the problem of spams,
+so spam detection.
+
+45
+00:03:00.460 --> 00:03:03.570
+We'll have to prevent those spam
+pages from being ranked high.
+
+46
+00:03:04.680 --> 00:03:07.338
+And there are also techniques
+to achieve robust ranking.
+
+47
+00:03:07.338 --> 00:03:10.520
+And we're going to use a lot
+of signals to rank pages, so
+
+48
+00:03:10.520 --> 00:03:15.410
+that it's not easy to spam the search
+engine with a particular trick.
+
+49
+00:03:15.410 --> 00:03:19.810
+And the third line of techniques is link
+
+50
+00:03:19.810 --> 00:03:24.730
+analysis and these are techniques that can
+
+51
+00:03:24.730 --> 00:03:30.780
+allow us to improve such results
+by leveraging extra information.
+
+52
+00:03:30.780 --> 00:03:35.230
+And in general in web searching,
+we're going to use multiple features for
+
+53
+00:03:35.230 --> 00:03:37.690
+ranking not just for link analysis.
+
+54
+00:03:37.690 --> 00:03:43.300
+But also exploring all kinds
+of crawls like the layout or
+
+55
+00:03:43.300 --> 00:03:47.730
+anchor text that describes
+a link to another page.
+
+56
+00:03:47.730 --> 00:03:51.310
+So, here's a picture showing
+the basic search engine technologies.
+
+57
+00:03:51.310 --> 00:03:55.820
+Basically, this is the web on the left and
+then user on the right side and
+
+58
+00:03:55.820 --> 00:04:00.550
+we're going to help this user to get
+the access for the web information.
+
+59
+00:04:00.550 --> 00:04:05.410
+And the first component is a Crawler that
+would crawl pages and then the second
+
+60
+00:04:05.410 --> 00:04:09.810
+component is Indexer that would take
+these pages create the inverted index.
+
+61
+00:04:10.920 --> 00:04:15.720
+The third component there is a Retriever
+and that would use inverted index to
+
+62
+00:04:15.720 --> 00:04:19.840
+answer user's query by talking
+to the user's browser.
+
+63
+00:04:19.840 --> 00:04:24.790
+And then the search results will be given
+to the user and when the browser would
+
+64
+00:04:24.790 --> 00:04:29.090
+show those results, it allows
+the user to interact with the web.
+
+65
+00:04:29.090 --> 00:04:32.417
+So, we're going to talk about
+each of these components.
+
+66
+00:04:32.417 --> 00:04:37.552
+First of all, we're going to talk about
+the crawler, also called a spider or
+
+67
+00:04:37.552 --> 00:04:42.459
+software robot that would do something
+like crawling pages on the web.
+
+68
+00:04:42.459 --> 00:04:44.954
+To build a toy crawler is relatively easy,
+
+69
+00:04:44.954 --> 00:04:47.875
+because you just need to start
+with a set of seed pages.
+
+70
+00:04:47.875 --> 00:04:51.912
+And then fetch pages from the web and
+parse these pages and
+
+71
+00:04:51.912 --> 00:04:53.517
+figure out new links.
+
+72
+00:04:53.517 --> 00:05:00.994
+And then add them to the priority que and
+then just explore those additional links.
+
+73
+00:05:00.994 --> 00:05:04.764
+But to be able to real crawler
+actually is tricky and
+
+74
+00:05:04.764 --> 00:05:09.249
+there are some complicated issues
+that we have to deal with.
+
+75
+00:05:09.249 --> 00:05:13.736
+For example robustness,
+what if the server doesn't respond,
+
+76
+00:05:13.736 --> 00:05:18.722
+what if there's a trap that generates
+dynamically generated webpages
+
+77
+00:05:18.722 --> 00:05:23.456
+that might attract your crawler to
+keep crawling on the same side and
+
+78
+00:05:23.456 --> 00:05:26.700
+to fetch dynamic generated pages?
+
+79
+00:05:26.700 --> 00:05:30.093
+The results of this issue
+of crawling courtesy and
+
+80
+00:05:30.093 --> 00:05:35.668
+you don't want to overload one particular
+server with many crawling requests and
+
+81
+00:05:35.668 --> 00:05:39.158
+you have to respect the robot
+exclusion protocol.
+
+82
+00:05:39.158 --> 00:05:43.340
+You also need to handle different
+types of files, there are images,
+
+83
+00:05:43.340 --> 00:05:46.019
+PDF files,
+all kinds of formats on the web.
+
+84
+00:05:46.019 --> 00:05:50.189
+And you have to also
+consider URL extension, so
+
+85
+00:05:50.189 --> 00:05:56.237
+sometimes those are CGI scripts and
+there are internal references,
+
+86
+00:05:56.237 --> 00:06:01.139
+etc, and sometimes you have
+JavaScripts on the page and
+
+87
+00:06:01.139 --> 00:06:03.866
+they also create challenges.
+
+88
+00:06:03.866 --> 00:06:08.795
+And you ideally should also recognize
+redundant pages because you don't have
+
+89
+00:06:08.795 --> 00:06:11.475
+to duplicate those pages.
+
+90
+00:06:11.475 --> 00:06:15.398
+And finally, you may be interested
+in the discover hidden URLs.
+
+91
+00:06:15.398 --> 00:06:19.935
+Those are URLs that may not be linked
+to any page, but if you truncate
+
+92
+00:06:19.935 --> 00:06:24.884
+the URL to a shorter path, you might
+be able to get some additional pages.
+
+93
+00:06:27.008 --> 00:06:29.298
+So what are the Major Crawling Strategies?
+
+94
+00:06:29.298 --> 00:06:30.040
+In general,
+
+95
+00:06:30.040 --> 00:06:36.560
+Breadth-First is most common because
+it naturally balances the sever load.
+
+96
+00:06:36.560 --> 00:06:41.405
+You would not keep probing a particular
+server with many requests.
+
+97
+00:06:42.635 --> 00:06:47.009
+Also parallel crawling is very
+natural because this task is very
+
+98
+00:06:47.009 --> 00:06:48.554
+easy to parallelize.
+
+99
+00:06:48.554 --> 00:06:50.887
+And there is some variations
+of the crawling task,
+
+100
+00:06:50.887 --> 00:06:54.560
+and one interesting variation
+is called a focused crawling.
+
+101
+00:06:54.560 --> 00:06:59.850
+In this case, we're going to crawl just
+some pages about a particular topic.
+
+102
+00:06:59.850 --> 00:07:04.316
+For example,
+all pages about automobiles, all right.
+
+103
+00:07:04.316 --> 00:07:07.885
+And this is typically going to
+start with a query, and
+
+104
+00:07:07.885 --> 00:07:12.953
+then you can use the query to get some
+results from a major search engine.
+
+105
+00:07:12.953 --> 00:07:17.052
+And then you can start it with those
+results and then gradually crawl more.
+
+106
+00:07:17.052 --> 00:07:19.544
+The one channel in crawling,
+
+107
+00:07:19.544 --> 00:07:24.230
+is you will find the new
+channels that people created and
+
+108
+00:07:24.230 --> 00:07:28.732
+people probably are creating
+new pages all the time.
+
+109
+00:07:28.732 --> 00:07:33.502
+And this is very challenging if
+the new pages have not been actually
+
+110
+00:07:33.502 --> 00:07:35.930
+linked to any old pages.
+
+111
+00:07:35.930 --> 00:07:41.655
+If they are, then you can probably find
+them by re-crawling the old pages,
+
+112
+00:07:41.655 --> 00:07:46.946
+so these are also some interesting
+challenges that have to be solved.
+
+113
+00:07:46.946 --> 00:07:51.257
+And finally, we might face the scenario
+of incremental crawling or
+
+114
+00:07:51.257 --> 00:07:53.157
+repeated crawling, right.
+
+115
+00:07:53.157 --> 00:07:56.528
+Let's say,
+if you want to build a web search engine,
+
+116
+00:07:56.528 --> 00:07:59.448
+and you first crawl a lot
+of data from the web.
+
+117
+00:07:59.448 --> 00:08:03.816
+But then,
+once you have cracked all the data,
+
+118
+00:08:03.816 --> 00:08:08.968
+in the future you just need
+to crawl the updated pages.
+
+119
+00:08:08.968 --> 00:08:13.277
+In general, you don't have to
+re-crawl everything, right?
+
+120
+00:08:13.277 --> 00:08:14.960
+It's not necessary.
+
+121
+00:08:16.650 --> 00:08:21.563
+So in this case, your goal is to
+minimize the resource overhead
+
+122
+00:08:21.563 --> 00:08:26.400
+by using minimum resources
+to just the update pages.
+
+123
+00:08:27.490 --> 00:08:33.986
+So, this is actually a very
+interesting research question here,
+
+124
+00:08:33.986 --> 00:08:40.250
+and this is a open research question,
+in that there aren't many
+
+125
+00:08:40.250 --> 00:08:46.060
+standard algorithms established yet
+for doing this task.
+
+126
+00:08:47.300 --> 00:08:51.300
+But in general, you can imagine,
+you can learn, from the past experience.
+
+127
+00:08:53.640 --> 00:08:57.040
+So the two major factors that
+you have to consider are,
+
+128
+00:08:57.040 --> 00:09:00.760
+first will this page
+be updated frequently?
+
+129
+00:09:00.760 --> 00:09:03.411
+And do I have to quote this page again?
+
+130
+00:09:03.411 --> 00:09:07.726
+If the page is a static page and
+that hasn't being changed for months,
+
+131
+00:09:07.726 --> 00:09:12.703
+you probably don't have to re-crawl it
+everyday because it's unlikely that it
+
+132
+00:09:12.703 --> 00:09:14.401
+will changed frequently.
+
+133
+00:09:14.401 --> 00:09:20.152
+On the other hand, if it's a sports score
+page that gets updated very frequently and
+
+134
+00:09:20.152 --> 00:09:25.840
+you may need to re-crawl it and
+maybe even multiple times on the same day.
+
+135
+00:09:25.840 --> 00:09:30.956
+The other factor to consider is,
+is this page frequently accessed by users?
+
+136
+00:09:30.956 --> 00:09:35.485
+If it is, then it means that
+it is a high utility page and
+
+137
+00:09:35.485 --> 00:09:40.809
+then thus it's more important to
+ensure such a page to refresh.
+
+138
+00:09:40.809 --> 00:09:45.439
+Compared with another page that has
+never been fetched by any users for
+
+139
+00:09:45.439 --> 00:09:49.609
+a year, then even though that
+page has been changed a lot then.
+
+140
+00:09:49.609 --> 00:09:55.164
+It's probably not that necessary to
+crawl that page or at least it's
+
+141
+00:09:55.164 --> 00:10:01.697
+not as urgent as to maintain the freshness
+of frequently accessed page by users.
+
+142
+00:10:01.697 --> 00:10:05.275
+So to summarize, web search is one of
+the most important applications of text
+
+143
+00:10:05.275 --> 00:10:08.689
+retrieval and there are some new
+challenges particularly scalability,
+
+144
+00:10:08.689 --> 00:10:10.463
+efficiency, quality information.
+
+145
+00:10:10.463 --> 00:10:15.671
+There are also new opportunities
+particularly rich link information and
+
+146
+00:10:15.671 --> 00:10:16.765
+layout, etc.
+
+147
+00:10:17.890 --> 00:10:22.500
+A crawler is an essential component
+of web search applications and
+
+148
+00:10:22.500 --> 00:10:24.360
+in general, you can find two scenarios.
+
+149
+00:10:24.360 --> 00:10:28.730
+One is initial crawling and
+here we want to have complete crawling
+
+150
+00:10:30.100 --> 00:10:32.970
+of the web if you are doing
+a general search engine or
+
+151
+00:10:32.970 --> 00:10:37.560
+focused crawling if you want to just
+target as a certain type of pages.
+
+152
+00:10:38.610 --> 00:10:43.262
+And then, there is another scenario that's
+incremental updating of the crawl data or
+
+153
+00:10:43.262 --> 00:10:44.611
+incremental crawling.
+
+154
+00:10:44.611 --> 00:10:48.692
+In this case,
+you need to optimize the resource,
+
+155
+00:10:48.692 --> 00:10:52.588
+try to use minimum resource
+to get the [INAUDIBLE]
+
+156
+00:10:54.486 --> 00:11:04.486
+[MUSIC]

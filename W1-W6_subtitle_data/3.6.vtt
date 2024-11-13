@@ -1,0 +1,1028 @@
+WEBVTT
+
+1
+00:00:00.004 --> 00:00:06.485
+[SOUND].
+
+2
+00:00:06.485 --> 00:00:10.694
+This lecture is about some practical
+issues that you would have to address in
+
+3
+00:00:10.694 --> 00:00:12.939
+evaluation of text retrieval systems.
+
+4
+00:00:14.440 --> 00:00:17.730
+In this lecture, we will continue
+the discussion of evaluation.
+
+5
+00:00:17.730 --> 00:00:21.250
+We'll cover some practical
+issues that you have to solve
+
+6
+00:00:21.250 --> 00:00:24.240
+in actual evaluation of
+text retrieval systems.
+
+7
+00:00:25.500 --> 00:00:29.060
+So, in order to create
+the test collection,
+
+8
+00:00:29.060 --> 00:00:31.540
+we have to create a set of queries.
+
+9
+00:00:31.540 --> 00:00:34.270
+A set of documents and
+a set of relevance judgments.
+
+10
+00:00:35.750 --> 00:00:39.680
+It turns out that each is
+actually challenging to create.
+
+11
+00:00:39.680 --> 00:00:43.240
+First, the documents and
+queries must be representative.
+
+12
+00:00:43.240 --> 00:00:47.250
+They must represent the real queries and
+real documents that the users handle.
+
+13
+00:00:48.290 --> 00:00:50.990
+And we also have to use many queries and
+
+14
+00:00:50.990 --> 00:00:55.010
+many documents in order to
+avoid a bias of conclusions.
+
+15
+00:00:56.470 --> 00:01:02.560
+For the matching of relevant
+documents with the queries.
+
+16
+00:01:02.560 --> 00:01:10.050
+We also need to ensure that there exists a
+lot of relevant documents for each query.
+
+17
+00:01:10.050 --> 00:01:13.900
+If a query has only one, that's
+a relevant option we can actually then.
+
+18
+00:01:13.900 --> 00:01:18.300
+It's not very informative to
+compare different methods
+
+19
+00:01:18.300 --> 00:01:23.120
+using such a query because there's not
+that much room for us to see difference.
+
+20
+00:01:23.120 --> 00:01:27.390
+So ideally, there should be more
+relevant documents in the clatch but yet
+
+21
+00:01:27.390 --> 00:01:30.469
+the queries also should represent
+the real queries that we care about.
+
+22
+00:01:31.470 --> 00:01:35.240
+In terms of relevance judgments,
+the challenge is to ensure
+
+23
+00:01:35.240 --> 00:01:38.970
+complete judgments of all
+the documents for all the queries.
+
+24
+00:01:38.970 --> 00:01:40.670
+Yet, minimizing human and
+
+25
+00:01:40.670 --> 00:01:44.980
+fault, because we have to use human
+labor to label these documents.
+
+26
+00:01:44.980 --> 00:01:47.690
+It's very labor intensive.
+
+27
+00:01:47.690 --> 00:01:52.550
+And as a result, it's impossible to
+actually label all the documents for
+
+28
+00:01:52.550 --> 00:01:57.170
+all the queries, especially considering
+a giant data set like the web.
+
+29
+00:01:58.750 --> 00:02:03.590
+So this is actually a major challenge,
+it's a very difficult challenge.
+
+30
+00:02:03.590 --> 00:02:07.160
+For measures, it's also challenging,
+because we want measures that would
+
+31
+00:02:07.160 --> 00:02:11.680
+accurately reflect
+the perceived utility of users.
+
+32
+00:02:11.680 --> 00:02:15.430
+We have to consider carefully
+what the users care about.
+
+33
+00:02:15.430 --> 00:02:18.530
+And then design measures to measure that.
+
+34
+00:02:18.530 --> 00:02:21.482
+If your measure is not
+measuring the right thing,
+
+35
+00:02:21.482 --> 00:02:23.820
+then your conclusion would be misled.
+
+36
+00:02:23.820 --> 00:02:25.040
+So it's very important.
+
+37
+00:02:26.880 --> 00:02:29.290
+So we're going to talk about
+a couple of issues here.
+
+38
+00:02:29.290 --> 00:02:31.360
+One is the statistical significance test.
+
+39
+00:02:31.360 --> 00:02:36.350
+And this also is a reason why
+we have to use a lot of queries.
+
+40
+00:02:36.350 --> 00:02:41.060
+And the question here is how sure can
+you be that observe the difference
+
+41
+00:02:41.060 --> 00:02:44.800
+doesn't simply result from
+the particular queries you choose.
+
+42
+00:02:44.800 --> 00:02:49.770
+So here are some sample results of
+average position for System A and
+
+43
+00:02:49.770 --> 00:02:53.320
+System B into different experiments.
+
+44
+00:02:53.320 --> 00:02:57.540
+And you can see in the bottom,
+we have mean average of position.
+
+45
+00:02:57.540 --> 00:03:02.668
+So the mean, if you look at the mean
+average of position, the mean average
+
+46
+00:03:02.668 --> 00:03:08.300
+of positions are exactly the same
+in both experiments, right?
+
+47
+00:03:08.300 --> 00:03:13.250
+So you can see this is 0.20,
+this is 0.40 for System B.
+
+48
+00:03:13.250 --> 00:03:18.520
+And again here it's also 0.20 and
+0.40, so they are identical.
+
+49
+00:03:18.520 --> 00:03:23.440
+Yet, if you look at these exact average
+positions for different queries.
+
+50
+00:03:23.440 --> 00:03:29.810
+If you look at these numbers in detail,
+you would realize that in one case,
+
+51
+00:03:29.810 --> 00:03:35.090
+you would feel that you can trust
+the conclusion here given by the average.
+
+52
+00:03:36.100 --> 00:03:41.610
+In the another case, in the other case,
+you will feel that, well, I'm not sure.
+
+53
+00:03:41.610 --> 00:03:48.470
+So, why don't you take a look at all these
+numbers for a moment, pause the media.
+
+54
+00:03:48.470 --> 00:03:52.565
+So, if you look at the average,
+the mean average of position,
+
+55
+00:03:52.565 --> 00:03:56.660
+we can easily, say that well,
+System B is better, right?
+
+56
+00:03:56.660 --> 00:03:59.630
+So, after all it's 0.40 and
+
+57
+00:03:59.630 --> 00:04:05.950
+this is twice as much as 0.20,
+so that's a better performance.
+
+58
+00:04:05.950 --> 00:04:10.120
+But if you look at these two experiments,
+look at the detailed results.
+
+59
+00:04:11.150 --> 00:04:16.170
+You will see that, we've been more
+confident to say that, in the case one,
+
+60
+00:04:16.170 --> 00:04:17.040
+in experiment one.
+
+61
+00:04:17.040 --> 00:04:19.160
+In this case.
+
+62
+00:04:19.160 --> 00:04:23.360
+Because these numbers seem to be
+consistently better for System B.
+
+63
+00:04:25.110 --> 00:04:32.342
+Whereas in Experiment 2, we're not sure
+because looking at some results like this,
+
+64
+00:04:32.342 --> 00:04:38.000
+after System A is better and
+this is another case System A is better.
+
+65
+00:04:39.335 --> 00:04:43.790
+But yet if we look at only average,
+System B is better.
+
+66
+00:04:45.750 --> 00:04:47.640
+So, what do you think?
+
+67
+00:04:49.170 --> 00:04:54.150
+How reliable is our conclusion,
+if we only look at the average?
+
+68
+00:04:55.940 --> 00:04:59.430
+Now in this case, intuitively,
+we feel Experiment 1 is more reliable.
+
+69
+00:05:01.020 --> 00:05:04.630
+But how can we quantitate
+the answer to this question?
+
+70
+00:05:04.630 --> 00:05:08.430
+And this is why we need to do
+statistical significance test.
+
+71
+00:05:09.440 --> 00:05:13.910
+So, the idea of the statistical
+significance test is basically to
+
+72
+00:05:13.910 --> 00:05:18.330
+assess the variants across
+these different queries.
+
+73
+00:05:18.330 --> 00:05:21.160
+If there is a big variance,
+
+74
+00:05:21.160 --> 00:05:25.880
+that means the results could fluctuate
+a lot according to different queries.
+
+75
+00:05:25.880 --> 00:05:30.740
+Then we should believe that,
+unless you have used a lot of queries,
+
+76
+00:05:30.740 --> 00:05:35.210
+the results might change if we
+use another set of queries.
+
+77
+00:05:35.210 --> 00:05:39.350
+Right, so this is then not so
+
+78
+00:05:39.350 --> 00:05:42.660
+if you have c high variance
+then it's not very reliable.
+
+79
+00:05:43.660 --> 00:05:49.390
+So let's look at these results
+again in the second case.
+
+80
+00:05:49.390 --> 00:05:54.200
+So, here we show two different
+ways to compare them.
+
+81
+00:05:54.200 --> 00:05:57.470
+One is a sign test where
+we just look at the sign.
+
+82
+00:05:57.470 --> 00:06:01.260
+If System B is better than System A,
+we have a plus sign.
+
+83
+00:06:01.260 --> 00:06:05.400
+When System A is better we
+have a minus sign, etc.
+
+84
+00:06:05.400 --> 00:06:09.600
+Using this case, if you see this,
+well, there are seven cases.
+
+85
+00:06:09.600 --> 00:06:12.980
+We actually have four cases
+where System B is better.
+
+86
+00:06:12.980 --> 00:06:16.671
+But three cases of System A is better,
+intuitively,
+
+87
+00:06:16.671 --> 00:06:19.880
+this is almost like a random results,
+right?
+
+88
+00:06:19.880 --> 00:06:25.880
+So if you just take a random
+sample of you flip seven coins and
+
+89
+00:06:25.880 --> 00:06:30.090
+if you use plus to denote the head and
+minus to denote the tail and
+
+90
+00:06:30.090 --> 00:06:34.920
+that could easily be the results of just
+randomly flipping these seven coins.
+
+91
+00:06:34.920 --> 00:06:39.700
+So, the fact that the average is
+larger doesn't tell us anything.
+
+92
+00:06:39.700 --> 00:06:41.330
+We can't reliably conclude that.
+
+93
+00:06:41.330 --> 00:06:45.890
+And this can be quantitatively
+measured by a p value.
+
+94
+00:06:45.890 --> 00:06:48.380
+And that basically means
+
+95
+00:06:49.660 --> 00:06:54.480
+the probability that this result is
+in fact from a random fluctuation.
+
+96
+00:06:54.480 --> 00:06:56.140
+In this case, probability is 1.0.
+
+97
+00:06:56.140 --> 00:07:00.050
+It means it surely is
+a random fluctuation.
+
+98
+00:07:01.310 --> 00:07:06.470
+Now in Willcoxan test,
+it's a non-parametric test,
+
+99
+00:07:06.470 --> 00:07:09.430
+and we would be not only
+looking at the signs,
+
+100
+00:07:09.430 --> 00:07:12.520
+we'll be also looking at
+the magnitude of the difference.
+
+101
+00:07:12.520 --> 00:07:14.690
+But we can draw a similar conclusion,
+
+102
+00:07:14.690 --> 00:07:18.630
+where you say it's very
+likely to be from random.
+
+103
+00:07:18.630 --> 00:07:22.395
+To illustrate this, let's think
+about that such a distribution.
+
+104
+00:07:22.395 --> 00:07:23.895
+And this is called a now distribution.
+
+105
+00:07:23.895 --> 00:07:26.085
+We assume that the mean is zero here.
+
+106
+00:07:26.085 --> 00:07:28.705
+Lets say we started with
+assumption that there's
+
+107
+00:07:28.705 --> 00:07:31.405
+no difference between the two systems.
+
+108
+00:07:31.405 --> 00:07:35.230
+But we assume that because of random
+fluctuations depending on the queries,
+
+109
+00:07:35.230 --> 00:07:37.190
+we might observe a difference.
+
+110
+00:07:37.190 --> 00:07:41.300
+So the actual difference might
+be on the left side here or
+
+111
+00:07:41.300 --> 00:07:42.830
+on the right side here, right?
+
+112
+00:07:43.920 --> 00:07:48.102
+So, and this curve kind of shows
+the probability that we will
+
+113
+00:07:48.102 --> 00:07:52.290
+actually observe values that
+are deviating from zero here.
+
+114
+00:07:53.770 --> 00:07:59.440
+Now, so if we look at this picture then,
+we see that
+
+115
+00:08:01.070 --> 00:08:05.530
+if a difference is observed here, then
+
+116
+00:08:05.530 --> 00:08:11.180
+the chance is very high that this is
+in fact a random observation, right?
+
+117
+00:08:11.180 --> 00:08:16.150
+We can define a region of
+likely observation because of
+
+118
+00:08:16.150 --> 00:08:21.890
+random fluctuation and
+this is that 95% of all the outcomes.
+
+119
+00:08:21.890 --> 00:08:27.894
+And in this then the observed may
+still be from random fluctuation.
+
+120
+00:08:28.960 --> 00:08:34.830
+But if you observe a value in this
+region or a difference on this side,
+
+121
+00:08:34.830 --> 00:08:39.880
+then the difference is unlikely
+from random fluctuation.
+
+122
+00:08:39.880 --> 00:08:44.460
+All right, so there's a very small
+probability that you are observe
+
+123
+00:08:44.460 --> 00:08:47.400
+such a difference just because
+of random fluctuation.
+
+124
+00:08:48.400 --> 00:08:52.800
+So in that case, we can then conclude
+the difference must be real.
+
+125
+00:08:52.800 --> 00:08:54.670
+So System B is indeed better.
+
+126
+00:08:56.120 --> 00:08:59.550
+So this is the idea of
+Statical Significance Test.
+
+127
+00:08:59.550 --> 00:09:03.870
+The takeaway message here is that you
+have to use many queries to avoid
+
+128
+00:09:03.870 --> 00:09:05.770
+jumping into a conclusion.
+
+129
+00:09:05.770 --> 00:09:08.330
+As in this case,
+to say System B is better.
+
+130
+00:09:09.790 --> 00:09:13.259
+There are many different ways of doing
+this Statistical Significance Test.
+
+131
+00:09:15.260 --> 00:09:20.270
+So now, let's talk about the other
+problem of making judgments and,
+
+132
+00:09:20.270 --> 00:09:24.590
+as we said earlier,
+it's very hard to judge all the documents
+
+133
+00:09:24.590 --> 00:09:27.700
+completely unless it's
+a very small data set.
+
+134
+00:09:27.700 --> 00:09:31.530
+So the question is,
+if we can afford judging all the documents
+
+135
+00:09:31.530 --> 00:09:33.880
+in the collection,
+which is subset should we judge?
+
+136
+00:09:35.000 --> 00:09:38.230
+And the solution here is Pooling.
+
+137
+00:09:38.230 --> 00:09:45.640
+And this is a strategy that has been used
+in many cases to solve this problem.
+
+138
+00:09:46.710 --> 00:09:49.800
+So the idea of Pooling is the following.
+
+139
+00:09:49.800 --> 00:09:54.410
+We would first choose a diverse
+set of ranking methods.
+
+140
+00:09:54.410 --> 00:09:56.010
+These are Text Retrieval systems.
+
+141
+00:09:57.130 --> 00:10:02.830
+And we hope these methods can help us
+nominate like the relevant documents.
+
+142
+00:10:02.830 --> 00:10:05.400
+So the goal is to pick out
+the relevant documents.
+
+143
+00:10:05.400 --> 00:10:08.770
+We want to make judgements on relevant
+documents because those are the most
+
+144
+00:10:08.770 --> 00:10:12.720
+useful documents from users perspectives.
+
+145
+00:10:12.720 --> 00:10:16.339
+So then we're going to have
+each to return top-K documents.
+
+146
+00:10:17.380 --> 00:10:19.720
+The K can vary from systems.
+
+147
+00:10:19.720 --> 00:10:24.370
+But the point is to ask them to suggest
+the most likely relevant documents.
+
+148
+00:10:25.530 --> 00:10:29.780
+And then we simply combine
+all these top-K sets
+
+149
+00:10:29.780 --> 00:10:34.478
+to form a pool of documents for
+human assessors.
+
+150
+00:10:34.478 --> 00:10:41.370
+To judge, so imagine you have many
+systems each were ten k documents.
+
+151
+00:10:41.370 --> 00:10:44.498
+We take the top-K documents,
+and we form a union.
+
+152
+00:10:44.498 --> 00:10:48.060
+Now, of course, there are many
+documents that are duplicated because
+
+153
+00:10:48.060 --> 00:10:51.860
+many systems might have retrieved
+the same random documents.
+
+154
+00:10:51.860 --> 00:10:55.250
+So there will be some duplicate documents.
+
+155
+00:10:56.480 --> 00:11:00.690
+And there are also unique documents
+that are only returned by one system.
+
+156
+00:11:00.690 --> 00:11:03.490
+So the idea of having diverse
+
+157
+00:11:03.490 --> 00:11:07.470
+set of ranking methods is to
+ensure the pool is broad.
+
+158
+00:11:07.470 --> 00:11:11.140
+And can include as many possible
+relevant documents as possible.
+
+159
+00:11:12.360 --> 00:11:17.180
+And then, the users would,
+human assessors would make complete
+
+160
+00:11:17.180 --> 00:11:21.250
+the judgments on this data set, this pool.
+
+161
+00:11:21.250 --> 00:11:26.710
+And the other unjudged the documents are
+usually just assumed to be non relevant.
+
+162
+00:11:26.710 --> 00:11:30.900
+Now if the pool is large enough,
+this assumption is okay.
+
+163
+00:11:32.080 --> 00:11:38.600
+But if the pool is not very large,
+this actually has to be reconsidered.
+
+164
+00:11:38.600 --> 00:11:41.190
+And we might use other
+strategies to deal with them and
+
+165
+00:11:41.190 --> 00:11:46.100
+there are indeed other
+methods to handle such cases.
+
+166
+00:11:46.100 --> 00:11:49.840
+And such a strategy is generally okay for
+
+167
+00:11:49.840 --> 00:11:54.740
+comparing systems that
+contribute to the pool.
+
+168
+00:11:54.740 --> 00:11:57.740
+That means if you participate
+in contributing to the pool,
+
+169
+00:11:57.740 --> 00:12:00.850
+then it's unlikely that it
+would penalize your system
+
+170
+00:12:00.850 --> 00:12:03.100
+because the problematic
+documents have all been judged.
+
+171
+00:12:04.300 --> 00:12:07.060
+However, this is problematic for
+
+172
+00:12:07.060 --> 00:12:11.880
+evaluating a new system that may
+have not contributed to the pool.
+
+173
+00:12:11.880 --> 00:12:16.010
+In this case, a new system might
+be penalized because it might have
+
+174
+00:12:16.010 --> 00:12:20.850
+nominated some read only documents
+that have not been judged.
+
+175
+00:12:20.850 --> 00:12:24.370
+So those documents might be
+assumed to be non relevant.
+
+176
+00:12:24.370 --> 00:12:26.150
+That's unfair.
+
+177
+00:12:26.150 --> 00:12:32.810
+So to summarize the whole part of textual
+evaluation, it's extremely important.
+
+178
+00:12:32.810 --> 00:12:37.150
+Because the problem is the empirically
+defined problem, if we
+
+179
+00:12:38.450 --> 00:12:42.470
+don't rely on users, there's no way to
+tell whether one method works better.
+
+180
+00:12:43.580 --> 00:12:46.600
+If we have in the property
+experiment design,
+
+181
+00:12:46.600 --> 00:12:49.710
+we might misguide our research or
+applications.
+
+182
+00:12:49.710 --> 00:12:52.470
+And we might just draw wrong conclusions.
+
+183
+00:12:52.470 --> 00:12:55.250
+And we have seen this is
+in some of our discussions.
+
+184
+00:12:55.250 --> 00:12:58.190
+So make sure to get it right for
+your research or application.
+
+185
+00:13:00.150 --> 00:13:03.400
+The main methodology is the Cranfield
+evaluation methodology.
+
+186
+00:13:03.400 --> 00:13:08.230
+And they are the main paradigm used in
+all kinds of empirical evaluation tasks,
+
+187
+00:13:08.230 --> 00:13:10.820
+not just a search engine variation.
+
+188
+00:13:10.820 --> 00:13:16.020
+Map and nDCG are the two main
+measures that you should definitely
+
+189
+00:13:16.020 --> 00:13:19.530
+know about and they are appropriate for
+comparing ranking algorithms.
+
+190
+00:13:19.530 --> 00:13:22.950
+You will see them often
+in research papers.
+
+191
+00:13:22.950 --> 00:13:27.080
+Precision at 10 documents is easier
+to interpret from user's perspective.
+
+192
+00:13:27.080 --> 00:13:28.500
+So that's also often useful.
+
+193
+00:13:30.580 --> 00:13:37.610
+What's not covered is some other
+evaluation strategy like A-B Test.
+
+194
+00:13:37.610 --> 00:13:43.720
+Where the system would mix two,
+the results of two methods, randomly.
+
+195
+00:13:43.720 --> 00:13:46.580
+And then would show
+the mixed results to users.
+
+196
+00:13:46.580 --> 00:13:49.780
+Of course, the users don't see
+which result, from which method.
+
+197
+00:13:49.780 --> 00:13:52.410
+The users would judge those results or
+
+198
+00:13:52.410 --> 00:13:58.096
+click on those documents in
+a search engine application.
+
+199
+00:13:58.096 --> 00:14:02.080
+In this case then, the search engine
+can check or click the documents and
+
+200
+00:14:02.080 --> 00:14:07.250
+see if one method has contributed
+more through the click the documents.
+
+201
+00:14:07.250 --> 00:14:11.570
+If the user tends to click on one,
+the results from one method,
+
+202
+00:14:13.050 --> 00:14:17.730
+then it suggests that
+message may be better.
+
+203
+00:14:17.730 --> 00:14:21.008
+So this is what leverages the real users
+of a search engine to do evaluation.
+
+204
+00:14:21.008 --> 00:14:25.640
+It's called A-B Test and
+it's a strategy that is often used by
+
+205
+00:14:25.640 --> 00:14:29.370
+the modern search engines or
+commercial search engines.
+
+206
+00:14:29.370 --> 00:14:32.590
+Another way to evaluate IR or
+
+207
+00:14:32.590 --> 00:14:36.020
+textual retrieval is user studies and
+we haven't covered that.
+
+208
+00:14:36.020 --> 00:14:39.390
+I've put some references here
+that you can look at if you want
+
+209
+00:14:39.390 --> 00:14:40.260
+to know more about that.
+
+210
+00:14:41.760 --> 00:14:44.180
+So, there are three
+additional readings here.
+
+211
+00:14:44.180 --> 00:14:49.280
+These are three mini books about
+evaluation and they are all excellent
+
+212
+00:14:49.280 --> 00:14:54.280
+in covering a broad review of
+Information Retrieval Evaluation.
+
+213
+00:14:54.280 --> 00:14:58.237
+And it covers some of the things
+that we discussed, but
+
+214
+00:14:58.237 --> 00:15:01.085
+they also have a lot of others to offer.
+
+215
+00:15:02.777 --> 00:15:12.777
+[MUSIC]

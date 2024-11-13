@@ -1,0 +1,398 @@
+WEBVTT
+
+1
+00:00:07.400 --> 00:00:09.600
+This lecture is about
+collaborative filtering.
+
+2
+00:00:11.540 --> 00:00:16.250
+In this lecture we're going to continue
+the discussion of recommended systems.
+
+3
+00:00:16.250 --> 00:00:21.390
+In particular, we're going to look at
+the approach of collaborative filtering.
+
+4
+00:00:21.390 --> 00:00:25.710
+You have seen this slide before when
+we talked about the two strategies to
+
+5
+00:00:25.710 --> 00:00:30.310
+answer the basic question,
+will user U like item X?
+
+6
+00:00:30.310 --> 00:00:31.290
+In the previous lecture,
+
+7
+00:00:31.290 --> 00:00:36.180
+we looked at the item similarity,
+that's content-based filtering.
+
+8
+00:00:36.180 --> 00:00:39.580
+In this lecture, we're going to
+look at the user similarity.
+
+9
+00:00:39.580 --> 00:00:42.490
+This is a different strategy,
+called a collaborative filtering.
+
+10
+00:00:44.090 --> 00:00:45.630
+So first, what is collaborative filtering?
+
+11
+00:00:47.460 --> 00:00:49.525
+It is to make filtering decisions for
+
+12
+00:00:49.525 --> 00:00:52.660
+individual user based on
+the judgements of other uses.
+
+13
+00:00:54.240 --> 00:00:58.000
+And that is to say we will
+infer individual's interest or
+
+14
+00:00:58.000 --> 00:01:02.080
+preferences from that
+of other similar users.
+
+15
+00:01:02.080 --> 00:01:04.530
+So the general idea is the following.
+
+16
+00:01:04.530 --> 00:01:11.693
+Given a user u, we're going to first
+find the similar users, U1 through.
+
+17
+00:01:11.693 --> 00:01:15.581
+And then we're going to
+predict the use preferences
+
+18
+00:01:15.581 --> 00:01:20.540
+based on the preferences of
+these similar users, U1 through.
+
+19
+00:01:22.390 --> 00:01:26.960
+Now, the user similarity here can
+be judged based their similarity,
+
+20
+00:01:26.960 --> 00:01:29.610
+the preferences on a common set of items.
+
+21
+00:01:31.070 --> 00:01:36.020
+Now here you can see the exact
+content of item doesn't really matter.
+
+22
+00:01:36.020 --> 00:01:40.430
+We're going to look at the only the
+relation between the users and the items.
+
+23
+00:01:41.730 --> 00:01:44.120
+So this means this
+approach is very general.
+
+24
+00:01:44.120 --> 00:01:49.450
+It can be applied to any items,
+not just the text of objects.
+
+25
+00:01:49.450 --> 00:01:53.700
+So this approach would work well
+under the following assumptions.
+
+26
+00:01:53.700 --> 00:01:59.230
+First, users with the same interest
+will have similar preferences.
+
+27
+00:01:59.230 --> 00:02:03.570
+Second, the users with similar preferences
+probably share the same interest.
+
+28
+00:02:03.570 --> 00:02:08.650
+So for example, if the interest of
+the user is in information retrieval,
+
+29
+00:02:08.650 --> 00:02:12.960
+then we can infer the user
+probably favor SIGIR papers.
+
+30
+00:02:14.280 --> 00:02:17.270
+So those who are interested in
+information retrieval researching,
+
+31
+00:02:17.270 --> 00:02:19.840
+probably all favor SIGIR papers.
+
+32
+00:02:19.840 --> 00:02:21.880
+That's an assumption that we make.
+
+33
+00:02:21.880 --> 00:02:23.440
+And if this assumption is true,
+
+34
+00:02:23.440 --> 00:02:27.490
+then it would help collaborative
+filtering to work well.
+
+35
+00:02:27.490 --> 00:02:34.055
+We can also assume that if we see
+people favor See SIGIR papers,
+
+36
+00:02:34.055 --> 00:02:38.215
+then we can infer their interest
+is probably information retrieval.
+
+37
+00:02:38.215 --> 00:02:43.025
+So in these simple examples,
+it seems to make sense, and
+
+38
+00:02:43.025 --> 00:02:48.492
+in many cases such assumption
+actually does make sense.
+
+39
+00:02:48.492 --> 00:02:52.896
+So another assumption we have to make
+is that there are sufficiently large
+
+40
+00:02:52.896 --> 00:02:56.012
+number of user preferences
+available to us.
+
+41
+00:02:56.012 --> 00:03:00.722
+So for example, if you see a lot
+of ratings of users for movies and
+
+42
+00:03:00.722 --> 00:03:03.160
+those indicate their
+preferences on movies.
+
+43
+00:03:03.160 --> 00:03:06.832
+And if you have a lot of such data,
+then cluttered and
+
+44
+00:03:06.832 --> 00:03:08.689
+filtering can be very effective.
+
+45
+00:03:09.960 --> 00:03:14.680
+If not, there will be a problem, and
+that's often called a cold start problem.
+
+46
+00:03:14.680 --> 00:03:18.640
+That means you don't have many
+preferences available, so
+
+47
+00:03:18.640 --> 00:03:23.722
+the system could not fully take advantage
+of collaborative filtering yet.
+
+48
+00:03:23.722 --> 00:03:28.690
+So let's look at the filtering
+problem in a more formal way.
+
+49
+00:03:30.340 --> 00:03:33.791
+So this picture shows that we are,
+
+50
+00:03:33.791 --> 00:03:38.075
+in general, considering a lot of users and
+
+51
+00:03:38.075 --> 00:03:42.956
+we're showing m users here, so U1 through.
+
+52
+00:03:42.956 --> 00:03:46.040
+And we're also considering
+a number of objects.
+
+53
+00:03:46.040 --> 00:03:49.870
+Let's say n objects in
+order to O1 through On.
+
+54
+00:03:49.870 --> 00:03:55.330
+And then we will assume that
+the users will be able to judge those
+
+55
+00:03:55.330 --> 00:04:01.510
+objects and the user could for
+example give ratings to those items.
+
+56
+00:04:01.510 --> 00:04:06.490
+For example, those items could be movies,
+could be products and
+
+57
+00:04:06.490 --> 00:04:10.500
+then the users would give
+ratings 1 through 5 and see.
+
+58
+00:04:10.500 --> 00:04:14.829
+So what you see here is that we have
+shown some ratings available for
+
+59
+00:04:14.829 --> 00:04:16.231
+some combinations.
+
+60
+00:04:16.231 --> 00:04:21.751
+So some users have watched some movies,
+they have rated those movies,
+
+61
+00:04:21.751 --> 00:04:26.075
+they obviously won't be able
+to watch all the movies and
+
+62
+00:04:26.075 --> 00:04:30.040
+some users may actually
+only watch a few movies.
+
+63
+00:04:30.040 --> 00:04:34.410
+So this is in general a small symmetrics.
+
+64
+00:04:34.410 --> 00:04:38.030
+So many items and
+many entries have unknown values.
+
+65
+00:04:39.160 --> 00:04:46.070
+And what's interesting here is we
+could potentially infer the value
+
+66
+00:04:46.070 --> 00:04:51.780
+of an element in this matrix
+based on other values.
+
+67
+00:04:51.780 --> 00:04:56.610
+And that's after the essential question
+in collaborative filtering, and that is,
+
+68
+00:04:56.610 --> 00:04:59.950
+we assume there's an unknown
+function here, f.
+
+69
+00:04:59.950 --> 00:05:04.400
+That would map a pair of user and
+object to a rating.
+
+70
+00:05:04.400 --> 00:05:07.610
+And we have observed the sum
+values of this function.
+
+71
+00:05:08.960 --> 00:05:14.296
+And we want to infer the value
+of this function for
+
+72
+00:05:14.296 --> 00:05:20.168
+other pairs that don't have
+that as available here.
+
+73
+00:05:20.168 --> 00:05:26.198
+So this is very similar to other
+machinery problems where we'd
+
+74
+00:05:26.198 --> 00:05:31.784
+know the values of the function
+on some training data set.
+
+75
+00:05:31.784 --> 00:05:37.384
+And we hope to predict the values of
+this function on some test data so
+
+76
+00:05:37.384 --> 00:05:40.344
+this is a function approximation.
+
+77
+00:05:40.344 --> 00:05:47.440
+And how can we pick out the function
+based on the observed ratings.
+
+78
+00:05:47.440 --> 00:05:50.230
+So this is the setup.
+
+79
+00:05:50.230 --> 00:05:54.680
+Now there are many approaches
+to solving this problem.
+
+80
+00:05:54.680 --> 00:06:00.415
+In fact,
+this is a very active research area or
+
+81
+00:06:00.415 --> 00:06:09.095
+reason that there are special
+conferences dedicated to the problem,
+
+82
+00:06:10.419 --> 00:06:15.730
+major conference devoted to the problem.
+
+83
+00:06:15.730 --> 00:06:20.199
+[MUSIC]

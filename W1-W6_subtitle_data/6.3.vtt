@@ -1,0 +1,270 @@
+WEBVTT
+
+1
+00:00:00.008 --> 00:00:07.386
+[SOUND]
+There are many
+
+2
+00:00:07.386 --> 00:00:11.551
+more of the Munster learning algorithms
+than the regression based approaches and
+
+3
+00:00:11.551 --> 00:00:15.009
+they generally attempt to direct
+the optimizer retrieval method.
+
+4
+00:00:16.690 --> 00:00:18.010
+Like a MAP or nDCG.
+
+5
+00:00:19.020 --> 00:00:24.640
+Note that the optimization object or
+function that we have seen
+
+6
+00:00:24.640 --> 00:00:29.610
+on the previous slide is not directly
+related to the retrieval measure.
+
+7
+00:00:31.390 --> 00:00:33.870
+By maximizing the prediction of one or
+
+8
+00:00:33.870 --> 00:00:39.430
+zero, we don't necessarily optimize
+the ranking of those documents.
+
+9
+00:00:39.430 --> 00:00:44.106
+One can imagine that our
+prediction may not be too bad.
+
+10
+00:00:44.106 --> 00:00:46.626
+And let's say both are around 0.5.
+
+11
+00:00:46.626 --> 00:00:51.230
+So it's kind of in the middle of zero and
+one for the two documents.
+
+12
+00:00:51.230 --> 00:00:58.250
+But the ranking can be wrong, so we might
+have a larger value for E2 and then E1.
+
+13
+00:01:00.750 --> 00:01:04.235
+So that won't be good from
+retrieval perspective,
+
+14
+00:01:04.235 --> 00:01:07.420
+even though function, it's not bad.
+
+15
+00:01:07.420 --> 00:01:11.773
+In contrast, we might have another
+case where we predicted the values, or
+
+16
+00:01:11.773 --> 00:01:14.000
+around the 0.9, it said.
+
+17
+00:01:14.000 --> 00:01:17.580
+And by the objective function,
+the error would be larger.
+
+18
+00:01:17.580 --> 00:01:20.500
+But if we didn't get the order
+of the two documents correct,
+
+19
+00:01:20.500 --> 00:01:22.970
+that's actually a better result.
+
+20
+00:01:22.970 --> 00:01:28.070
+So these new, more advanced approaches
+will try to correct that problem.
+
+21
+00:01:28.070 --> 00:01:32.120
+Of course, then the challenge is
+that the optimization problem will
+
+22
+00:01:32.120 --> 00:01:33.700
+be harder to solve.
+
+23
+00:01:33.700 --> 00:01:39.143
+And then, researchers have posed
+many solutions to the problem,
+
+24
+00:01:39.143 --> 00:01:46.153
+and you can read more of the references at
+the end, know more about these approaches.
+
+25
+00:01:46.153 --> 00:01:50.540
+Now, these learning ranked
+approaches after the general.
+
+26
+00:01:50.540 --> 00:01:53.530
+So there accounts would be be applied
+with many other ranking problems,
+
+27
+00:01:53.530 --> 00:01:55.350
+not just the retrieval problem.
+
+28
+00:01:55.350 --> 00:01:58.993
+So some people will go
+with recommender systems,
+
+29
+00:01:58.993 --> 00:02:02.810
+computational advertising,
+or summarization and
+
+30
+00:02:02.810 --> 00:02:08.636
+there are many others that you can
+probably encounter in your applications..
+
+31
+00:02:11.157 --> 00:02:15.884
+To summarize this lecture we
+have talked about using machine
+
+32
+00:02:15.884 --> 00:02:21.270
+learning to combine much more
+features including ranking results.
+
+33
+00:02:22.780 --> 00:02:24.690
+Actually the use of machine learning
+
+34
+00:02:25.810 --> 00:02:29.840
+in information retrieval has
+started since many decades ago.
+
+35
+00:02:29.840 --> 00:02:35.212
+So for example, the Rocchio feedback
+approach that we talked about earlier
+
+36
+00:02:35.212 --> 00:02:40.700
+was a machine learning approach
+prior to relevance feedback.
+
+37
+00:02:40.700 --> 00:02:46.750
+But the most recent use of machine
+learning has been driven by some
+
+38
+00:02:46.750 --> 00:02:51.000
+changes in the environment of
+applications of retrieval systems.
+
+39
+00:02:52.550 --> 00:02:58.650
+First, it's mostly freedom of
+availability of a lot of training data
+
+40
+00:02:58.650 --> 00:03:04.250
+in the form of critical, such as
+they are more available than before.
+
+41
+00:03:04.250 --> 00:03:11.106
+So the data can provide a lot of
+useful knowledge about relevance and
+
+42
+00:03:11.106 --> 00:03:17.487
+machine learning methods can be
+applied into a leverage list.
+
+43
+00:03:17.487 --> 00:03:21.744
+Secondly, it's also freedom by
+the need for combining many features,
+
+44
+00:03:21.744 --> 00:03:24.464
+and this is not only just
+because there are more
+
+45
+00:03:24.464 --> 00:03:29.840
+features available on the web that can
+be naturally used for improved scoring.
+
+46
+00:03:29.840 --> 00:03:36.208
+It's also because by combining them,
+we can improve the robustness
+
+47
+00:03:36.208 --> 00:03:41.168
+of ranking, so this is desired for
+combating spams.
+
+48
+00:03:41.168 --> 00:03:45.887
+Modern search engines all use some
+kind of machine learning techniques to
+
+49
+00:03:45.887 --> 00:03:48.855
+combine many features
+to optimize ranking and
+
+50
+00:03:48.855 --> 00:03:53.590
+this is a major feature of these
+commercial engines such a Google or Bing.
+
+51
+00:03:56.190 --> 00:04:02.368
+The topic of learning to rank is still
+active research topic in the community,
+
+52
+00:04:02.368 --> 00:04:08.265
+and so we can expect to see new results
+in development in the next few years,
+
+53
+00:04:08.265 --> 00:04:09.119
+perhaps.
+
+54
+00:04:12.753 --> 00:04:17.686
+Here are some additional readings
+that can give you more information
+
+55
+00:04:17.686 --> 00:04:22.544
+about how learning to rank at works and
+also some advanced methods.
+
+56
+00:04:25.281 --> 00:04:35.281
+[MUSIC]

@@ -1,0 +1,701 @@
+WEBVTT
+
+1
+00:00:00.012 --> 00:00:09.135
+[SOUND]
+And
+
+2
+00:00:09.135 --> 00:00:12.960
+here we're going to talk
+about basic strategy.
+
+3
+00:00:12.960 --> 00:00:18.430
+And that would be based on
+similarity of users and
+
+4
+00:00:18.430 --> 00:00:23.220
+then predicting the rating of and
+
+5
+00:00:23.220 --> 00:00:32.540
+object by an active user using the ratings
+of similar users to this active user.
+
+6
+00:00:32.540 --> 00:00:38.600
+This is called a memory based approach
+because it's a little bit similar to
+
+7
+00:00:40.120 --> 00:00:44.460
+storing all the user information and
+
+8
+00:00:44.460 --> 00:00:49.713
+when we are considering a particular
+user we going to try to
+
+9
+00:00:49.713 --> 00:00:56.210
+retrieve the rating users or
+the similar users to this user case.
+
+10
+00:00:56.210 --> 00:01:01.140
+And then try to use this
+information about those users
+
+11
+00:01:01.140 --> 00:01:05.120
+to predict the preference of this user.
+
+12
+00:01:05.120 --> 00:01:11.700
+So here is the general idea and
+we use some notations here, so
+
+13
+00:01:11.700 --> 00:01:16.570
+x sub i j denotes the rating
+of object o j by user u i
+
+14
+00:01:17.910 --> 00:01:23.460
+and n sub i is average rating
+of object by this user.
+
+15
+00:01:26.100 --> 00:01:31.050
+So this n i is needed because
+
+16
+00:01:31.050 --> 00:01:35.500
+we would like to normalize
+the ratings of objects by this user.
+
+17
+00:01:35.500 --> 00:01:39.190
+So how do you do normalization?
+
+18
+00:01:39.190 --> 00:01:46.440
+Well, we're going to just subtract
+the average rating from all the ratings.
+
+19
+00:01:46.440 --> 00:01:49.890
+Now, this is to normalize these ratings so
+
+20
+00:01:49.890 --> 00:01:53.510
+that the ratings from different
+users would be comparable.
+
+21
+00:01:55.590 --> 00:02:00.220
+Because some users might be more generous,
+and they generally give more high
+
+22
+00:02:00.220 --> 00:02:05.160
+ratings but some others might be
+more critical so their ratings
+
+23
+00:02:05.160 --> 00:02:10.850
+cannot be directly compared with each
+other or aggregate them together.
+
+24
+00:02:10.850 --> 00:02:13.450
+So we need to do this normalization.
+
+25
+00:02:13.450 --> 00:02:18.420
+Another prediction of
+the rating on the item
+
+26
+00:02:18.420 --> 00:02:22.880
+by another user or
+active user, u sub a here
+
+27
+00:02:24.460 --> 00:02:29.419
+can be based on the average
+ratings of similar users.
+
+28
+00:02:30.630 --> 00:02:36.960
+So the user u sub a is the user that we
+are interested in recommending items to.
+
+29
+00:02:36.960 --> 00:02:42.400
+And we now are interested in
+recommending this o sub j.
+
+30
+00:02:42.400 --> 00:02:47.910
+So we're interested in knowing how
+likely this user will like this object.
+
+31
+00:02:47.910 --> 00:02:49.370
+How do we know that?
+
+32
+00:02:50.370 --> 00:02:55.560
+Where the idea here is to look at
+whether similar users to this user
+
+33
+00:02:55.560 --> 00:02:57.260
+have liked this object.
+
+34
+00:02:59.530 --> 00:03:04.720
+So mathematically this is to say
+well the predicted the rating of
+
+35
+00:03:04.720 --> 00:03:12.130
+this user on this app object,
+user a on object o j is basically
+
+36
+00:03:12.130 --> 00:03:18.640
+combination of the normalized
+ratings of different users,
+
+37
+00:03:18.640 --> 00:03:23.950
+and in fact here,
+we're taking a sum over all the users.
+
+38
+00:03:23.950 --> 00:03:29.180
+But not all users contribute
+equally to the average,
+
+39
+00:03:29.180 --> 00:03:31.748
+and this is conjured by the weights.
+
+40
+00:03:31.748 --> 00:03:37.191
+So this weight controls the inference
+
+41
+00:03:37.191 --> 00:03:41.618
+of the user on the prediction.
+
+42
+00:03:41.618 --> 00:03:46.763
+And of course,
+naturally this weight should be related to
+
+43
+00:03:46.763 --> 00:03:51.917
+the similarity between ua and
+this particular user, ui.
+
+44
+00:03:51.917 --> 00:03:57.650
+The more similar they are,
+then the more contribution
+
+45
+00:03:57.650 --> 00:04:02.420
+user ui can make in predicting
+the preference of ua.
+
+46
+00:04:03.950 --> 00:04:06.060
+So, the formula is extremely simple.
+
+47
+00:04:06.060 --> 00:04:10.140
+You can see,
+it's a sum of all the possible users.
+
+48
+00:04:10.140 --> 00:04:14.040
+And inside the sum we have their ratings,
+well,
+
+49
+00:04:14.040 --> 00:04:17.380
+their normalized ratings
+as I just explained.
+
+50
+00:04:17.380 --> 00:04:21.400
+The ratings need to be normalized in
+order to be comparable with each other.
+
+51
+00:04:22.690 --> 00:04:25.739
+And then these ratings
+are weighted by their similarity.
+
+52
+00:04:26.750 --> 00:04:33.310
+So you can imagine w of a and i is just
+a similarity of user a and user i.
+
+53
+00:04:34.470 --> 00:04:35.350
+Now what's k here?
+
+54
+00:04:35.350 --> 00:04:39.120
+Well k is simply a normalizer.
+
+55
+00:04:39.120 --> 00:04:45.670
+It's just one over the sum of all
+the weights, over all the users.
+
+56
+00:04:47.860 --> 00:04:54.680
+So this means, basically, if you consider
+the weight here together with k, and
+
+57
+00:04:54.680 --> 00:04:59.259
+we have coefficients of weight that
+will sum to one for all the users.
+
+58
+00:05:00.430 --> 00:05:05.690
+And it's just a normalization strategy so
+that you get this predictor rating
+
+59
+00:05:05.690 --> 00:05:12.319
+in the same range as these ratings
+that we used to make the prediction.
+
+60
+00:05:13.650 --> 00:05:14.560
+Right?
+
+61
+00:05:14.560 --> 00:05:20.320
+So this is basically the main idea
+of memory-based approaches for
+
+62
+00:05:20.320 --> 00:05:21.270
+collaborative filtering.
+
+63
+00:05:22.750 --> 00:05:27.880
+Once we make this prediction,
+we also would like to map
+
+64
+00:05:27.880 --> 00:05:33.270
+back through the rating that
+
+65
+00:05:33.270 --> 00:05:38.520
+the user would actually make,
+
+66
+00:05:38.520 --> 00:05:44.110
+and this is to further
+add the mean rating or
+
+67
+00:05:44.110 --> 00:05:49.980
+average rating of this user u
+sub a to the predicted value.
+
+68
+00:05:49.980 --> 00:05:54.290
+This would recover a meaningful rating for
+this user.
+
+69
+00:05:54.290 --> 00:05:59.410
+So if this user is generous, then
+the average it would be is somewhat high,
+
+70
+00:05:59.410 --> 00:06:04.580
+and when we add that the rating will be
+adjusted to our relatively high rate.
+
+71
+00:06:04.580 --> 00:06:10.459
+Now when you recommend an item to a user
+this actually doesn't really matter,
+
+72
+00:06:10.459 --> 00:06:15.093
+because you are interested in
+basically the normalized reading,
+
+73
+00:06:15.093 --> 00:06:17.158
+that's more meaningful.
+
+74
+00:06:17.158 --> 00:06:22.624
+But when they evaluate these
+rather than filter approaches,
+
+75
+00:06:22.624 --> 00:06:27.563
+they typically assume that
+actual ratings of the user on
+
+76
+00:06:27.563 --> 00:06:32.923
+these objects to be unknown and
+then you do the prediction and
+
+77
+00:06:32.923 --> 00:06:38.938
+then you compare the predicted
+ratings with their actual ratings.
+
+78
+00:06:38.938 --> 00:06:42.020
+So, you do have access
+to the actual ratings.
+
+79
+00:06:42.020 --> 00:06:44.100
+But, then you pretend that you don't know,
+and
+
+80
+00:06:44.100 --> 00:06:48.420
+then you compare your systems
+predictions with the actual ratings.
+
+81
+00:06:48.420 --> 00:06:54.130
+In that case, obviously, the systems
+prediction would be adjusted to match
+
+82
+00:06:54.130 --> 00:06:59.570
+the actual ratings of the user and
+this is what's happening here basically.
+
+83
+00:07:01.040 --> 00:07:05.160
+Okay so this is the memory based approach.
+
+84
+00:07:05.160 --> 00:07:07.000
+Now, of course,
+if you look at the formula,
+
+85
+00:07:07.000 --> 00:07:09.430
+if you want to write
+the program to implement it,
+
+86
+00:07:09.430 --> 00:07:15.510
+you still face the problem of
+determining what is this w function?
+
+87
+00:07:15.510 --> 00:07:20.890
+Once you know the w function, then
+the formula is very easy to implement.
+
+88
+00:07:22.740 --> 00:07:28.910
+So, indeed, there are many different ways
+to compute this function or this weight,
+
+89
+00:07:28.910 --> 00:07:33.550
+w, and specific approaches generally
+differ in how this is computed.
+
+90
+00:07:35.500 --> 00:07:38.220
+So here are some possibilities and
+
+91
+00:07:38.220 --> 00:07:42.010
+you can imagine there
+are many other possibilities.
+
+92
+00:07:42.010 --> 00:07:46.460
+One popular approach is we use
+the Pearson correlation coefficient.
+
+93
+00:07:48.130 --> 00:07:52.380
+This would be a sum over
+commonly rated items.
+
+94
+00:07:52.380 --> 00:07:56.280
+And the formula is a standard
+appears in correlation
+
+95
+00:07:56.280 --> 00:07:58.690
+coefficient formula as shown here.
+
+96
+00:08:00.060 --> 00:08:05.300
+So this basically measures
+whether the two users tended
+
+97
+00:08:05.300 --> 00:08:10.229
+to all give higher ratings to similar
+items or lower ratings to similar items.
+
+98
+00:08:11.780 --> 00:08:15.990
+Another measure is the cosine measure,
+and this is going to treat the rating
+
+99
+00:08:15.990 --> 00:08:20.820
+vectors as vectors in the vector space.
+
+100
+00:08:20.820 --> 00:08:24.400
+And then,
+we're going to measure the angle and
+
+101
+00:08:24.400 --> 00:08:27.880
+compute the cosine of
+the angle of the two vectors.
+
+102
+00:08:27.880 --> 00:08:32.590
+And this measure has been using the vector
+space model for retrieval, as well.
+
+103
+00:08:32.590 --> 00:08:36.400
+So as you can imagine there are just
+as many different ways of doing that.
+
+104
+00:08:36.400 --> 00:08:41.330
+In all these cases, note that the user's
+similarity is based on their preferences
+
+105
+00:08:41.330 --> 00:08:47.135
+on items and we did not actually use
+any content information of these items.
+
+106
+00:08:47.135 --> 00:08:51.802
+It didn't matter these items are,
+they can be movies,
+
+107
+00:08:51.802 --> 00:08:55.276
+they can be books, they can be products,
+
+108
+00:08:55.276 --> 00:09:00.541
+they can be text documents which
+has been cabled the content and
+
+109
+00:09:00.541 --> 00:09:07.120
+so this allows such approach to be
+applied to a wide range of problems.
+
+110
+00:09:07.120 --> 00:09:08.920
+Now in some newer approaches of course,
+
+111
+00:09:08.920 --> 00:09:11.830
+we would like to use more
+information about the user.
+
+112
+00:09:11.830 --> 00:09:18.750
+Clearly, we know more about the user,
+not just these preferences on these items.
+
+113
+00:09:18.750 --> 00:09:23.659
+So in the actual filtering system,
+is in collaborative filtering,
+
+114
+00:09:23.659 --> 00:09:27.820
+we could also combine that
+with content based filtering.
+
+115
+00:09:27.820 --> 00:09:34.040
+We could use more context information,
+and those are all interesting approaches
+
+116
+00:09:34.040 --> 00:09:39.140
+that people are just starting, and
+there are new approaches proposed.
+
+117
+00:09:39.140 --> 00:09:44.147
+But, this memory based approach has
+been shown to work reasonably well,
+
+118
+00:09:44.147 --> 00:09:48.750
+and it's easy to implement in
+practical applications this could be
+
+119
+00:09:48.750 --> 00:09:53.698
+a starting point to see if the strategy
+works well for your application.
+
+120
+00:09:56.108 --> 00:10:01.305
+So, there are some obvious ways
+to also improve this approach and
+
+121
+00:10:01.305 --> 00:10:07.070
+mainly we would like to improve
+the user similarity measure.
+
+122
+00:10:07.070 --> 00:10:09.690
+And there are some practical
+issues we deal with here as well.
+
+123
+00:10:09.690 --> 00:10:11.960
+So for example,
+there will be a lot of missing values.
+
+124
+00:10:11.960 --> 00:10:12.990
+What do you do with them?
+
+125
+00:10:12.990 --> 00:10:18.060
+Well, you can set them to default values
+or the average ratings of the user.
+
+126
+00:10:18.060 --> 00:10:20.310
+And that would be a simple solution.
+
+127
+00:10:20.310 --> 00:10:26.388
+But there are advanced approaches that
+can actually try to predict those
+
+128
+00:10:26.388 --> 00:10:32.878
+missing values, and then use predictive
+values to improve the similarity.
+
+129
+00:10:32.878 --> 00:10:38.880
+So in fact that the memory based apology
+can predict those missing values, right?
+
+130
+00:10:38.880 --> 00:10:43.128
+So you get you have iterative approach
+where you first use some preliminary
+
+131
+00:10:43.128 --> 00:10:43.895
+prediction and
+
+132
+00:10:43.895 --> 00:10:48.095
+then you can use the predictive values to
+further improve the similarity function.
+
+133
+00:10:49.525 --> 00:10:54.840
+So this is a heuristic
+way to solve the problem.
+
+134
+00:10:54.840 --> 00:10:59.639
+And the strategy obviously would affect
+the performance of claritative filtering
+
+135
+00:10:59.639 --> 00:11:04.040
+just like any other heuristics would
+improve these similarity functions.
+
+136
+00:11:06.290 --> 00:11:10.460
+Another idea which is actually very
+similar to the idea of IDF that we
+
+137
+00:11:10.460 --> 00:11:15.150
+have seen in text search is called
+a Inverse User Frequency or IUF.
+
+138
+00:11:15.150 --> 00:11:23.980
+Now here the idea is to look at where
+the two users share similar ratings.
+
+139
+00:11:23.980 --> 00:11:29.092
+If the item is a popular item that
+has been viewed by many people and
+
+140
+00:11:29.092 --> 00:11:35.110
+seen [INAUDIBLE] to people interested
+in this item may not be so
+
+141
+00:11:35.110 --> 00:11:40.620
+interesting but if it's a rare item,
+it has not been viewed by many users.
+
+142
+00:11:40.620 --> 00:11:44.770
+But these two users deal with this
+item and they give similar ratings.
+
+143
+00:11:44.770 --> 00:11:47.370
+And, that says more
+about their similarity.
+
+144
+00:11:47.370 --> 00:11:52.177
+It's kind of to emphasize
+more on similarity
+
+145
+00:11:52.177 --> 00:11:56.738
+on items that are not
+viewed by many users.
+
+146
+00:11:56.738 --> 00:12:06.738
+[MUSIC]
