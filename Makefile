@@ -1,7 +1,7 @@
 .PHONY: build import-requirements export-requirements
 
 build:
-	python SubtitleProcessor.py
+	python main.py
 
 import-requirements:
 	pip install -r requirements.txt
