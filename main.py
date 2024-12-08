@@ -1,34 +1,26 @@
 import math
+import time
 from SubtitleProcessor import SubtitleProcessor
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.cluster import AgglomerativeClustering
 import numpy as np
+import os
+import tqdm
+import json
 
 def normalize_list(values):
-    # Find the min and max of the list
     min_value = min(values)
     max_value = max(values)
     
-    # Apply min-max normalization
     normalized_values = [(x - min_value) / (max_value - min_value) for x in values]
     
     return normalized_values
 
-def process_sentence(sentences: list):
-    # Step 1: Sentence Encoding with SBERT
-    model = SentenceTransformer('paraphrase-MiniLM-L6-v2')
-
-    # Parameters
-    # window_size = math.floor(len(sentences)/10)  # Sliding window size (N)
-    window_size = 5
-    # threshold = 0.5 # Cosine similarity threshold to mark segmentation
-    print(f"window_size: {window_size}")
-
-    # Find segmentation points
+def encoding_sentences(model, window_size, threshold_factor, sentences: list, sentences_index: list):
     segmentation_points = []
     similarity_list = []
     comparison_points = []
+    
     # Sliding window over sentences
     for i in range(len(sentences) - window_size):
         # Get embeddings for the current window and the next window
@@ -41,41 +33,27 @@ def process_sentence(sentences: list):
         
         # Compute cosine similarity between the two window embeddings
         similarity = cosine_similarity([embedding1], [embedding2])[0][0]
-        # print(similarity)
         similarity_list.append(similarity)
         comparison_points.append(i)
 
     # normalize similarity
     similarity_list_norm = normalize_list(similarity_list)        
-    threshold = sum(similarity_list_norm)/len(similarity_list_norm) * 0.5
-    print(f"threshold: {threshold}")
-
+    threshold = sum(similarity_list_norm)/len(similarity_list_norm) * threshold_factor
+    
     for i in range(len(comparison_points)):    
         # If similarity is below the threshold, mark the end of the first window as a segmentation point
-        # print(f"similarity_list_norm[i]:{similarity_list_norm[i]}, threshold: {threshold}")
         if similarity_list_norm[i] < threshold:
-            # print(similarity, threshold)
-            segmentation_points.append(comparison_points[i])  # Mark the last sentence of the first window
+            segmentation_points.append((comparison_points[i], sentences_index[comparison_points[i]]))  
 
-    # Output the segmentation points (indices of sentences that mark topic boundaries)
-    for point in segmentation_points:
-        print(f"Segmentation point at sentence {point + 1}: {sentences[point]}")
+    return segmentation_points
 
-def main():
-    """
-    Main function to demonstrate usage of the SentenceBERTDetector.
-    """
+def preprocess(vtt_file):
     # Initialize detector
     processor = SubtitleProcessor()
-
-    # Path to the VTT file
-    vtt_file = "W1-W6_subtitle_data/1.1.vtt"
-
     sentences = processor.process_vtt(vtt_file)
-    sentences_text = []
-    # print("\nSentences found in the VTT file:")
-    # print("-" * 80)  # Print a separator line
 
+    sentences_text = []
+    sentences_index = []
     for i, sentence in enumerate(sentences, 1):  # enumerate from 1 for readability
         # print(f"\nSentence {i}:")
         # print(f"Start Time: {sentence['start_time']}")
@@ -83,8 +61,79 @@ def main():
         # print(f"{sentence['text']}")
         # print("-" * 80)  # Print a separator line between sentences
         sentences_text.append(sentence['text'])
+        sentences_index.append(sentence['index'])
+    return sentences_text, sentences_index
 
-    process_sentence(sentences_text)
+def load_sentences_file(file_path):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        # Read all lines, stripping newline characters
+        sentences = [line.strip() for line in file if line.strip()]
+    return sentences
+
+def load_segment_indexes_list(file_path):
+    load_segment_indexes_list = []
+    with open(file_path, "r") as file:
+        for segment_indexes in file:
+            load_segment_indexes_list.append(json.loads(segment_indexes))
+    
+    return load_segment_indexes_list
+
+def save_segment_indexes_list(file_path, segment_indexes_list):
+    with open(file_path, "w") as file:
+        for segment_indexes in segment_indexes_list:
+            file.write(str(segment_indexes) + "\n")
+
+def main():
+    # Path to the VTT file
+    data_folder = "W1-W6_subtitle_data"
+    vtt_file_list = os.listdir(data_folder)
+    # TODO remove test file
+    vtt_file_list = ["1.1.vtt","1.2.vtt","1.3.vtt"]
+    sbert_model = SentenceTransformer('all-MPNet-base-v2')
+    segment_indexes_list_path = data_folder+"_segment_indexes_list"
+
+    print(f"# use SBert encoding and segment lecture files in {data_folder}")
+    print(f"{'#' * 100}")
+
+    # TODO: debug 'not'
+    if not os.path.exists(segment_indexes_list_path):
+        segment_indexes_list = load_segment_indexes_list(segment_indexes_list_path)
+        print(segment_indexes_list)
+    else:
+        # TODO for vtt_file_name in tqdm.tqdm(vtt_file_list):
+        segment_indexes_list = []
+        for vtt_file_name in vtt_file_list:
+            vtt_file_path = data_folder + "/" + vtt_file_name
+            # vtt_file = "W1-W6_subtitle_data/1.2.vtt"
+
+            # preprocess
+            # print(f"# preprocess {vtt_file_path}")
+            sentences, sentences_index = preprocess(vtt_file_path)
+
+            # encoding and segmentation
+            # print(f"# encoding and segmenting {vtt_file_path}")
+            # TODO: test dynamic window size depends on total lines
+            sliding_window_size = 2
+            # TODO: test dynamic threshold size depends on total lines
+            similarity_threshold_factor = 0.3
+            segment_points = encoding_sentences(sbert_model, sliding_window_size, similarity_threshold_factor, sentences, sentences_index)
+
+            # TODO: debug
+            for point, point_index in segment_points:
+                print(f"Segmentation point at sentence {point + 1}: {sentences[point]}, point_index: {point_index}")
+            
+            # Get index points from segmentation result
+            segment_indexes = [sg[1] for sg in segment_points]
+            print(f"segment_indexes: {segment_indexes}")
+            segment_indexes_list.append(segment_indexes)
+
+        save_segment_indexes_list(segment_indexes_list_path, segment_indexes_list)
+
+    # Use LLM for benchmark
+
+    # evaluation
+    # compare segment against user annotated result
+    # get precision, recall, F1-score
 
 if __name__ == "__main__":
     main()

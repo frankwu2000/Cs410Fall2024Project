@@ -60,9 +60,11 @@ class SubtitleProcessor:
        """
        current = None
 
+       index = 1  
        for i, caption in enumerate(captions):
            cleaned_text = self._clean_text(caption.text)
            if not cleaned_text:
+               index += 1
                continue
 
            # Start a new sentence if we don't have one
@@ -70,7 +72,7 @@ class SubtitleProcessor:
                current = {
                    'text': cleaned_text,
                    'start_time': caption.start,
-                   'index': i
+                   'index': index
                }
            else:
                # Add to existing sentence with space
@@ -80,6 +82,7 @@ class SubtitleProcessor:
            if cleaned_text.rstrip().endswith(('.', '!', '?')):
                yield current
                current = None
+           index += 1
 
        # Yield any remaining text as a sentence
        if current:
