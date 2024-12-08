@@ -11,22 +11,26 @@ import json
 def normalize_list(values):
     min_value = min(values)
     max_value = max(values)
-    
     normalized_values = [(x - min_value) / (max_value - min_value) for x in values]
     
     return normalized_values
 
-def encoding_sentences(model, window_size, threshold_factor, sentences: list, sentences_index: list):
+def encoding_sentences(model, sentences: list, sentences_index: list):
+    sliding_window_size = 5
+    similarity_threshold_percentile = 5
+    
     segmentation_points = []
     similarity_list = []
     comparison_points = []
     
     # Sliding window over sentences
-    for i in range(len(sentences) - window_size):
+    for i in range(len(sentences) - sliding_window_size):
         # Get embeddings for the current window and the next window
-        window1 = sentences[i:i + window_size]
-        window2 = sentences[i + 1:i + 1 + window_size]
-        
+        window1 = sentences[i:i + sliding_window_size]
+        window1 = ["".join(window1)]
+        window2 = sentences[i + 1:i + 1 + sliding_window_size]
+        window2 = ["".join(window2)]
+
         # Get embeddings for both windows
         embedding1 = np.mean(model.encode(window1), axis=0)
         embedding2 = np.mean(model.encode(window2), axis=0)
@@ -36,9 +40,10 @@ def encoding_sentences(model, window_size, threshold_factor, sentences: list, se
         similarity_list.append(similarity)
         comparison_points.append(i)
 
-    # normalize similarity
+    # Normalize similarity by min and max value. 
+    # Use percentile to get threshold
     similarity_list_norm = normalize_list(similarity_list)        
-    threshold = sum(similarity_list_norm)/len(similarity_list_norm) * threshold_factor
+    threshold = np.percentile(similarity_list_norm, similarity_threshold_percentile)
     
     for i in range(len(comparison_points)):    
         # If similarity is below the threshold, mark the end of the first window as a segmentation point
@@ -83,55 +88,76 @@ def save_segment_indexes_list(file_path, segment_indexes_list):
         for segment_indexes in segment_indexes_list:
             file.write(str(segment_indexes) + "\n")
 
+def evaluate(test_list: list, golden_standard_list: list):
+    threshold = 3
+    truePositive = 0
+    
+    for r1 in test_list:
+        for r2 in golden_standard_list:
+            if np.abs(r1-r2) <= threshold:
+                truePositive += 1
+                break
+    
+    accuracy = truePositive / len(golden_standard_list)
+
+    return accuracy    
+
+
+
 def main():
     # Path to the VTT file
     data_folder = "W1-W6_subtitle_data"
-    vtt_file_list = os.listdir(data_folder)
-    # TODO remove test file
-    vtt_file_list = ["1.1.vtt","1.2.vtt","1.3.vtt"]
     sbert_model = SentenceTransformer('all-MPNet-base-v2')
-    segment_indexes_list_path = data_folder+"_segment_indexes_list"
+    
+    vtt_file_list = sorted(os.listdir(data_folder))
+
+    # TODO remove test file
+    # vtt_file_list = ["1.1.vtt","1.2.vtt","1.3.vtt"]
+    
+    sbert_segments_output_path = data_folder + "_sbert_segment_output"
 
     print(f"# use SBert encoding and segment lecture files in {data_folder}")
     print(f"{'#' * 100}")
 
-    # TODO: debug 'not'
-    if not os.path.exists(segment_indexes_list_path):
-        segment_indexes_list = load_segment_indexes_list(segment_indexes_list_path)
-        print(segment_indexes_list)
+    sbert_segments = []
+    if os.path.exists(sbert_segments_output_path):
+        sbert_segments = load_segment_indexes_list(sbert_segments_output_path)
+        # print(sbert_segments_output_path)
     else:
-        # TODO for vtt_file_name in tqdm.tqdm(vtt_file_list):
-        segment_indexes_list = []
-        for vtt_file_name in vtt_file_list:
+        for vtt_file_name in tqdm.tqdm(vtt_file_list):
+        # for vtt_file_name in vtt_file_list:
+        
             vtt_file_path = data_folder + "/" + vtt_file_name
-            # vtt_file = "W1-W6_subtitle_data/1.2.vtt"
 
             # preprocess
-            # print(f"# preprocess {vtt_file_path}")
             sentences, sentences_index = preprocess(vtt_file_path)
 
             # encoding and segmentation
-            # print(f"# encoding and segmenting {vtt_file_path}")
-            # TODO: test dynamic window size depends on total lines
-            sliding_window_size = 2
-            # TODO: test dynamic threshold size depends on total lines
-            similarity_threshold_factor = 0.3
-            segment_points = encoding_sentences(sbert_model, sliding_window_size, similarity_threshold_factor, sentences, sentences_index)
+            segment_points = encoding_sentences(sbert_model, sentences, sentences_index)
 
-            # TODO: debug
-            for point, point_index in segment_points:
-                print(f"Segmentation point at sentence {point + 1}: {sentences[point]}, point_index: {point_index}")
+            # for point, point_index in segment_points:
+                # print(f"Segmentation point at sentence {point + 1}: {sentences[point]}, point_index: {point_index}")
             
             # Get index points from segmentation result
             segment_indexes = [sg[1] for sg in segment_points]
-            print(f"segment_indexes: {segment_indexes}")
-            segment_indexes_list.append(segment_indexes)
 
-        save_segment_indexes_list(segment_indexes_list_path, segment_indexes_list)
+            # print(f"vtt_file_name:{vtt_file_name}, segment_indexes: {segment_indexes}")
+            sbert_segments.append(segment_indexes)
 
-    # Use LLM for benchmark
+        save_segment_indexes_list(sbert_segments_output_path, sbert_segments)
+
+    # LLM benchmark segments
+    llm_labelled_segments = load_segment_indexes_list(data_folder+"_llm_labelled_segment_output")
 
     # evaluation
+    print(f"#evaluate Sbert segmentation performance: # true positive / # true")
+    accuracy_list = []
+    for i in range(len(sbert_segments)):        
+        accuracy = evaluate(sbert_segments[i],llm_labelled_segments[i])
+        accuracy_list.append(accuracy)
+    print(f"accuracy_list: {accuracy_list}")
+    print(f"accuracy_list mean: {np.mean(accuracy_list)}")
+
     # compare segment against user annotated result
     # get precision, recall, F1-score
 
