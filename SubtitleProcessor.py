@@ -1,6 +1,7 @@
 import re           # For regular expressions used in _clean_text()
 import webvtt       # For reading VTT files 
                     # Run `pip install webvtt-py` to install
+
 class SubtitleProcessor:
    """
    A class to process VTT (WebVTT) files from caption segments into a list of complete sentences.
@@ -23,6 +24,7 @@ class SubtitleProcessor:
        """Clean caption text by removing special markers and normalizing whitespace."""
        # Remove markers like [SOUND], [MUSIC], etc.
        text = re.sub(r'\[.*?\]', '', text)
+       text = re.sub(r'>', '', text)
        # Normalize whitespace
        text = ' '.join(text.split())
        return text.strip()
@@ -58,15 +60,19 @@ class SubtitleProcessor:
        """
        current = None
 
+       index = 1  
        for i, caption in enumerate(captions):
            cleaned_text = self._clean_text(caption.text)
+           if not cleaned_text:
+               index += 1
+               continue
 
            # Start a new sentence if we don't have one
            if current is None:
                current = {
                    'text': cleaned_text,
                    'start_time': caption.start,
-                   'index': i
+                   'index': index
                }
            else:
                # Add to existing sentence with space
@@ -76,6 +82,7 @@ class SubtitleProcessor:
            if cleaned_text.rstrip().endswith(('.', '!', '?')):
                yield current
                current = None
+           index += 1
 
        # Yield any remaining text as a sentence
        if current:
@@ -102,28 +109,3 @@ class SubtitleProcessor:
                Index of the first caption in the sentence
        """
        return list(self._sentence_generator(webvtt.read(vtt_file)))
-
-def main():
-    """
-    Main function to demonstrate usage of the SentenceBERTDetector.
-    """
-    # Initialize detector
-    processor = SubtitleProcessor()
-
-    # Path to the VTT file
-    vtt_file = "path to .vtt file"
-
-    sentences = processor.process_vtt(vtt_file)
-
-    print("\nSentences found in the VTT file:")
-    print("-" * 80)  # Print a separator line
-
-    for i, sentence in enumerate(sentences, 1):  # enumerate from 1 for readability
-        print(f"\nSentence {i}:")
-        print(f"Start Time: {sentence['start_time']}")
-        print(f"Caption Index: {sentence['index']}")
-        print(f"Text: {sentence['text']}")
-        print("-" * 80)  # Print a separator line between sentences
-
-if __name__ == "__main__":
-    main()
