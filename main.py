@@ -8,47 +8,39 @@ import os
 import tqdm
 import json
 
-def normalize_list(values):
-    min_value = min(values)
-    max_value = max(values)
-    normalized_values = [(x - min_value) / (max_value - min_value) for x in values]
-    
-    return normalized_values
-
 def encoding_sentences(model, sentences: list, sentences_index: list):
-    sliding_window_size = 5
+    sliding_window_size = 4
     similarity_threshold_percentile = 5
     
     segmentation_points = []
     similarity_list = []
-    comparison_points = []
+    newSeg_points = []
     
     # Sliding window over sentences
     for i in range(len(sentences) - sliding_window_size):
+        new_seg_index=i+1
         # Get embeddings for the current window and the next window
         window1 = sentences[i:i + sliding_window_size]
-        window1 = ["".join(window1)]
-        window2 = sentences[i + 1:i + 1 + sliding_window_size]
-        window2 = ["".join(window2)]
+        window2 = sentences[new_seg_index:new_seg_index + sliding_window_size]
 
-        # Get embeddings for both windows
+        # Get embeddings for both windows and apply average pooling
         embedding1 = np.mean(model.encode(window1), axis=0)
         embedding2 = np.mean(model.encode(window2), axis=0)
         
         # Compute cosine similarity between the two window embeddings
         similarity = cosine_similarity([embedding1], [embedding2])[0][0]
         similarity_list.append(similarity)
-        comparison_points.append(i)
 
-    # Normalize similarity by min and max value. 
-    # Use percentile to get threshold
-    similarity_list_norm = normalize_list(similarity_list)        
-    threshold = np.percentile(similarity_list_norm, similarity_threshold_percentile)
+        # add the first line of new segment as segment points
+        newSeg_points.append(new_seg_index)
+
+    # Use percentile to get threshold     
+    threshold = np.percentile(similarity_list, similarity_threshold_percentile)
     
-    for i in range(len(comparison_points)):    
+    for i in range(len(newSeg_points)):    
         # If similarity is below the threshold, mark the end of the first window as a segmentation point
-        if similarity_list_norm[i] < threshold:
-            segmentation_points.append((comparison_points[i], sentences_index[comparison_points[i]]))  
+        if similarity_list[i] < threshold:
+            segmentation_points.append((newSeg_points[i], sentences_index[newSeg_points[i]]))  
 
     return segmentation_points
 
@@ -88,41 +80,40 @@ def save_segment_indexes_list(file_path, segment_indexes_list):
         for segment_indexes in segment_indexes_list:
             file.write(str(segment_indexes) + "\n")
 
-def evaluate(test_list: list, golden_standard_list: list):
-    threshold = 3
+def evaluate(test_list: list, labeled_list: list, threshold = 0):
     truePositive = 0
     
     for r1 in test_list:
-        for r2 in golden_standard_list:
+        for r2 in labeled_list:
             if np.abs(r1-r2) <= threshold:
                 truePositive += 1
                 break
     
-    accuracy = truePositive / len(golden_standard_list)
+    falsePositive = len(test_list) -  truePositive
+    falseNegative = len(labeled_list) - truePositive
 
-    return accuracy    
+    return truePositive, falsePositive, falseNegative  
 
 
 
 def main():
     # Path to the VTT file
-    data_folder = "W1-W6_subtitle_data"
+    # data_folder = "W1-W6_subtitle_data"
+    # TODO test
+    data_folder = "W1_subtitle_data"
     sbert_model = SentenceTransformer('all-MPNet-base-v2')
     
     vtt_file_list = sorted(os.listdir(data_folder))
-
-    # TODO remove test file
-    # vtt_file_list = ["1.1.vtt","1.2.vtt","1.3.vtt"]
     
     sbert_segments_output_path = data_folder + "_sbert_segment_output"
 
-    print(f"# use SBert encoding and segment lecture files in {data_folder}")
+    print(f"# use SBert encoding to segment lecture files in {data_folder}")
     print(f"{'#' * 100}")
 
     sbert_segments = []
+    # TODO: test
     if os.path.exists(sbert_segments_output_path):
         sbert_segments = load_segment_indexes_list(sbert_segments_output_path)
-        # print(sbert_segments_output_path)
     else:
         for vtt_file_name in tqdm.tqdm(vtt_file_list):
         # for vtt_file_name in vtt_file_list:
@@ -135,31 +126,34 @@ def main():
             # encoding and segmentation
             segment_points = encoding_sentences(sbert_model, sentences, sentences_index)
 
-            # for point, point_index in segment_points:
-                # print(f"Segmentation point at sentence {point + 1}: {sentences[point]}, point_index: {point_index}")
+            for point, point_index in segment_points:
+                print(f"Segmentation point at sentence {point + 1}: {sentences[point]}, point_index: {point_index}")
             
             # Get index points from segmentation result
             segment_indexes = [sg[1] for sg in segment_points]
-
-            # print(f"vtt_file_name:{vtt_file_name}, segment_indexes: {segment_indexes}")
+            print(f"vtt_file_name:{vtt_file_name}, segment_indexes: {segment_indexes}")
             sbert_segments.append(segment_indexes)
 
         save_segment_indexes_list(sbert_segments_output_path, sbert_segments)
 
     # LLM benchmark segments
+    # llm_labelled_segments = load_segment_indexes_list(data_folder+"_llm_labelled_segment_output")
+    # TODO test
     llm_labelled_segments = load_segment_indexes_list(data_folder+"_llm_labelled_segment_output")
 
     # evaluation
     print(f"#evaluate Sbert segmentation performance: # true positive / # true")
-    accuracy_list = []
+    eval_list = []
     for i in range(len(sbert_segments)):        
-        accuracy = evaluate(sbert_segments[i],llm_labelled_segments[i])
-        accuracy_list.append(accuracy)
-    print(f"accuracy_list: {accuracy_list}")
-    print(f"accuracy_list mean: {np.mean(accuracy_list)}")
-
-    # compare segment against user annotated result
-    # get precision, recall, F1-score
+        tp, fp, fn = evaluate(sbert_segments[i],llm_labelled_segments[i], threshold=5)
+        precision = tp / (tp + fp)
+        recall = tp / (tp + fn)
+        f1 = 0
+        if not (precision + recall) == 0:
+            f1 = 2 * precision * recall / (precision + recall)
+        eval = {"precision": precision, "recall": recall, "f1": f1}
+        print(eval)
+        eval_list.append(eval)
 
 if __name__ == "__main__":
     main()
