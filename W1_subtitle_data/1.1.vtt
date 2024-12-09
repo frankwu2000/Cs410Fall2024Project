@@ -1,0 +1,1520 @@
+WEBVTT
+
+1
+00:00:00.008 --> 00:00:04.018
+[SOUND]
+
+2
+00:00:09.625 --> 00:00:12.226
+>> This lecture is about Natural Language
+
+3
+00:00:12.226 --> 00:00:13.732
+of Content Analysis.
+
+4
+00:00:13.732 --> 00:00:15.569
+As you see from this picture,
+
+5
+00:00:15.569 --> 00:00:19.540
+this is really the first step
+to process any text data.
+
+6
+00:00:19.540 --> 00:00:22.060
+Text data are in natural languages.
+
+7
+00:00:22.060 --> 00:00:26.820
+So computers have to understand
+natural languages to some extent,
+
+8
+00:00:26.820 --> 00:00:29.380
+in order to make use of the data.
+
+9
+00:00:29.380 --> 00:00:32.000
+So that's the topic of this lecture.
+
+10
+00:00:32.000 --> 00:00:33.910
+We're going to cover three things.
+
+11
+00:00:33.910 --> 00:00:36.430
+First, what is natural
+language processing,
+
+12
+00:00:36.430 --> 00:00:41.740
+which is the main technique for processing
+natural language to obtain understanding.
+
+13
+00:00:43.150 --> 00:00:46.420
+The second is the state of
+the art of NLP which stands for
+
+14
+00:00:46.420 --> 00:00:48.350
+natural language processing.
+
+15
+00:00:49.540 --> 00:00:53.430
+Finally we're going to cover the relation
+between natural language processing and
+
+16
+00:00:53.430 --> 00:00:54.900
+text retrieval.
+
+17
+00:00:54.900 --> 00:00:57.280
+First, what is NLP?
+
+18
+00:00:57.280 --> 00:01:02.240
+Well the best way to explain it
+is to think about if you see
+
+19
+00:01:02.240 --> 00:01:05.860
+a text in a foreign language
+that you can understand.
+
+20
+00:01:06.980 --> 00:01:10.907
+Now what do you have to do in
+order to understand that text?
+
+21
+00:01:10.907 --> 00:01:13.172
+This is basically what
+computers are facing.
+
+22
+00:01:13.172 --> 00:01:17.580
+So looking at the simple sentence like
+a dog is chasing a boy on the playground.
+
+23
+00:01:18.730 --> 00:01:22.250
+We don't have any problems
+understanding this sentence.
+
+24
+00:01:22.250 --> 00:01:25.930
+But imagine what the computer would
+have to do in order to understand it.
+
+25
+00:01:25.930 --> 00:01:27.830
+Well in general,
+it would have to do the following.
+
+26
+00:01:27.830 --> 00:01:34.310
+First, it would have to know dog
+is a noun, chasing's a verb, etc.
+
+27
+00:01:34.310 --> 00:01:38.410
+So this is called lexical analysis,
+or part-of-speech tagging, and
+
+28
+00:01:38.410 --> 00:01:42.230
+we need to figure out the syntactic
+categories of those words.
+
+29
+00:01:42.230 --> 00:01:43.930
+So that's the first step.
+
+30
+00:01:43.930 --> 00:01:48.060
+After that, we're going to figure
+out the structure of the sentence.
+
+31
+00:01:48.060 --> 00:01:50.370
+So for example, here it shows that A and
+
+32
+00:01:50.370 --> 00:01:54.260
+the dog would go together
+to form a noun phrase.
+
+33
+00:01:55.730 --> 00:01:59.500
+And we won't have dog and is to go first.
+
+34
+00:01:59.500 --> 00:02:02.969
+And there are some structures
+that are not just right.
+
+35
+00:02:04.470 --> 00:02:09.650
+But this structure shows what we might
+get if we look at the sentence and
+
+36
+00:02:09.650 --> 00:02:11.850
+try to interpret the sentence.
+
+37
+00:02:11.850 --> 00:02:13.960
+Some words would go together first, and
+
+38
+00:02:13.960 --> 00:02:15.640
+then they will go together
+with other words.
+
+39
+00:02:16.640 --> 00:02:20.200
+So here we show we have noun phrases
+as intermediate components, and
+
+40
+00:02:20.200 --> 00:02:21.500
+then verbal phrases.
+
+41
+00:02:21.500 --> 00:02:23.670
+Finally we have a sentence.
+
+42
+00:02:23.670 --> 00:02:25.430
+And you get this structure.
+
+43
+00:02:25.430 --> 00:02:29.400
+We need to do something called
+a semantic analysis, or parsing.
+
+44
+00:02:29.400 --> 00:02:31.610
+And we may have a parser
+accompanying the program, and
+
+45
+00:02:31.610 --> 00:02:34.880
+that would automatically
+created this structure.
+
+46
+00:02:34.880 --> 00:02:38.220
+At this point you would know
+the structure of this sentence, but
+
+47
+00:02:38.220 --> 00:02:40.440
+still you don't know
+the meaning of the sentence.
+
+48
+00:02:40.440 --> 00:02:44.060
+So we have to go further
+to semantic analysis.
+
+49
+00:02:44.060 --> 00:02:47.120
+In our mind we usually can map
+
+50
+00:02:47.120 --> 00:02:51.330
+such a sentence to what we already
+know in our knowledge base.
+
+51
+00:02:51.330 --> 00:02:53.970
+For example, you might imagine
+a dog that looks like that.
+
+52
+00:02:53.970 --> 00:02:56.800
+There's a boy and
+there's some activity here.
+
+53
+00:02:56.800 --> 00:02:59.860
+But for a computer would have
+to use symbols to denote that.
+
+54
+00:03:00.890 --> 00:03:05.232
+We'd use a symbol (d1) to denote a dog.
+
+55
+00:03:05.232 --> 00:03:10.430
+And (b)1 can denote a boy and
+then (p)1 can denote a playground.
+
+56
+00:03:12.650 --> 00:03:15.440
+Now there is also a chasing
+activity that's happening here so
+
+57
+00:03:15.440 --> 00:03:19.130
+we have a relationship chasing
+that connects all these symbols.
+
+58
+00:03:19.130 --> 00:03:23.909
+So this is how a computer would obtain
+some understanding of this sentence.
+
+59
+00:03:25.920 --> 00:03:31.590
+Now from this representation we could
+also further infer some other things,
+
+60
+00:03:31.590 --> 00:03:35.960
+and we might indeed naturally think of
+something else when we read a text and
+
+61
+00:03:35.960 --> 00:03:37.470
+this is called inference.
+
+62
+00:03:37.470 --> 00:03:42.490
+So for example, if you believe
+that if someone's being chased and
+
+63
+00:03:42.490 --> 00:03:46.180
+this person might be scared,
+but with this rule,
+
+64
+00:03:46.180 --> 00:03:50.880
+you can see computers could also
+infer that this boy maybe scared.
+
+65
+00:03:50.880 --> 00:03:54.080
+So this is some extra knowledge
+that you'd infer based on
+
+66
+00:03:54.080 --> 00:03:56.430
+some understanding of the text.
+
+67
+00:03:56.430 --> 00:04:02.280
+You can even go further to understand
+why the person say at this sentence.
+
+68
+00:04:02.280 --> 00:04:05.000
+So this has to do as a use of language.
+
+69
+00:04:05.000 --> 00:04:08.740
+This is called pragmatic analysis.
+
+70
+00:04:08.740 --> 00:04:13.910
+In order to understand the speak
+actor of a sentence, right?
+
+71
+00:04:13.910 --> 00:04:18.370
+We say something to
+basically achieve some goal.
+
+72
+00:04:18.370 --> 00:04:19.440
+There's some purpose there.
+
+73
+00:04:19.440 --> 00:04:22.100
+And this has to do with
+the use of language.
+
+74
+00:04:22.100 --> 00:04:24.750
+In this case the person who said
+
+75
+00:04:24.750 --> 00:04:29.200
+this sentence might be reminding
+another person to bring back the dog.
+
+76
+00:04:29.200 --> 00:04:31.410
+That could be one possible intent.
+
+77
+00:04:33.020 --> 00:04:36.500
+To reach this level of
+understanding would require
+
+78
+00:04:36.500 --> 00:04:41.390
+all of these steps and
+a computer would have to go through all
+
+79
+00:04:41.390 --> 00:04:46.940
+these steps in order to completely
+understand this sentence.
+
+80
+00:04:46.940 --> 00:04:49.560
+Yet we humans have no trouble
+with understanding that,
+
+81
+00:04:49.560 --> 00:04:51.430
+we instantly would get everything.
+
+82
+00:04:52.790 --> 00:04:53.760
+There is a reason for that.
+
+83
+00:04:53.760 --> 00:04:57.430
+That's because we have a large
+knowledge base in our brain and
+
+84
+00:04:57.430 --> 00:05:01.890
+we can use common sense knowledge
+to help interpret the sentence.
+
+85
+00:05:01.890 --> 00:05:06.330
+Computers unfortunately are hard
+to obtain such understanding.
+
+86
+00:05:06.330 --> 00:05:08.430
+They don't have such a knowledge base.
+
+87
+00:05:08.430 --> 00:05:12.520
+They are still incapable of doing
+reasoning and uncertainties,
+
+88
+00:05:14.290 --> 00:05:18.430
+so that makes natural language
+processing difficult for computers.
+
+89
+00:05:18.430 --> 00:05:21.540
+But the fundamental reason why natural
+language processing is difficult for
+
+90
+00:05:21.540 --> 00:05:25.430
+computers is simply because natural
+language has not been designed for
+
+91
+00:05:25.430 --> 00:05:26.430
+computers.
+
+92
+00:05:26.430 --> 00:05:30.960
+Natural languages are designed for
+us to communicate.
+
+93
+00:05:30.960 --> 00:05:33.480
+There are other languages designed for
+computers.
+
+94
+00:05:33.480 --> 00:05:36.220
+For example, programming languages.
+
+95
+00:05:36.220 --> 00:05:38.780
+Those are harder for us, right?
+
+96
+00:05:38.780 --> 00:05:43.690
+So natural languages is designed to
+make our communication efficient.
+
+97
+00:05:43.690 --> 00:05:46.770
+As a result,
+we omit a lot of common sense knowledge
+
+98
+00:05:46.770 --> 00:05:49.540
+because we assume everyone
+knows about that.
+
+99
+00:05:49.540 --> 00:05:56.250
+We also keep a lot of ambiguities because
+we assume the receiver or the hearer could
+
+100
+00:05:56.250 --> 00:06:02.020
+know how to decipher an ambiguous word
+based on the knowledge or the context.
+
+101
+00:06:02.020 --> 00:06:05.320
+There's no need to demand different
+words for different meanings.
+
+102
+00:06:05.320 --> 00:06:08.820
+We could overload the same word with
+different meanings without the problem.
+
+103
+00:06:10.460 --> 00:06:14.350
+Because of these reasons this makes every
+step in natural language of processing
+
+104
+00:06:14.350 --> 00:06:17.520
+difficult for computers,
+ambiguity is the main difficulty.
+
+105
+00:06:18.780 --> 00:06:22.060
+And common sense and reasoning is
+often required, that's also hard.
+
+106
+00:06:23.800 --> 00:06:26.300
+So let me give you some
+examples of challenges here.
+
+107
+00:06:27.505 --> 00:06:29.350
+Consider the word level ambiguity.
+
+108
+00:06:30.730 --> 00:06:34.510
+The same word can have
+different syntactic categories.
+
+109
+00:06:34.510 --> 00:06:36.780
+For example design can be a noun or
+a verb.
+
+110
+00:06:39.270 --> 00:06:42.160
+The word of root may
+have multiple meanings.
+
+111
+00:06:42.160 --> 00:06:45.120
+So square root in math sense or
+the root of a plant.
+
+112
+00:06:46.450 --> 00:06:49.464
+You might be able to think
+about it's meanings.
+
+113
+00:06:49.464 --> 00:06:52.609
+There are also syntactical ambiguities.
+
+114
+00:06:52.609 --> 00:06:56.932
+For example, the main topic of this
+lecture, natural language processing,
+
+115
+00:06:56.932 --> 00:07:01.480
+can actually be interpreted in two
+ways in terms of the structure.
+
+116
+00:07:01.480 --> 00:07:03.900
+Think for a moment and
+see if you can figure that out.
+
+117
+00:07:03.900 --> 00:07:09.560
+We usually think of this as
+processing of natural language,
+
+118
+00:07:09.560 --> 00:07:13.991
+but you could also think of this as do
+say, language processing is natural.
+
+119
+00:07:16.130 --> 00:07:20.440
+So this is an example
+of synaptic ambiguity.
+
+120
+00:07:20.440 --> 00:07:23.190
+What we have different is
+structures that can be
+
+121
+00:07:24.510 --> 00:07:27.480
+applied to the same sequence of words.
+
+122
+00:07:27.480 --> 00:07:31.730
+Another common example of an ambiguous
+sentence is the following.
+
+123
+00:07:31.730 --> 00:07:34.480
+A man saw a boy with a telescope.
+
+124
+00:07:34.480 --> 00:07:37.810
+Now in this case the question is,
+who had a telescope.
+
+125
+00:07:38.820 --> 00:07:42.700
+This is called a prepositional
+phrase attachment ambiguity or
+
+126
+00:07:42.700 --> 00:07:45.030
+PP attachment ambiguity.
+
+127
+00:07:45.030 --> 00:07:50.000
+Now we generally don't have a problem with
+these ambiguities because we have a lot of
+
+128
+00:07:50.000 --> 00:07:54.340
+background knowledge to help
+us disambiguate the ambiguity.
+
+129
+00:07:55.380 --> 00:07:57.961
+Another example of difficulty
+is anaphora resolution.
+
+130
+00:07:57.961 --> 00:08:03.290
+So think about the sentence John
+persuaded Bill to buy a TV for himself.
+
+131
+00:08:03.290 --> 00:08:07.632
+The question here is does
+himself refer to John or Bill?
+
+132
+00:08:07.632 --> 00:08:10.803
+So again this is something that
+you have to use some background or
+
+133
+00:08:10.803 --> 00:08:12.540
+the context to figure out.
+
+134
+00:08:12.540 --> 00:08:15.470
+Finally, presupposition
+is another problem.
+
+135
+00:08:15.470 --> 00:08:18.110
+Consider the sentence,
+he has quit smoking.
+
+136
+00:08:18.110 --> 00:08:20.710
+Now this obviously implies
+that he smoked before.
+
+137
+00:08:22.430 --> 00:08:27.000
+So imagine a computer wants to understand
+all these subtle differences and meanings.
+
+138
+00:08:27.000 --> 00:08:30.750
+It would have to use a lot of
+knowledge to figure that out.
+
+139
+00:08:30.750 --> 00:08:35.890
+It also would have to maintain a large
+knowledge base of all the meanings of
+
+140
+00:08:35.890 --> 00:08:41.940
+words and how they are connected to our
+common sense knowledge of the world.
+
+141
+00:08:41.940 --> 00:08:44.130
+So this is why it's very difficult.
+
+142
+00:08:45.530 --> 00:08:49.110
+So as a result, we are steep not perfect,
+
+143
+00:08:49.110 --> 00:08:54.240
+in fact far from perfect in understanding
+natural language using computers.
+
+144
+00:08:54.240 --> 00:09:00.200
+So this slide sort of gains a simplified
+view of state of the art technologies.
+
+145
+00:09:01.580 --> 00:09:06.640
+We can do part of speech
+tagging pretty well, so
+
+146
+00:09:06.640 --> 00:09:09.610
+I showed 97% accuracy here.
+
+147
+00:09:09.610 --> 00:09:13.830
+Now this number is obviously
+based on a certain dataset, so
+
+148
+00:09:13.830 --> 00:09:15.680
+don't take this literally.
+
+149
+00:09:15.680 --> 00:09:18.210
+This just shows that we
+can do it pretty well.
+
+150
+00:09:18.210 --> 00:09:20.320
+But it's still not perfect.
+
+151
+00:09:20.320 --> 00:09:23.620
+In terms of parsing,
+we can do partial parsing pretty well.
+
+152
+00:09:23.620 --> 00:09:27.800
+That means we can get noun phrase
+structures, or verb phrase structure,
+
+153
+00:09:27.800 --> 00:09:31.106
+or some segment of the sentence, and
+
+154
+00:09:31.106 --> 00:09:33.439
+this dude correct them in
+terms of the structure.
+
+155
+00:09:34.470 --> 00:09:39.310
+And in some evaluation results,
+we have seen above 90%
+
+156
+00:09:39.310 --> 00:09:43.140
+accuracy in terms of partial
+parsing of sentences.
+
+157
+00:09:43.140 --> 00:09:46.910
+Again, I have to say these numbers
+are relative to the dataset.
+
+158
+00:09:46.910 --> 00:09:50.300
+In some other datasets,
+the numbers might be lower.
+
+159
+00:09:50.300 --> 00:09:54.230
+Most of the existing work has been
+evaluated using news dataset.
+
+160
+00:09:54.230 --> 00:09:59.800
+And so a lot of these numbers are more or
+less biased toward news data.
+
+161
+00:09:59.800 --> 00:10:02.980
+Think about social media data,
+the accuracy likely is lower.
+
+162
+00:10:05.460 --> 00:10:07.860
+In terms of a semantical analysis,
+
+163
+00:10:07.860 --> 00:10:13.730
+we are far from being able to do
+a complete understanding of a sentence.
+
+164
+00:10:13.730 --> 00:10:16.430
+But we have some techniques
+that would allow us to
+
+165
+00:10:16.430 --> 00:10:18.880
+do partial understanding of the sentence.
+
+166
+00:10:18.880 --> 00:10:22.360
+So I could mention some of them.
+
+167
+00:10:22.360 --> 00:10:27.190
+For example, we have techniques that can
+allow us to extract the entities and
+
+168
+00:10:27.190 --> 00:10:30.310
+relations mentioned in text articles.
+
+169
+00:10:30.310 --> 00:10:34.766
+For example,
+recognizing dimensions of people,
+
+170
+00:10:34.766 --> 00:10:38.606
+locations, organizations, etc in text.
+
+171
+00:10:38.606 --> 00:10:40.930
+So this is called entity extraction.
+
+172
+00:10:40.930 --> 00:10:42.950
+We may be able to recognize the relations.
+
+173
+00:10:42.950 --> 00:10:46.140
+For example,
+this person visited that place or
+
+174
+00:10:46.140 --> 00:10:51.340
+this person met that person or
+this company acquired another company.
+
+175
+00:10:51.340 --> 00:10:54.350
+Such relations can be extracted by using
+
+176
+00:10:54.350 --> 00:10:57.230
+the computer current
+Natural Language Processing techniques.
+
+177
+00:10:57.230 --> 00:11:00.170
+They're not perfect but
+they can do well for some entities.
+
+178
+00:11:00.170 --> 00:11:02.015
+Some entities are harder than others.
+
+179
+00:11:03.040 --> 00:11:05.907
+We can also do word sense
+disintegration to some extend.
+
+180
+00:11:05.907 --> 00:11:10.446
+We have to figure out whether this word in
+this sentence would have certain meaning
+
+181
+00:11:10.446 --> 00:11:15.250
+in another context the computer could
+figure out, it has a different meaning.
+
+182
+00:11:15.250 --> 00:11:18.200
+Again, it's not perfect, but
+you can do something in that direction.
+
+183
+00:11:19.530 --> 00:11:21.240
+We can also do sentiment analysis,
+
+184
+00:11:21.240 --> 00:11:25.830
+meaning, to figure out whether
+a sentence is positive or negative.
+
+185
+00:11:25.830 --> 00:11:28.940
+This is especially useful for
+review analysis, for example.
+
+186
+00:11:30.410 --> 00:11:33.150
+So these are examples
+of semantic analysis.
+
+187
+00:11:33.150 --> 00:11:37.570
+And they help us to obtain partial
+understanding of the sentences.
+
+188
+00:11:38.850 --> 00:11:43.410
+It's not giving us a complete
+understanding, as I showed it before, for
+
+189
+00:11:43.410 --> 00:11:44.380
+this sentence.
+
+190
+00:11:44.380 --> 00:11:48.150
+But it would still help us gain
+understanding of the content.
+
+191
+00:11:48.150 --> 00:11:49.580
+And these can be useful.
+
+192
+00:11:51.620 --> 00:11:54.730
+In terms of inference,
+we are not there yet,
+
+193
+00:11:54.730 --> 00:12:00.050
+probably because of the general difficulty
+of inference and uncertainties.
+
+194
+00:12:00.050 --> 00:12:03.390
+This is a general challenge
+in artificial intelligence.
+
+195
+00:12:03.390 --> 00:12:07.468
+Now that's probably also because
+we don't have complete semantical
+
+196
+00:12:07.468 --> 00:12:10.172
+representation for
+natural [INAUDIBLE] text.
+
+197
+00:12:10.172 --> 00:12:11.320
+So this is hard.
+
+198
+00:12:11.320 --> 00:12:16.540
+Yet in some domains perhaps,
+in limited domains when you have a lot of
+
+199
+00:12:16.540 --> 00:12:23.340
+restrictions on the word uses, you may be
+able to perform inference to some extent.
+
+200
+00:12:23.340 --> 00:12:28.050
+But in general we can not
+really do that reliably.
+
+201
+00:12:28.050 --> 00:12:31.650
+Speech act analysis is also
+far from being done and
+
+202
+00:12:31.650 --> 00:12:36.600
+we can only do that analysis for
+very special cases.
+
+203
+00:12:36.600 --> 00:12:41.193
+So this roughly gives you some
+idea about the state of the art.
+
+204
+00:12:41.193 --> 00:12:46.356
+And then we also talk a little
+bit about what we can't do,
+
+205
+00:12:46.356 --> 00:12:51.780
+and so we can't even do 100%
+part of speech tagging.
+
+206
+00:12:51.780 --> 00:12:54.700
+Now this looks like a simple task, but
+
+207
+00:12:54.700 --> 00:12:59.800
+think about the example here,
+the two uses of off may
+
+208
+00:12:59.800 --> 00:13:04.840
+have different syntactic categories if you
+try to make a fine grained distinctions.
+
+209
+00:13:04.840 --> 00:13:07.600
+It's not that easy to figure
+out such differences.
+
+210
+00:13:10.000 --> 00:13:12.900
+It's also hard to do
+general complete parsing.
+
+211
+00:13:12.900 --> 00:13:16.940
+And again, the same sentence
+that you saw before is example.
+
+212
+00:13:18.010 --> 00:13:23.330
+This ambiguity can be very hard to
+disambiguate and you can imagine example
+
+213
+00:13:23.330 --> 00:13:27.940
+where you have to use a lot of knowledge
+in the context of the sentence or
+
+214
+00:13:27.940 --> 00:13:33.310
+from the background, in order to figure
+out who actually had the telescope.
+
+215
+00:13:33.310 --> 00:13:37.730
+So although the sentence looks very
+simple, it actually is pretty hard.
+
+216
+00:13:37.730 --> 00:13:42.380
+And in cases when the sentence is
+very long, imagine it has four or
+
+217
+00:13:42.380 --> 00:13:46.760
+five prepositional phrases, and there
+are even more possibilities to figure out.
+
+218
+00:13:48.580 --> 00:13:51.650
+It's also harder to do precise
+deep semantic analysis.
+
+219
+00:13:51.650 --> 00:13:53.410
+So here's an example.
+
+220
+00:13:53.410 --> 00:14:00.108
+In the sentence "John owns a restaurant."
+How do we define owns exactly?
+
+221
+00:14:00.108 --> 00:14:05.340
+The word own,
+it is something that we can understand but
+
+222
+00:14:05.340 --> 00:14:10.210
+it's very hard to precisely describe
+the meaning of own for computers.
+
+223
+00:14:11.430 --> 00:14:16.467
+So as a result we have a robust and
+a general
+
+224
+00:14:16.467 --> 00:14:20.860
+Natural Language Processing techniques
+that can process a lot of text data.
+
+225
+00:14:22.490 --> 00:14:25.640
+In a shallow way,
+meaning we only do superficial analysis.
+
+226
+00:14:25.640 --> 00:14:33.600
+For example, parts of speech tagging or a
+partial parsing or recognizing sentiment.
+
+227
+00:14:33.600 --> 00:14:35.520
+And those are not deep understanding,
+
+228
+00:14:35.520 --> 00:14:39.419
+because we're not really understanding
+the exact meaning of the sentence.
+
+229
+00:14:41.270 --> 00:14:45.170
+On the other hand of the deep
+understanding techniques tend not to scale
+
+230
+00:14:45.170 --> 00:14:50.840
+up well, meaning that they would
+fill only some restricted text.
+
+231
+00:14:50.840 --> 00:14:54.850
+And if you don't restrict
+the text domain or
+
+232
+00:14:54.850 --> 00:14:59.750
+the use of words, then these
+techniques tend not to work well.
+
+233
+00:14:59.750 --> 00:15:04.310
+They may work well based on machine
+learning techniques on the data
+
+234
+00:15:04.310 --> 00:15:08.520
+that are similar to the training data
+that the program has been trained on.
+
+235
+00:15:08.520 --> 00:15:13.090
+But they generally wouldn't work well on
+the data that are very different from
+
+236
+00:15:13.090 --> 00:15:14.290
+the training data.
+
+237
+00:15:14.290 --> 00:15:19.150
+So this pretty much summarizes the state
+of the art of Natural Language Processing.
+
+238
+00:15:19.150 --> 00:15:23.590
+Of course, within such a short amount
+of time we can't really give you
+
+239
+00:15:23.590 --> 00:15:27.120
+a complete view of NLP,
+which is a big field.
+
+240
+00:15:27.120 --> 00:15:35.896
+And I'd expect to see multiple courses on
+Natural Language Processing topic itself.
+
+241
+00:15:35.896 --> 00:15:40.960
+But because of its relevance to the topic
+that we talk about, it's useful for
+
+242
+00:15:40.960 --> 00:15:45.410
+you to know the background in case
+you happen to be exposed to that.
+
+243
+00:15:45.410 --> 00:15:47.340
+So what does that mean for Text Retrieval?
+
+244
+00:15:48.980 --> 00:15:53.254
+Well, in Text Retrieval we
+are dealing with all kinds of text.
+
+245
+00:15:53.254 --> 00:15:56.470
+It's very hard to restrict
+text to a certain domain.
+
+246
+00:15:56.470 --> 00:16:00.092
+And we also are often dealing
+with a lot of text data.
+
+247
+00:16:00.092 --> 00:16:06.730
+So that means The NLP techniques must
+be general, robust, and efficient.
+
+248
+00:16:06.730 --> 00:16:12.060
+And that just implies today we can only
+use fairly shallow NLP techniques for
+
+249
+00:16:12.060 --> 00:16:13.550
+text retrieval.
+
+250
+00:16:13.550 --> 00:16:14.780
+In fact,
+
+251
+00:16:14.780 --> 00:16:19.070
+most search engines today use something
+called a bag of words representation.
+
+252
+00:16:20.740 --> 00:16:25.450
+Now, this is probably the simplest
+representation you can possibly think of.
+
+253
+00:16:25.450 --> 00:16:29.250
+That is to turn text data
+into simply a bag of words.
+
+254
+00:16:29.250 --> 00:16:33.930
+Meaning we'll keep individual words, but
+we'll ignore all the orders of words.
+
+255
+00:16:33.930 --> 00:16:37.660
+And we'll keep duplicated
+occurrences of words.
+
+256
+00:16:37.660 --> 00:16:39.950
+So this is called a bag
+of words representation.
+
+257
+00:16:39.950 --> 00:16:45.990
+When you represent text in this way,
+you ignore a lot of valid information.
+
+258
+00:16:45.990 --> 00:16:51.020
+That just makes it harder to understand
+the exact meaning of a sentence
+
+259
+00:16:51.020 --> 00:16:52.440
+because we've lost the order.
+
+260
+00:16:53.870 --> 00:16:57.320
+But yet this representation tends
+to actually work pretty well for
+
+261
+00:16:57.320 --> 00:16:59.150
+most search tasks.
+
+262
+00:16:59.150 --> 00:17:03.450
+And this was partly because the search
+task is not all that difficult.
+
+263
+00:17:03.450 --> 00:17:08.230
+If you see matching of some of
+the query words in a text document,
+
+264
+00:17:08.230 --> 00:17:12.560
+chances are that that document is about
+the topic, although there are exceptions.
+
+265
+00:17:13.670 --> 00:17:15.775
+So in comparison of some other tasks, for
+
+266
+00:17:15.775 --> 00:17:20.490
+example, machine translation would require
+you to understand the language accurately.
+
+267
+00:17:20.490 --> 00:17:22.680
+Otherwise the translation would be wrong.
+
+268
+00:17:22.680 --> 00:17:25.780
+So in comparison such tasks
+are all relatively easy.
+
+269
+00:17:25.780 --> 00:17:30.670
+Such a representation is often sufficient
+and that's also the representation that
+
+270
+00:17:30.670 --> 00:17:34.050
+the major search engines today,
+like a Google or Bing are using.
+
+271
+00:17:35.770 --> 00:17:40.240
+Of course, I put in parentheses but
+not all, of course there are many queries
+
+272
+00:17:40.240 --> 00:17:42.750
+that are not answered well by
+the current search engines, and
+
+273
+00:17:42.750 --> 00:17:48.320
+they do require the replantation that
+would go beyond bag of words replantation.
+
+274
+00:17:48.320 --> 00:17:51.900
+That would require more natural
+language processing to be done.
+
+275
+00:17:52.950 --> 00:17:56.600
+There was another reason why we
+have not used the sophisticated
+
+276
+00:17:56.600 --> 00:17:59.100
+NLP techniques in modern search engines.
+
+277
+00:17:59.100 --> 00:18:02.460
+And that's because some
+retrieval techniques actually,
+
+278
+00:18:02.460 --> 00:18:05.400
+naturally solved the problem of NLP.
+
+279
+00:18:05.400 --> 00:18:09.240
+So one example is word
+sense disintegration.
+
+280
+00:18:09.240 --> 00:18:11.060
+Think about a word like Java.
+
+281
+00:18:11.060 --> 00:18:13.900
+It could mean coffee or
+it could mean program language.
+
+282
+00:18:15.090 --> 00:18:18.230
+If you look at the word anome,
+it would be ambiguous, but
+
+283
+00:18:18.230 --> 00:18:23.050
+when the user uses the word in the query,
+usually there are other words.
+
+284
+00:18:23.050 --> 00:18:26.240
+For example, I'm looking for
+usage of Java applet.
+
+285
+00:18:26.240 --> 00:18:31.990
+When I have applet there,
+that implies Java means program language.
+
+286
+00:18:31.990 --> 00:18:36.360
+And that contest can help us
+naturally prefer documents
+
+287
+00:18:36.360 --> 00:18:39.690
+which Java is referring
+to program languages.
+
+288
+00:18:39.690 --> 00:18:43.710
+Because those documents would
+probably match applet as well.
+
+289
+00:18:43.710 --> 00:18:48.560
+If Java occurs in that
+documents where it means coffee
+
+290
+00:18:48.560 --> 00:18:52.960
+then you would never match applet or
+with very small probability.
+
+291
+00:18:52.960 --> 00:18:56.250
+So this is the case when
+some retrieval techniques
+
+292
+00:18:56.250 --> 00:18:58.580
+naturally achieve the goal of word.
+
+293
+00:19:01.530 --> 00:19:05.920
+Another example is some technique called
+
+294
+00:19:05.920 --> 00:19:11.360
+feedback which we will talk about
+later in some of the lectures.
+
+295
+00:19:11.360 --> 00:19:16.938
+This technique would allow us to add
+additional words to the query and
+
+296
+00:19:16.938 --> 00:19:21.859
+those additional words could
+be related to the query words.
+
+297
+00:19:21.859 --> 00:19:26.155
+And these words can help matching
+documents where the original query words
+
+298
+00:19:26.155 --> 00:19:27.680
+have not occurred.
+
+299
+00:19:27.680 --> 00:19:32.500
+So this achieves, to some extent,
+semantic matching of terms.
+
+300
+00:19:32.500 --> 00:19:35.350
+So those techniques also helped us
+
+301
+00:19:35.350 --> 00:19:38.890
+bypass some of the difficulties
+in natural language processing.
+
+302
+00:19:40.530 --> 00:19:43.920
+However, in the long run we still need
+a deeper natural language processing
+
+303
+00:19:43.920 --> 00:19:47.280
+techniques in order to improve the
+accuracy of the current search engines.
+
+304
+00:19:47.280 --> 00:19:50.939
+And it's particularly needed for
+complex search tasks.
+
+305
+00:19:52.160 --> 00:19:53.390
+Or for question and answering.
+
+306
+00:19:55.310 --> 00:20:00.540
+Google has recently launched a knowledge
+graph, and this is one step toward
+
+307
+00:20:00.540 --> 00:20:05.220
+that goal, because knowledge graph would
+contain entities and their relations.
+
+308
+00:20:05.220 --> 00:20:09.170
+And this goes beyond the simple
+bag of words replantation.
+
+309
+00:20:09.170 --> 00:20:12.950
+And such technique should help us
+improve the search engine utility
+
+310
+00:20:14.180 --> 00:20:19.220
+significantly, although this is the open
+topic for research and exploration.
+
+311
+00:20:19.220 --> 00:20:24.990
+In sum, in this lecture we
+talked about what is NLP and
+
+312
+00:20:24.990 --> 00:20:27.820
+we've talked about the state
+of that techniques.
+
+313
+00:20:27.820 --> 00:20:30.550
+What we can do, what we cannot do.
+
+314
+00:20:30.550 --> 00:20:34.510
+And finally, we also explain why
+the bag of words replantation
+
+315
+00:20:34.510 --> 00:20:38.290
+remains the dominant replantation
+used in modern search engines,
+
+316
+00:20:38.290 --> 00:20:43.258
+even though deeper NLP would be needed for
+future search engines.
+
+317
+00:20:43.258 --> 00:20:46.470
+If you want to know more, you can take
+a look at some additional readings.
+
+318
+00:20:46.470 --> 00:20:49.070
+I only cited one here and
+that's a good starting point.
+
+319
+00:20:49.070 --> 00:20:52.976
+Thanks.
+
+320
+00:20:52.976 --> 00:21:02.976
+[MUSIC]

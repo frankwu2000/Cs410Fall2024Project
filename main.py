@@ -112,7 +112,7 @@ def main():
 
     sbert_segments = []
     # TODO: test
-    if os.path.exists(sbert_segments_output_path):
+    if not os.path.exists(sbert_segments_output_path):
         sbert_segments = load_segment_indexes_list(sbert_segments_output_path)
     else:
         for vtt_file_name in tqdm.tqdm(vtt_file_list):
@@ -145,7 +145,7 @@ def main():
     print(f"#evaluate Sbert segmentation performance: # true positive / # true")
     eval_list = []
     for i in range(len(sbert_segments)):        
-        tp, fp, fn = evaluate(sbert_segments[i],llm_labelled_segments[i], threshold=5)
+        tp, fp, fn = evaluate(sbert_segments[i],llm_labelled_segments[i], threshold=4)
         precision = tp / (tp + fp)
         recall = tp / (tp + fn)
         f1 = 0
