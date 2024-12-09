@@ -85,24 +85,36 @@ def save_sentences(file_path, sentences):
         for sentence in sentences:
             file.write(str(sentence) + "\n")
 
-def evaluate(test_list: list, labeled_list: list, threshold = 0):
+def load_sentences_file(folder_path):
+    sentences_list = []
+    sentences_file_list = sorted(os.listdir(folder_path))
+    for sentence_file_path in sentences_file_list:
+        with open(folder_path + "/" + sentence_file_path, "r") as file:
+            sentences = []
+            for sentence in file:
+                sentences.append(sentence)
+            sentences_list.append(sentences)
+    return sentences_list
+
+def evaluate(test_list: list, labeled_list: list, sentences_length: int, threshold = 0):
     truePositive = 0
-    
+    trueNegative = 0
     for r1 in test_list:
         for r2 in labeled_list:
             if np.abs(r1-r2) <= threshold:
                 truePositive += 1
                 break
+    for i in range(1,sentences_length+1):
+        if i not in test_list and i not in labeled_list:
+            trueNegative += 1
     
     falsePositive = len(test_list) -  truePositive
     falseNegative = len(labeled_list) - truePositive
 
-    return truePositive, falsePositive, falseNegative  
+    return truePositive, trueNegative, falsePositive, falseNegative  
 
 def main():
     # Path to the VTT file
-    # data_folder = "W1-W6_subtitle_data"
-    # TODO test
     data_folder = "W1_subtitle_data"
     sentences_folder = "W1_sentences_folder"
     sbert_model = SentenceTransformer('all-MPNet-base-v2')
@@ -115,8 +127,9 @@ def main():
     print(f"{'#' * 100}")
 
     sbert_segments = []
-    # TODO: test
+    sentences_list = []
     if os.path.exists(sbert_segments_output_path):
+        sentences_list = load_sentences_file(sentences_folder)
         sbert_segments = load_segment_indexes_list(sbert_segments_output_path)
     else:
         for vtt_file_name in tqdm.tqdm(vtt_file_list):
@@ -126,7 +139,7 @@ def main():
 
             # preprocess
             sentences, sentences_index = preprocess(vtt_file_path)
-
+            sentences_list.append(sentences)
             save_sentences(sentences_folder + "/" + vtt_file_name + "_sentences.txt", sentences)
 
             # encoding and segmentation
@@ -142,22 +155,25 @@ def main():
         save_segment_indexes_list(sbert_segments_output_path, sbert_segments)
 
     # LLM benchmark segments
-    # llm_labelled_segments = load_segment_indexes_list(data_folder+"_llm_labelled_segment_output")
     # TODO test
     llm_labelled_segments = load_segment_indexes_list(data_folder+"_llm_labelled_segment_output")
 
     # evaluation
     print(f"#evaluate Sbert segmentation performance: # true positive / # true")
+    sentences_len_list = [len(sentences) for sentences in sentences_list]
     eval_list = []
+    decimal_place = 5
     for i in range(len(sbert_segments)):        
-        tp, fp, fn = evaluate(sbert_segments[i],llm_labelled_segments[i], threshold=4)
-        precision, recall, f1 = 0,0,0
+        tp, tn, fp, fn = evaluate(sbert_segments[i],llm_labelled_segments[i], sentences_len_list[i], threshold=4)
+        accuracy, precision, recall, f1 = 0,0,0,0
+        if (tp+tn+fp+fn) != 0:
+            accuracy = round((tp + tn) / (tp+tn+fp+fn),decimal_place)
         if tp + fn != 0 and tp + fn != 0:
-            precision = tp / (tp + fp)
-            recall = tp / (tp + fn)
+            precision = round(tp / (tp + fp),decimal_place)
+            recall = round(tp / (tp + fn),decimal_place)
         if precision + recall != 0:
-            f1 = 2 * precision * recall / (precision + recall)
-        eval = {"precision": precision, "recall": recall, "f1": f1}
+            f1 = round(2 * precision * recall / (precision + recall),decimal_place)
+        eval = {"accuracy": accuracy, "precision": precision, "recall": recall, "f1": f1}
         print(eval)
         eval_list.append(eval)
 

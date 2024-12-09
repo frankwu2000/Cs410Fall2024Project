@@ -3,6 +3,9 @@
 build:
 	python main.py
 
+clean:
+	rm W1_subtitle_data_sbert_segment_output
+
 import-requirements:
 	pip install -r requirements.txt
 
