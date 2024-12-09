@@ -1,0 +1,1554 @@
+WEBVTT
+
+1
+00:00:00.168 --> 00:00:07.728
+[MUSIC]
+
+2
+00:00:07.728 --> 00:00:10.250
+This lecture is about
+the text retrieval problem.
+
+3
+00:00:12.820 --> 00:00:15.710
+This picture shows our overall plan for
+lectures.
+
+4
+00:00:16.780 --> 00:00:21.780
+In the last lecture, we talked about
+the high level strategies for text access.
+
+5
+00:00:21.780 --> 00:00:24.150
+We talked about push versus pull.
+
+6
+00:00:25.350 --> 00:00:30.720
+Such engines are the main tools for
+supporting the pull mode.
+
+7
+00:00:30.720 --> 00:00:32.690
+Starting from this lecture,
+
+8
+00:00:32.690 --> 00:00:36.270
+we're going to talk about the how
+search engines work in detail.
+
+9
+00:00:38.110 --> 00:00:40.770
+So first it's about
+the text retrieval problem.
+
+10
+00:00:42.660 --> 00:00:46.120
+We're going to talk about
+the three things in this lecture.
+
+11
+00:00:46.120 --> 00:00:49.650
+First, we define Text Retrieval.
+
+12
+00:00:49.650 --> 00:00:54.200
+Second we're going to make a comparison
+between Text Retrieval and
+
+13
+00:00:54.200 --> 00:00:56.280
+the related task Database Retrieval.
+
+14
+00:00:58.240 --> 00:01:02.190
+Finally, we're going to talk about
+the Document Selection versus
+
+15
+00:01:02.190 --> 00:01:06.508
+Document Ranking as two strategies for
+responding to a user's query.
+
+16
+00:01:09.728 --> 00:01:11.120
+So what is Text Retrieval?
+
+17
+00:01:12.850 --> 00:01:14.840
+It should be a task that's familiar for
+
+18
+00:01:14.840 --> 00:01:18.740
+the most of us because we're using
+web search engines all the time.
+
+19
+00:01:19.920 --> 00:01:24.190
+So text retrieval is basically a task
+
+20
+00:01:24.190 --> 00:01:29.900
+where the system would respond to
+a user's query With relevant documents.
+
+21
+00:01:29.900 --> 00:01:31.540
+Basically, it's for supporting a query
+
+22
+00:01:32.730 --> 00:01:37.300
+as one way to implement the poll
+mode of information access.
+
+23
+00:01:39.250 --> 00:01:40.940
+So the situation is the following.
+
+24
+00:01:40.940 --> 00:01:43.590
+You have a collection of
+text retrieval documents.
+
+25
+00:01:43.590 --> 00:01:47.364
+These documents could be all
+the webpages on the web, or
+
+26
+00:01:47.364 --> 00:01:50.988
+all the literature articles
+in the digital library.
+
+27
+00:01:50.988 --> 00:01:56.528
+Or maybe all the text
+files in your computer.
+
+28
+00:01:58.528 --> 00:02:04.340
+A user will typically give a query to
+the system to express information need.
+
+29
+00:02:04.340 --> 00:02:09.480
+And then, the system would return
+relevant documents to users.
+
+30
+00:02:09.480 --> 00:02:14.040
+Relevant documents refer to those
+documents that are useful to
+
+31
+00:02:14.040 --> 00:02:15.500
+the user who typed in the query.
+
+32
+00:02:16.910 --> 00:02:19.510
+All this task is a phone call
+that information retrieval.
+
+33
+00:02:21.170 --> 00:02:25.585
+But literally information retrieval would
+broadly include the retrieval of other
+
+34
+00:02:25.585 --> 00:02:30.660
+non-textual information as well,
+for example audio, video, etc.
+
+35
+00:02:30.660 --> 00:02:35.960
+It's worth noting that
+Text Retrieval is at the core
+
+36
+00:02:35.960 --> 00:02:41.610
+of information retrieval in
+the sense that other medias such as
+
+37
+00:02:41.610 --> 00:02:47.010
+video can be retrieved by
+exploiting the companion text data.
+
+38
+00:02:47.010 --> 00:02:52.270
+So for example,
+current the image search engines actually
+
+39
+00:02:52.270 --> 00:02:57.390
+match a user's query was
+the companion text data of the image.
+
+40
+00:02:59.850 --> 00:03:03.870
+This problem is also
+called search problem.
+
+41
+00:03:05.550 --> 00:03:08.680
+And the technology is often called
+the search technology industry.
+
+42
+00:03:11.190 --> 00:03:14.540
+If you ever take a course in databases it
+
+43
+00:03:14.540 --> 00:03:18.400
+will be useful to pause
+the lecture at this point and
+
+44
+00:03:18.400 --> 00:03:25.200
+think about the differences between
+text retrieval and database retrieval.
+
+45
+00:03:25.200 --> 00:03:28.450
+Now these two tasks
+are similar in many ways.
+
+46
+00:03:29.530 --> 00:03:31.928
+But, there are some important differences.
+
+47
+00:03:33.708 --> 00:03:38.140
+So, spend a moment to think about
+the differences between the two.
+
+48
+00:03:38.140 --> 00:03:43.300
+Think about the data, and the information
+managed by a search engine versus
+
+49
+00:03:43.300 --> 00:03:46.080
+those that are managed
+by a database system.
+
+50
+00:03:47.350 --> 00:03:51.570
+Think about the different between
+the queries that you typically specify for
+
+51
+00:03:51.570 --> 00:03:57.389
+database system versus queries that
+are typed in by users in a search engine.
+
+52
+00:03:59.180 --> 00:04:00.970
+And then finally think about the answers.
+
+53
+00:04:02.870 --> 00:04:06.980
+What's the difference between the two?
+
+54
+00:04:06.980 --> 00:04:11.760
+Okay, so if we think about the information
+or data managed by the two systems,
+
+55
+00:04:11.760 --> 00:04:14.890
+we will see that in text retrieval.
+
+56
+00:04:14.890 --> 00:04:18.100
+The data is unstructured, it's free text.
+
+57
+00:04:18.100 --> 00:04:24.020
+But in databases, they are structured data
+where there is a clear defined schema
+
+58
+00:04:24.020 --> 00:04:30.430
+to tell you this column is the names
+of people and that column is ages, etc.
+
+59
+00:04:31.880 --> 00:04:35.020
+The unstructured text is not obvious
+
+60
+00:04:35.020 --> 00:04:38.420
+what are the names of people
+mentioned in the text.
+
+61
+00:04:40.440 --> 00:04:45.930
+Because of this difference, we also see
+that text information tends to be more
+
+62
+00:04:45.930 --> 00:04:52.900
+ambiguous and we talk about that in the
+processing chapter, whereas in databases.
+
+63
+00:04:52.900 --> 00:04:55.500
+But they don't tend to have
+where to find the semantics.
+
+64
+00:04:58.230 --> 00:05:01.990
+The results important
+difference in the queries, and
+
+65
+00:05:01.990 --> 00:05:05.770
+this is partly due to the difference
+in the information or data.
+
+66
+00:05:07.610 --> 00:05:10.960
+So test queries tend to be ambiguous.
+
+67
+00:05:10.960 --> 00:05:16.290
+Whereas in their research,
+the queries are typically well-defined.
+
+68
+00:05:16.290 --> 00:05:22.330
+Think about a SQL query that would clearly
+specify what records to be returned.
+
+69
+00:05:22.330 --> 00:05:24.690
+So it has very well-defined semantics.
+
+70
+00:05:27.230 --> 00:05:32.252
+Keyword queries or electronic queries tend
+
+71
+00:05:32.252 --> 00:05:37.952
+to be incomplete,
+also in that it doesn't really
+
+72
+00:05:37.952 --> 00:05:43.390
+specify what documents
+should be retrieved.
+
+73
+00:05:43.390 --> 00:05:46.370
+Whereas complete specification for
+what should be returned.
+
+74
+00:05:47.390 --> 00:05:50.900
+And because of these differences,
+the answers would be also different.
+
+75
+00:05:50.900 --> 00:05:56.670
+Being the case of text retrieval, we're
+looking for it rather than the documents.
+
+76
+00:05:58.110 --> 00:06:02.740
+In the database search,
+we are retrieving records or
+
+77
+00:06:02.740 --> 00:06:07.260
+match records with the sequel
+query more precisely.
+
+78
+00:06:09.110 --> 00:06:14.550
+Now in the case of text retrieval,
+what should be the right answers
+
+79
+00:06:14.550 --> 00:06:19.950
+to the query is not very well specified,
+as we just discussed.
+
+80
+00:06:21.140 --> 00:06:25.830
+So it's unclear what should be
+the right answers to a query.
+
+81
+00:06:25.830 --> 00:06:30.510
+And this has very important consequences,
+and that is,
+
+82
+00:06:30.510 --> 00:06:35.108
+textual retrieval is
+an empirically defined problem.
+
+83
+00:06:38.578 --> 00:06:44.100
+So this is a problem because
+if it's empirically defined,
+
+84
+00:06:44.100 --> 00:06:51.510
+then we can not mathematically prove one
+method is better than another method.
+
+85
+00:06:52.620 --> 00:06:56.650
+That also means we must rely
+on empirical evaluation
+
+86
+00:06:56.650 --> 00:07:01.120
+involving users to know
+which method works better.
+
+87
+00:07:02.460 --> 00:07:05.080
+And that's why we have.
+
+88
+00:07:05.080 --> 00:07:09.420
+You need more than one lectures
+to cover the issue of evaluation.
+
+89
+00:07:09.420 --> 00:07:12.820
+Because this is very important topic for
+Sir Jennings.
+
+90
+00:07:13.890 --> 00:07:18.902
+Without knowing how to evaluate heroism
+properly, there's no way to tell
+
+91
+00:07:18.902 --> 00:07:24.563
+whether we have got the better or
+whether one system is better than another.
+
+92
+00:07:28.393 --> 00:07:31.155
+So now let's look at
+the problem in a formal way.
+
+93
+00:07:32.240 --> 00:07:36.170
+So, this slide shows a formal formulation
+of the text retrieval problem.
+
+94
+00:07:37.460 --> 00:07:43.460
+First, we have our vocabulary set, which
+is just a set of words in a language.
+
+95
+00:07:44.920 --> 00:07:49.140
+Now here,
+we are considering only one language, but
+
+96
+00:07:49.140 --> 00:07:53.360
+in reality, on the web,
+there might be multiple natural languages.
+
+97
+00:07:53.360 --> 00:07:56.180
+We have texts that are in
+all kinds of languages.
+
+98
+00:07:57.530 --> 00:08:01.478
+But here for simplicity, we just
+assume that is one kind of language.
+
+99
+00:08:01.478 --> 00:08:07.088
+As the techniques used for retrieving
+data from multiple languages Are more or
+
+100
+00:08:07.088 --> 00:08:12.783
+less similar to the techniques used for
+retrieving documents in one end, which
+
+101
+00:08:12.783 --> 00:08:18.819
+although there is important difference,
+the principle methods are very similar.
+
+102
+00:08:21.759 --> 00:08:24.725
+Next, we have the query,
+which is a sequence of words.
+
+103
+00:08:26.015 --> 00:08:28.625
+And so here, you can see
+
+104
+00:08:31.175 --> 00:08:36.482
+the query is defined as
+a sequence of words.
+
+105
+00:08:36.482 --> 00:08:41.252
+Each q sub i is a word in the vocabulary.
+
+106
+00:08:42.302 --> 00:08:47.000
+A document is defined in the same way,
+so it's also a sequence of words.
+
+107
+00:08:47.000 --> 00:08:51.520
+And here,
+d sub ij is also a word in the vocabulary.
+
+108
+00:08:52.920 --> 00:08:55.900
+Now typically, the documents
+are much longer than queries.
+
+109
+00:08:57.100 --> 00:09:01.460
+But there are also cases where
+the documents may be very short.
+
+110
+00:09:04.370 --> 00:09:08.530
+So you can think about what
+might be a example of that case.
+
+111
+00:09:09.670 --> 00:09:13.570
+I hope you can think of Twitter search.
+
+112
+00:09:13.570 --> 00:09:14.992
+Tweets are very short.
+
+113
+00:09:16.557 --> 00:09:20.560
+But in general,
+documents are longer than the queries.
+
+114
+00:09:22.934 --> 00:09:27.389
+Now, then we have
+a collection of documents,
+
+115
+00:09:27.389 --> 00:09:31.240
+and this collection can be very large.
+
+116
+00:09:31.240 --> 00:09:32.370
+So think about the web.
+
+117
+00:09:32.370 --> 00:09:33.820
+It could be very large.
+
+118
+00:09:36.140 --> 00:09:40.300
+And then the goal of text retrieval
+is you'll find the set of relevant in
+
+119
+00:09:40.300 --> 00:09:46.358
+the documents, which we denote by R'(q),
+because it depends on the query.
+
+120
+00:09:46.358 --> 00:09:50.290
+And this in general, a subset of all
+the documents in the collection.
+
+121
+00:09:52.410 --> 00:09:57.862
+Unfortunately, this set of relevant
+documents is generally unknown,
+
+122
+00:09:57.862 --> 00:10:03.000
+and user-dependent in the sense that,
+for the same query typed
+
+123
+00:10:03.000 --> 00:10:08.110
+in by different users, they expect
+the relevant documents may be different.
+
+124
+00:10:09.330 --> 00:10:13.600
+The query given to us by
+the user is only a hint
+
+125
+00:10:13.600 --> 00:10:15.660
+on which document should be in this set.
+
+126
+00:10:17.840 --> 00:10:24.940
+And indeed, the user is generally
+unable to specify what exactly should
+
+127
+00:10:24.940 --> 00:10:28.940
+be in this set, especially in the case
+of web search, where the connection's so
+
+128
+00:10:28.940 --> 00:10:32.540
+large, the user doesn't have complete
+knowledge about the whole production.
+
+129
+00:10:34.000 --> 00:10:39.550
+So the best search system
+can do is to compute
+
+130
+00:10:39.550 --> 00:10:45.856
+an approximation of this
+relevant document set.
+
+131
+00:10:45.856 --> 00:10:50.168
+So we denote it by R'(q).
+
+132
+00:10:50.168 --> 00:10:54.835
+So formerly,
+we can see the task is to compute this
+
+133
+00:10:54.835 --> 00:10:59.849
+R'(q) approximation of
+the relevant documents.
+
+134
+00:10:59.849 --> 00:11:01.902
+So how can we do that?
+
+135
+00:11:01.902 --> 00:11:07.290
+Now imagine if you are now asked
+to write a program to do this.
+
+136
+00:11:08.980 --> 00:11:10.480
+What would you do?
+
+137
+00:11:10.480 --> 00:11:12.526
+Now think for a moment.
+
+138
+00:11:12.526 --> 00:11:14.433
+Right, so these are your input.
+
+139
+00:11:14.433 --> 00:11:18.425
+The query, the documents.
+
+140
+00:11:20.399 --> 00:11:24.021
+And then you are to compute
+the answers to this query,
+
+141
+00:11:24.021 --> 00:11:28.060
+which is a set of documents that
+would be useful to the user.
+
+142
+00:11:29.770 --> 00:11:31.926
+So, how would you solve the problem?
+
+143
+00:11:31.926 --> 00:11:37.630
+Now in general,
+there are two strategies that we can use.
+
+144
+00:11:39.720 --> 00:11:42.970
+The first strategy is we do a document
+selection, and that is, we're
+
+145
+00:11:42.970 --> 00:11:47.740
+going to have a binary classification
+function, or binary classifier.
+
+146
+00:11:49.350 --> 00:11:52.110
+That's a function that
+would take a document and
+
+147
+00:11:52.110 --> 00:11:55.740
+query as input, and then give a zero or
+
+148
+00:11:55.740 --> 00:12:01.170
+one as output to indicate whether this
+document is relevant to the query or not.
+
+149
+00:12:02.330 --> 00:12:05.310
+So in this case, you can see the document.
+
+150
+00:12:08.700 --> 00:12:15.130
+The relevant document is set,
+is defined as follows.
+
+151
+00:12:15.130 --> 00:12:22.340
+It basically, all the documents that
+have a value of 1 by this function.
+
+152
+00:12:25.410 --> 00:12:26.040
+So in this case,
+
+153
+00:12:26.040 --> 00:12:29.930
+you can see the system must have decide
+if the document is relevant or not.
+
+154
+00:12:29.930 --> 00:12:33.680
+Basically, it has to say
+whether it's one or zero.
+
+155
+00:12:33.680 --> 00:12:36.330
+And this is called absolute relevance.
+
+156
+00:12:36.330 --> 00:12:38.940
+Basically, it needs to know
+exactly whether it's going to be
+
+157
+00:12:38.940 --> 00:12:39.850
+useful to the user.
+
+158
+00:12:41.940 --> 00:12:44.910
+Alternatively, there's another
+strategy called document ranking.
+
+159
+00:12:46.160 --> 00:12:47.150
+Now in this case,
+
+160
+00:12:47.150 --> 00:12:52.290
+the system is not going to make a call
+whether a document is random or not.
+
+161
+00:12:52.290 --> 00:12:57.230
+But rather the system is going to
+use a real value function, f here.
+
+162
+00:12:58.440 --> 00:13:01.540
+That would simply give us a value
+
+163
+00:13:01.540 --> 00:13:04.170
+that would indicate which
+document is more likely relevant.
+
+164
+00:13:05.740 --> 00:13:08.590
+So it's not going to make a call whether
+this document is relevant or not.
+
+165
+00:13:08.590 --> 00:13:12.696
+But rather it would say which
+document is more likely relevant.
+
+166
+00:13:12.696 --> 00:13:17.669
+So this function then can be
+used to random documents, and
+
+167
+00:13:17.669 --> 00:13:22.135
+then we're going to let
+the user decide where to stop,
+
+168
+00:13:22.135 --> 00:13:25.296
+when the user looks at the document.
+
+169
+00:13:25.296 --> 00:13:31.410
+So we have a threshold theta
+here to determine what
+
+170
+00:13:31.410 --> 00:13:37.398
+documents should be in
+this approximation set.
+
+171
+00:13:37.398 --> 00:13:40.802
+And we're going to assume
+that all the documents that
+
+172
+00:13:40.802 --> 00:13:45.312
+are ranked above the threshold
+are in this set, because in effect,
+
+173
+00:13:45.312 --> 00:13:49.780
+these are the documents that
+we deliver to the user.
+
+174
+00:13:49.780 --> 00:13:54.490
+And theta is a cutoff
+determined by the user.
+
+175
+00:13:56.980 --> 00:14:00.980
+So here we've got some collaboration
+from the user in some sense,
+
+176
+00:14:00.980 --> 00:14:03.330
+because we don't really make a cutoff.
+
+177
+00:14:03.330 --> 00:14:07.060
+And the user kind of helped
+the system make a cutoff.
+
+178
+00:14:08.120 --> 00:14:10.950
+So in this case,
+the system only needs to decide
+
+179
+00:14:10.950 --> 00:14:14.440
+if one document is more
+likely relevant than another.
+
+180
+00:14:14.440 --> 00:14:17.990
+And that is, it only needs to
+determine relative relevance,
+
+181
+00:14:19.050 --> 00:14:20.770
+as opposed to absolute relevance.
+
+182
+00:14:22.230 --> 00:14:26.290
+Now you can probably already sense that
+
+183
+00:14:26.290 --> 00:14:31.560
+relative relevance would be easier to
+determine than absolute relevance.
+
+184
+00:14:31.560 --> 00:14:32.800
+Because in the first case,
+
+185
+00:14:32.800 --> 00:14:36.420
+we have to say exactly whether
+a document is relevant or not.
+
+186
+00:14:37.990 --> 00:14:45.500
+And it turns out that ranking is indeed
+generally preferred to document selection.
+
+187
+00:14:46.710 --> 00:14:50.240
+So let's look at these two
+strategies in more detail.
+
+188
+00:14:50.240 --> 00:14:53.960
+So this picture shows how it works.
+
+189
+00:14:53.960 --> 00:14:58.780
+So on the left side,
+we see these documents, and
+
+190
+00:14:58.780 --> 00:15:02.710
+we use the pluses to indicate
+the relevant documents.
+
+191
+00:15:02.710 --> 00:15:09.990
+So we can see the true relevant
+documents here consists this set
+
+192
+00:15:09.990 --> 00:15:15.210
+of true relevant documents, consists
+of these process, these documents.
+
+193
+00:15:17.450 --> 00:15:20.972
+And with the document selection function,
+
+194
+00:15:20.972 --> 00:15:25.636
+we're going to basically
+classify them into two groups,
+
+195
+00:15:25.636 --> 00:15:30.050
+relevant documents, and non-relevant ones.
+
+196
+00:15:30.050 --> 00:15:34.700
+Of course, the classified will not
+be perfect so it will make mistakes.
+
+197
+00:15:34.700 --> 00:15:39.522
+So here we can see, in the approximation
+of the relevant documents,
+
+198
+00:15:39.522 --> 00:15:41.660
+we have got some number in the documents.
+
+199
+00:15:43.090 --> 00:15:44.168
+And similarly,
+
+200
+00:15:44.168 --> 00:15:48.868
+there is a relevant document that's
+misclassified as non-relevant.
+
+201
+00:15:48.868 --> 00:15:53.972
+In the case of document ranking,
+we can see the system seems like,
+
+202
+00:15:53.972 --> 00:15:59.368
+simply ranks all the documents in
+the descending order of the scores.
+
+203
+00:15:59.368 --> 00:16:04.580
+And then, we're going to let the user
+stop wherever the user wants to stop.
+
+204
+00:16:04.580 --> 00:16:07.510
+If the user wants to
+examine more documents,
+
+205
+00:16:07.510 --> 00:16:11.630
+then the user will scroll down some
+more and then stop [INAUDIBLE].
+
+206
+00:16:11.630 --> 00:16:17.010
+But if the user only wants to
+read a few random documents,
+
+207
+00:16:17.010 --> 00:16:20.750
+the user might stop at the top position.
+
+208
+00:16:20.750 --> 00:16:24.200
+So in this case, the user stops at d4.
+
+209
+00:16:24.200 --> 00:16:30.950
+So in fact, we have delivered
+these four documents to our user.
+
+210
+00:16:33.940 --> 00:16:40.300
+So as I said ranking is generally
+preferred, and one of the reasons is
+
+211
+00:16:40.300 --> 00:16:46.410
+because the classifier in the case of
+document selection is unlikely accurate.
+
+212
+00:16:46.410 --> 00:16:47.790
+Why?
+
+213
+00:16:47.790 --> 00:16:51.100
+Because the only clue
+is usually the query.
+
+214
+00:16:51.100 --> 00:16:56.550
+But the query may not be accurate in the
+sense that it could be overly constrained.
+
+215
+00:16:57.660 --> 00:17:02.860
+For example, you might expect relevant
+documents to talk about all these
+
+216
+00:17:04.460 --> 00:17:08.050
+topics by using specific vocabulary.
+
+217
+00:17:08.050 --> 00:17:13.550
+And as a result,
+you might match no relevant documents.
+
+218
+00:17:13.550 --> 00:17:15.690
+Because in the collection,
+
+219
+00:17:15.690 --> 00:17:19.990
+no others have discussed the topic
+using these vocabularies, right?
+
+220
+00:17:19.990 --> 00:17:24.380
+So in this case,
+we'll see there is this problem of
+
+221
+00:17:25.970 --> 00:17:31.980
+no relevant documents to return in
+the case of over-constrained query.
+
+222
+00:17:33.230 --> 00:17:37.892
+On the other hand,
+if the query is under-constrained,
+
+223
+00:17:37.892 --> 00:17:40.430
+for example, if the query
+
+224
+00:17:40.430 --> 00:17:44.610
+does not have sufficient descriptive
+words to find the random documents.
+
+225
+00:17:44.610 --> 00:17:51.100
+You may actually end up having of
+over delivery, and this when you
+
+226
+00:17:51.100 --> 00:17:55.840
+thought these words my be sufficient
+to help you find the right documents.
+
+227
+00:17:55.840 --> 00:17:58.590
+But, it turns out they
+are not sufficient and
+
+228
+00:17:58.590 --> 00:18:04.280
+there are many distractions,
+documents using similar words.
+
+229
+00:18:04.280 --> 00:18:07.450
+And so, this is a case of over delivery.
+
+230
+00:18:08.570 --> 00:18:13.910
+Unfortunately, it's very hard to find the
+right position between these two extremes.
+
+231
+00:18:15.390 --> 00:18:15.900
+Why?
+
+232
+00:18:15.900 --> 00:18:19.940
+Because whether users looking for
+the information in general the user does
+
+233
+00:18:19.940 --> 00:18:24.520
+not have a good knowledge about
+the information to be found.
+
+234
+00:18:24.520 --> 00:18:28.800
+And in that case, the user does not
+have a good knowledge about what
+
+235
+00:18:30.240 --> 00:18:33.770
+vocabularies will be used in
+those relevent documents.
+
+236
+00:18:33.770 --> 00:18:36.064
+So it's very hard for
+
+237
+00:18:36.064 --> 00:18:42.061
+a user to pre-specify the right
+level of constraints.
+
+238
+00:18:44.569 --> 00:18:49.502
+Even if the classifier is accurate,
+we also still want to rend these
+
+239
+00:18:49.502 --> 00:18:54.880
+relevant documents, because they
+are generally not equally relevant.
+
+240
+00:18:56.130 --> 00:18:58.330
+Relevance is often a matter of degree.
+
+241
+00:18:59.560 --> 00:19:05.250
+So we must prioritize these documents for
+a user to examine.
+
+242
+00:19:06.320 --> 00:19:10.690
+And note that this
+prioritization is very important
+
+243
+00:19:12.300 --> 00:19:15.840
+because a user cannot
+digest all the content
+
+244
+00:19:15.840 --> 00:19:20.720
+the user generally would have to
+look at each document sequentially.
+
+245
+00:19:21.750 --> 00:19:29.220
+And therefore, it would make sense to
+users with the most relevant documents.
+
+246
+00:19:29.220 --> 00:19:32.100
+And that's what ranking is doing.
+
+247
+00:19:32.100 --> 00:19:35.240
+So for these reasons,
+ranking is generally preferred.
+
+248
+00:19:36.330 --> 00:19:39.610
+Now this preference also has
+a theoretical justification and
+
+249
+00:19:39.610 --> 00:19:42.330
+this is given by the probability
+ranking principle.
+
+250
+00:19:44.210 --> 00:19:47.930
+In the end of this lecture,
+there is reference for this.
+
+251
+00:19:49.320 --> 00:19:54.260
+This principle says, returning a ranked
+list of documents in descending order
+
+252
+00:19:54.260 --> 00:19:57.590
+of probability that a document
+is relevant to the query
+
+253
+00:19:57.590 --> 00:20:01.270
+is the optimal strategy under
+the following two assumptions.
+
+254
+00:20:02.620 --> 00:20:05.690
+First, the utility of
+a document (to a user)
+
+255
+00:20:05.690 --> 00:20:09.280
+Is independent of the utility
+of any other document.
+
+256
+00:20:10.980 --> 00:20:15.300
+Second, a user would be assumed to
+browse the results sequentially.
+
+257
+00:20:15.300 --> 00:20:21.775
+Now it's easy to understand why these
+assumptions are needed in order to justify
+
+258
+00:20:21.775 --> 00:20:27.130
+Site for the ranking strategy.
+
+259
+00:20:27.130 --> 00:20:30.930
+Because if the documents are independent,
+
+260
+00:20:30.930 --> 00:20:34.270
+then we can evaluate the utility
+of each document that's separate.
+
+261
+00:20:36.350 --> 00:20:40.270
+And this would allow the computer
+score for each document independently.
+
+262
+00:20:40.270 --> 00:20:43.920
+And then, we are going to rank these
+documents based on the scrolls.
+
+263
+00:20:45.710 --> 00:20:51.300
+The second assumption is to say that the
+user would indeed follow the rank list.
+
+264
+00:20:51.300 --> 00:20:55.050
+If the user is not going to follow
+the ranked list, is not going to examine
+
+265
+00:20:55.050 --> 00:20:59.440
+the documents sequentially, then obviously
+the ordering would not be optimal.
+
+266
+00:21:00.560 --> 00:21:08.270
+So under these two assumptions, we can
+theoretically justify the ranking strategy
+
+267
+00:21:08.270 --> 00:21:13.170
+is, in fact, the best that you could do.
+
+268
+00:21:13.170 --> 00:21:14.700
+Now, I've put one question here.
+
+269
+00:21:14.700 --> 00:21:16.330
+Do these two assumptions hold?
+
+270
+00:21:18.240 --> 00:21:23.110
+I suggest you to pause the lecture,
+for a moment, to think about this.
+
+271
+00:21:27.950 --> 00:21:33.065
+Now, can you think of
+some examples that would
+
+272
+00:21:33.065 --> 00:21:39.238
+suggest these assumptions
+aren't necessarily true.
+
+273
+00:21:44.462 --> 00:21:46.953
+Now, if you think for a moment,
+
+274
+00:21:46.953 --> 00:21:51.490
+you may realize none of
+the assumptions Is actually true.
+
+275
+00:21:53.230 --> 00:21:57.690
+For example, in the case of
+independence assumption we might
+
+276
+00:21:57.690 --> 00:22:02.590
+have documents that have similar or
+exactly the same content.
+
+277
+00:22:02.590 --> 00:22:06.620
+If we look at each of them alone,
+each is relevant.
+
+278
+00:22:07.790 --> 00:22:12.510
+But if the user has already seen
+one of them, we can assume it's
+
+279
+00:22:12.510 --> 00:22:17.240
+generally not very useful for the user to
+see another similar or duplicated one.
+
+280
+00:22:19.030 --> 00:22:22.040
+So clearly the utility
+on the document that
+
+281
+00:22:22.040 --> 00:22:25.680
+is dependent on other documents
+that the user has seen.
+
+282
+00:22:27.350 --> 00:22:32.510
+In some other cases you might see
+a scenario where one document that may not
+
+283
+00:22:32.510 --> 00:22:38.490
+be useful to the user, but when three
+particular documents are put together.
+
+284
+00:22:38.490 --> 00:22:41.070
+They provide answers to
+the user's question.
+
+285
+00:22:42.140 --> 00:22:46.883
+So this is a collective relevance and
+that also suggests that
+
+286
+00:22:46.883 --> 00:22:51.542
+the value of the document might
+depend on other documents.
+
+287
+00:22:53.329 --> 00:22:58.100
+Sequential browsing generally would make
+sense if you have a ranked list there.
+
+288
+00:22:59.220 --> 00:23:04.650
+But even if you have a rank list,
+there is evidence showing that
+
+289
+00:23:04.650 --> 00:23:10.140
+users don't always just go strictly
+sequentially through the entire list.
+
+290
+00:23:10.140 --> 00:23:14.910
+They sometimes will look at the bottom for
+example, or skip some.
+
+291
+00:23:14.910 --> 00:23:17.810
+And if you think about the more
+complicated interfaces that
+
+292
+00:23:17.810 --> 00:23:22.100
+we could possibly use like
+two dimensional in the phase.
+
+293
+00:23:22.100 --> 00:23:26.820
+Where you can put that additional
+information on the screen then
+
+294
+00:23:26.820 --> 00:23:29.379
+sequential browsing is a very
+restricted assumption.
+
+295
+00:23:32.010 --> 00:23:34.300
+So the point here is that
+
+296
+00:23:35.740 --> 00:23:39.990
+none of these assumptions is
+really true but less than that.
+
+297
+00:23:41.100 --> 00:23:45.290
+But probability ranking principle
+establishes some solid foundation for
+
+298
+00:23:46.870 --> 00:23:51.020
+ranking as a primary pattern for
+search engines.
+
+299
+00:23:51.020 --> 00:23:53.180
+And this has actually been the basis for
+
+300
+00:23:53.180 --> 00:23:57.090
+a lot of research work in
+information retrieval.
+
+301
+00:23:57.090 --> 00:24:00.530
+And many hours have been designed
+based on this assumption,
+
+302
+00:24:01.590 --> 00:24:06.410
+despite that the assumptions
+aren't necessarily true.
+
+303
+00:24:06.410 --> 00:24:11.570
+And we can address this problem
+by doing post processing
+
+304
+00:24:11.570 --> 00:24:15.430
+Of a ranked list, for example,
+to remove redundancy.
+
+305
+00:24:20.260 --> 00:24:22.500
+So to summarize this lecture,
+
+306
+00:24:22.500 --> 00:24:28.000
+the main points that you can
+take away are the following.
+
+307
+00:24:28.000 --> 00:24:31.760
+First, text retrieval is
+an empirically defined Problem.
+
+308
+00:24:31.760 --> 00:24:37.951
+And that means which algorithm is
+better must be judged by the users.
+
+309
+00:24:37.951 --> 00:24:42.500
+Second, document ranking
+is generally preferred.
+
+310
+00:24:42.500 --> 00:24:46.180
+And this will help users prioritize
+examination of search results.
+
+311
+00:24:47.410 --> 00:24:52.693
+And this is also to bypass the difficulty
+in determining absolute relevance
+
+312
+00:24:52.693 --> 00:24:58.221
+Because we can get some help from users
+in determining where to make the cut off,
+
+313
+00:24:58.221 --> 00:24:59.809
+it's more flexible.
+
+314
+00:25:01.967 --> 00:25:06.904
+So, this further suggests that the main
+technical challenge in designing a search
+
+315
+00:25:06.904 --> 00:25:09.950
+engine is the design
+effective ranking function.
+
+316
+00:25:10.970 --> 00:25:16.150
+In other words, we need to define
+what is the value of this function F
+
+317
+00:25:16.150 --> 00:25:19.480
+on the query and document pair.
+
+318
+00:25:21.360 --> 00:25:26.151
+How we design such a function is the main
+topic in the following lectures.
+
+319
+00:25:29.123 --> 00:25:32.060
+There are two suggested
+additional readings.
+
+320
+00:25:32.060 --> 00:25:36.180
+The first is the classical paper on
+the probability ranking principle.
+
+321
+00:25:37.470 --> 00:25:42.380
+The second one is a must-read for anyone
+doing research on information retrieval.
+
+322
+00:25:42.380 --> 00:25:49.220
+It's a classic IR book, which has
+excellent coverage of the main research
+
+323
+00:25:49.220 --> 00:25:55.540
+and results in early days up to
+the time when the book was written.
+
+324
+00:25:55.540 --> 00:25:59.762
+Chapter six of this book has
+an in-depth discussion of
+
+325
+00:25:59.762 --> 00:26:06.211
+the Probability Ranking Principle and
+Probably for retrieval models in general.
+
+326
+00:26:06.211 --> 00:26:16.211
+[MUSIC]

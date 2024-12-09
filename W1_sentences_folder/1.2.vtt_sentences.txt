@@ -1,0 +1,90 @@
+In this lecture, we're going to talk about the text access.
+In the previous lecture, we talked about the natural language content, analysis.
+We explained that the state of the are natural language processing techniques are still not good enough to process a lot of unrestricted text data in a robust manner.
+As a result, bag of words remains very popular in applications like a search engine.
+In this lecture, we're going to talk about some high-level strategies to help users get access to the text data.
+This is also important step to convert raw big text data into small random data.
+That are actually needed in a specific application.
+So the main question we'll address here, is how can a text information system, help users get access to the relevant text data?
+We're going to cover two complimentary strategies, push versus pull.
+And then we're going to talk about two ways to implement the pull mode, querying versus browsing.
+So first push versus pull.
+These are two different ways connect the users with the right information at the right time.
+The difference is which takes the initiative, which party takes the initiative.
+In the pull mode, the users take the initiative to start the information access process.
+And in this case, a user typically would use a search engine to fulfill the goal.
+For example, the user may type in the query and then browse the results to find the relevant information.
+So this is usually appropriate for satisfying a user's ad hoc information need.
+An ad hoc information need is a temporary information need.
+For example, you want to buy a product so you suddenly have a need to read reviews about related product.
+But after you have cracked information, you have purchased in your product.
+You generally no longer need such information, so it's a temporary information need.
+In such a case, it's very hard for a system to predict your need, and it's more proper for the users to take the initiative, and that's why search engines are very useful.
+Today because many people have many information needs all the time.
+So as we're speaking Google is probably processing many queries from this.
+And those are all, or mostly adequate.
+Information needs.
+So this is a pull mode.
+In contrast in the push mode in the system would take the initiative to push the information to the user or to recommend information to the user.
+So in this case this is usually supported by a recommender system.
+Now this would be appropriate if.
+The user has a stable information.
+For example you may have a research interest in some topic and that interest tends to stay for a while.
+So, it's rather stable.
+Your hobby is another example of.
+A stable information need is such a case the system can interact with you and can learn your interest, and then to monitor the information stream.
+If the system hasn't seen any relevant items to your interest, the system could then take the initiative to recommend the information to you.
+So, for example, a news filter or news recommended system could monitor the news stream and identify interesting news to you and simply push the news articles to you.
+This mode of information access may be also a property that when this system has good knowledge about the users need and this happens in the search context.
+So for example, when you search for information on the web a search engine might infer you might be also interested in something related.
+Formation.
+And they would recommend the information to you, so that just reminds you, for example, of an advertisement placed on the search page.
+So this is about the two high level strategies or two modes of text access.
+Now let's look at the pull mode in more detail.
+In the pull mode, we can further distinguish it two ways to help users.
+Querying versus browsing.
+In querying, a user would just enter a query.
+Typical the keyword query, and the search engine system would return relevant documents to use.
+And this works well when the user knows what exactly are the keywords to be used.
+So if you know exactly what you are looking for, you tend to know the right keywords.
+And then query works very well, and we do that all of the time.
+But we also know that sometimes it doesn't work so well.
+When you don't know the right keywords to use in the query, or you want to browse information in some topic area.
+You use because browsing would be more useful.
+So in this case, in the case of browsing, the users would simply navigate it, into the relevant information by following the paths supported by the structures of documents.
+So the system would maintain some kind of structures and then the user could follow these structures to navigate.
+So this really works well when the user wants to explore the information space or the user doesn't know what are the keywords to using the query.
+Or simply because the user finds it inconvenient to type in a query.
+So even if a user knows what query to type in if the user is using a cellphone to search for information.
+It's still harder to enter the query.
+In such a case, again, browsing tends to be more convenient.
+The relationship between browsing and querying is best understood by making and imagine you're site seeing.
+Imagine if you're touring a city.
+Now if you know the exact address of attraction.
+Taking a taxi there is perhaps the fastest way.
+You can go directly to the site.
+But if you don't know the exact address, you may need to walk around.
+Or you can take a taxi to a nearby place and then walk around.
+It turns out that we do exactly the same in the information studies.
+If you know exactly what you are looking for, then you can use the right keywords in your query to find the information you're after.
+That's usually the fastest way to do, find information.
+But what if you don't know the exact keywords to use?
+Well, you clearly probably won't so well.
+You will not related pages.
+And then, you need to also walk around in the information space, meaning by following the links or by browsing.
+You can then finally get into the relevant page.
+If you want to learn about again.
+You will likely do a lot of browsing so just like you are looking around in some area and you want to see some interesting attractions related in the same.
+.
+So this analogy also tells us that today we have very good support for query, but we don't really have good support for browsing.
+And this is because in order to browse effectively, we need a map to guide us, just like you need a map to.
+Of Chicago, through the city of Chicago, you need a topical map to tour the information space.
+So how to construct such a topical map is in fact a very interesting research question that might bring us more interesting browsing experience on the web or in applications.
+So, to summarize this lecture, we've talked about the two high level strategies for text access; push and pull.
+Push tends to be supported by the Recommender System, and Pull tends to be supported by the Search Engine.
+Of course, in the sophisticated information system, we should combine the two.
+In the pull mode, we can further this Querying and Browsing.
+Again we generally want to combine the two ways to help you assist, so that you can support the both querying nad browsing.
+If you want to know more about the relationship between pull and push, you can read this article.
+This give excellent discussion of the relationship between machine filtering and information retrieval.
+Here informational filtering is similar to information recommendation or the push mode of information access.

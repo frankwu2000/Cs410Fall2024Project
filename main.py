@@ -80,6 +80,11 @@ def save_segment_indexes_list(file_path, segment_indexes_list):
         for segment_indexes in segment_indexes_list:
             file.write(str(segment_indexes) + "\n")
 
+def save_sentences(file_path, sentences):
+    with open(file_path, "w") as file:
+        for sentence in sentences:
+            file.write(str(sentence) + "\n")
+
 def evaluate(test_list: list, labeled_list: list, threshold = 0):
     truePositive = 0
     
@@ -94,13 +99,12 @@ def evaluate(test_list: list, labeled_list: list, threshold = 0):
 
     return truePositive, falsePositive, falseNegative  
 
-
-
 def main():
     # Path to the VTT file
     # data_folder = "W1-W6_subtitle_data"
     # TODO test
     data_folder = "W1_subtitle_data"
+    sentences_folder = "W1_sentences_folder"
     sbert_model = SentenceTransformer('all-MPNet-base-v2')
     
     vtt_file_list = sorted(os.listdir(data_folder))
@@ -112,7 +116,7 @@ def main():
 
     sbert_segments = []
     # TODO: test
-    if not os.path.exists(sbert_segments_output_path):
+    if os.path.exists(sbert_segments_output_path):
         sbert_segments = load_segment_indexes_list(sbert_segments_output_path)
     else:
         for vtt_file_name in tqdm.tqdm(vtt_file_list):
@@ -123,6 +127,8 @@ def main():
             # preprocess
             sentences, sentences_index = preprocess(vtt_file_path)
 
+            save_sentences(sentences_folder + "/" + vtt_file_name + "_sentences.txt", sentences)
+
             # encoding and segmentation
             segment_points = encoding_sentences(sbert_model, sentences, sentences_index)
 
@@ -130,8 +136,7 @@ def main():
                 print(f"Segmentation point at sentence {point + 1}: {sentences[point]}, point_index: {point_index}")
             
             # Get index points from segmentation result
-            segment_indexes = [sg[1] for sg in segment_points]
-            print(f"vtt_file_name:{vtt_file_name}, segment_indexes: {segment_indexes}")
+            segment_indexes = [point+1 for point, point_index in segment_points]
             sbert_segments.append(segment_indexes)
 
         save_segment_indexes_list(sbert_segments_output_path, sbert_segments)
@@ -146,10 +151,11 @@ def main():
     eval_list = []
     for i in range(len(sbert_segments)):        
         tp, fp, fn = evaluate(sbert_segments[i],llm_labelled_segments[i], threshold=4)
-        precision = tp / (tp + fp)
-        recall = tp / (tp + fn)
-        f1 = 0
-        if not (precision + recall) == 0:
+        precision, recall, f1 = 0,0,0
+        if tp + fn != 0 and tp + fn != 0:
+            precision = tp / (tp + fp)
+            recall = tp / (tp + fn)
+        if precision + recall != 0:
             f1 = 2 * precision * recall / (precision + recall)
         eval = {"precision": precision, "recall": recall, "f1": f1}
         print(eval)
