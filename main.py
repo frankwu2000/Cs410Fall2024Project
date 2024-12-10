@@ -134,6 +134,8 @@ def main():
         sentences_list = load_sentences_file(sentences_folder)
         sbert_segments = load_segment_indexes_list(sbert_segments_output_path)
     else:
+        if not os.path.exists(sentences_folder):
+            os.makedirs(sentences_folder)
         for vtt_file_name in tqdm.tqdm(vtt_file_list):
             vtt_file_path = data_folder + "/" + vtt_file_name
 
