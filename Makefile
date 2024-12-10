@@ -6,6 +6,10 @@ build:
 clean:
 	rm W1-W6_subtitle_data_sbert_segment_output
 
+clean-build:
+	make clean
+	make build	
+
 import-requirements:
 	pip install -r requirements.txt
 

@@ -1,4 +1,3 @@
-.
 This lecture is about the future of web search.
 In this lecture, we're going to talk about some possible future trends of web search and intelligent information retrieval systems in general.
 In order to further improve the accuracy of a search engine, it's important that to consider special cases of information need.

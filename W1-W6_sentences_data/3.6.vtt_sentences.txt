@@ -1,4 +1,3 @@
-.
 This lecture is about some practical issues that you would have to address in evaluation of text retrieval systems.
 In this lecture, we will continue the discussion of evaluation.
 We'll cover some practical issues that you have to solve in actual evaluation of text retrieval systems.

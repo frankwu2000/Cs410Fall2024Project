@@ -79,7 +79,7 @@ def load_segment_indexes_list(file_path):
 def save_segment_indexes_list(file_path, segment_indexes_list):
     with open(file_path, "w") as file:
         for segment_indexes in segment_indexes_list:
-            file.write(str(segment_indexes) + "\n")
+            file.write(json.dumps(segment_indexes) + "\n")
 
 def save_sentences(file_path, sentences):
     with open(file_path, "w") as file:
@@ -102,7 +102,7 @@ def evaluate(test_list: list, labeled_list: list, sentences_length: int, thresho
     trueNegative = 0
     for r1 in test_list:
         for r2 in labeled_list:
-            if np.abs(r1-r2) <= threshold:
+            if np.abs(int(r1)-int(r2)) <= threshold:
                 truePositive += 1
                 break
     for i in range(1,sentences_length+1):
@@ -135,8 +135,6 @@ def main():
         sbert_segments = load_segment_indexes_list(sbert_segments_output_path)
     else:
         for vtt_file_name in tqdm.tqdm(vtt_file_list):
-        # for vtt_file_name in vtt_file_list:
-        
             vtt_file_path = data_folder + "/" + vtt_file_name
 
             # preprocess
@@ -152,12 +150,13 @@ def main():
             
             # Get index points from segmentation result
             segment_indexes = [point+1 for point, point_index in segment_points]
-            sbert_segments.append((vtt_file_name, segment_indexes))
+            sbert_segments.append({vtt_file_name: segment_indexes})
 
-        save_segment_indexes_list(sbert_segments_output_path, sbert_segments)
+    # Save segment indexes list
+    save_segment_indexes_list(sbert_segments_output_path, sbert_segments)
 
-    # LLM benchmark segments
-    llm_labelled_segments = load_segment_indexes_list(data_folder+"_llm_labelled_segment_output")
+    # labelled segments
+    labelled_segments = load_segment_indexes_list(data_folder+"_labelled_segment_output")
 
     # evaluation
     print(f"#evaluate Sbert segmentation performance: # true positive / # true")
@@ -165,10 +164,12 @@ def main():
     eval_list = []
     decimal_place = 5
     for i in range(len(sbert_segments)):
-        vtt_file_name, sbert_segment = sbert_segments[i]
-        if not llm_labelled_segments[i]:
+        vtt_file_name = list(sbert_segments[i].keys())[0]
+        sbert_segment = sbert_segments[i][vtt_file_name]
+        labelled_segment = labelled_segments[i][vtt_file_name]
+        if not labelled_segment:
             continue
-        tp, tn, fp, fn = evaluate(sbert_segment,llm_labelled_segments[i], sentences_len_list[i], threshold=4)
+        tp, tn, fp, fn = evaluate(sbert_segment,labelled_segment, sentences_len_list[i], threshold=4)
         accuracy, precision, recall, f1 = 0,0,0,0
         if (tp+tn+fp+fn) != 0:
             accuracy = round((tp + tn) / (tp+tn+fp+fn),decimal_place)
