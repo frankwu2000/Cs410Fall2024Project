@@ -1,0 +1,101 @@
+This lecture is about smoothing of language models.
+In this lecture, we're going to continue talking about the probabilistic retrieval model.
+In particular, we're going to talk about the smoothing of language model in the query likelihood retrieval method.
+So you have seen this slide from a previous lecture.
+This is the ranking function based on the query likelihood.
+Here, we assume that the independence of generating each query word And the formula would look like the following where we take a sum of all the query words.
+And inside the sum there is a log of probability of a word given by the document or document image model.
+So the main task now is to estimate this document language model as we said before different methods for estimating this model would lead to different retrieval functions.
+So in this lecture, we're going to be looking to this in more detail.
+So how do we estimate this language model?
+Well the obvious choice would be the maximum likelihood estimate that we have seen before.
+And that is we're going to normalize the word frequencies in the document.
+And estimate the probability it would look like this.
+This is a step function here.
+Which means all of the words that have the same frequency count will have identical problem with it.
+This is another freedom to count, that has different probability.
+Note that for words that have not occurred in the document here they will have 0 probability.
+So we know this is just like the model that we assume earlier in the lecture.
+Where we assume that the use of the simple word from the document to a formula to clear it.
+And there's no chance of assembling any word that's not in the document and we know that's not good.
+So how do we improve this?
+Well in order to assign a none 0 probability to words that have not been observed in the document, we would have to take away some probability mass from the words that are observed in the document.
+So for example here, we have to take away some probability of the mass because we need some extra probability mass for the words otherwise they won't sum to 1.
+So all these probabilities must sum to 1.
+So to make this transformation and to improve the maximum likelihood estimated by assigning non zero probabilities to words that are not observed in the data.
+We have to do smoothing and smoothing has to do with improving the estimate by considering the possibility that if the author had been asking to write more words for the document, the author might have written other words.
+If you think about this factor then the a smoothed language model would be a more accurate than the representation of the actual topic.
+Imagine you have seen an abstract of a research article.
+Let's say this document is abstract.
+If we assume and see words in this abstract that we have a probability of 0.
+That would mean there's no chance of sampling a word outside the abstract of the formulated query.
+But imagine a user who is interested in the topic of this subject.
+The user might actually choose a word that's not in that chapter to use as query.
+So obviously, if we has asked this author to write more author would have written a full text of the article.
+So smoothing of the language model is an attempt to try to recover the model for the whole article.
+And then of course, we don't have knowledge about any words that are not observed in the abstract.
+So that's why smoothing is actually a tricky problem.
+So let's talk a little more about how to smooth a language model.
+The key question here is, what probability should be assigned to those unseen words?
+And there are many different ways of doing that.
+One idea here, that's very useful for retrieval is let the probability of unseen word be proportional to its probability given by a reference language model.
+That means if you don't observe the word in the dataset.
+We're going to assume that its probability is kind of governed by another reference language model that we will construct.
+It will tell us which unseen words would have a higher probability.
+In the case of retrieval, a natural choice would be to take the collection language model as the reference language model.
+That is to say, if you don't observe a word in the document, we're going to assume that the probability of this word would be proportional to the probability of word in the whole collection.
+So more formally, we'll be estimating the probability of a word key document as follows.
+If the word is seen in the document then the probability would be this counted the maximum likelihood estimate P sub c here.
+Otherwise, if the word is not seen in the document we're going to let probability be proportional to the probability of the word in the collection.
+And here the coefficient that offer is to control the amount of probability mass that we assign to unseen words.
+Obviously, all these probabilities must sum to 1, so alpha sub d is constrained in some way.
+So what if we plug in this smoothing formula into our query likelihood ranking function?
+This is what we will get.
+In this formula, we have this as a sum over all the query words and those that we have written here as the sum of all the vocabulary, you see here.
+This is the sum of all the words in the vocabulary, but not that we have a count of the word in the query.
+So in fact, we are just taking a sample of query words.
+This is now a common way that we would use, because of its convenience in some transformations.
+So this is as I said, this is sum of all the query words.
+In our smoothing method, we assume that the words that are not observed in the method would have a somewhat different form of probability.
+Name it's four, this foru.
+So we're going to do then, decompose the sum into two parts.
+One sum is over all the query words that are matching the document.
+That means that in this sum, all the words have a non zero probability in the document.
+Sorry, it's the non zero count of the word in the document.
+They all occur in the document.
+And they also have to of course have a non zero count in the query.
+So these are the query words that are matching the document.
+On the other hand, in this sum we are taking a sum of all the words that are not all query was not matching the document.
+So they occur in the query due to this term, but they don't occur in the document.
+In this case, these words have this probability because of our assumption about the smoothing.
+That here, these seen words have a different probability.
+Now, we can go further by rewriting the second sum as a difference of two other sums.
+Basically, the first sum is the sum of all the query words.
+Now, we know that the original sum is not over all the query words.
+This is over all the query words that are not matched in the document.
+So here we pretend that they are actually over all the query words.
+So we take a sum over all the query words.
+Obviously, this sum has extra terms that are not in this sum.
+Because, here we're taking sum over all the query words.
+There, it's not matched in the document.
+So in order to make them equal, we will have to then subtract another sum here.
+And this is the sum over all the query words that are matching in the document.
+And this makes sense, because here we are considering all query words.
+And then we subtract the query that was matched in the document.
+That would give us the query that was not matched in the document.
+And this is almost a reverse process of the first step here.
+And you might wonder why do we want to do that.
+Well, that's because if we do this, then we have different forms of terms inside of these sums.
+So now, you can see in this sum we have all the words matched, the query was matching the document with this kind of term.
+Here we have another sum over the same set of terms, matched query terms in document.
+But inside the sum, it's different.
+But these two sums can clearly be merged.
+So if we do that, we'll get another form of the formula that looks like before me at the bottom here.
+And note that this is a very interesting formula.
+Because here we combine these two that all or some of the query words matching in the document in the one sum here.
+And the other sum now is decomposing into two parts.
+And these two parts look much simpler just, because these are the probabilities of unseen words.
+This formula is very interesting because you can see the sum is now over the match the query terms.
+And just like in the vector space model, we take a sum of terms that are in the intersection of query vector and the document vector.
+So it already looks a little bit like the vector space model.
+In fact, there's even more similarity here as we explain on this slide.

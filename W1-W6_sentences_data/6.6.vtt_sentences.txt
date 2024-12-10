@@ -1,0 +1,81 @@
+There are some interesting challenges in threshold for the learning the filtering problem.
+So here I show the historical data that you can collect in the filtering system, so you can see the scores and the status of relevance.
+So the first one has a score of 36.5 and it's relevant.
+The second one is not relevant and it's separate.
+Of course, we have a lot of documents for which we don't know the status, because we have never delivered them to the user.
+So as you can see here, we only see the judgements of documents delivered to the user.
+So this is not a random sample, so it's a sensitive data.
+It's kind of biased, so that creates some difficultly for learning.
+Secondly, there are in general very little labeled data and very few relevant data, so it's also challenging for machine learning approaches, typically they require more training data.
+And in the extreme case at the beginning we don't even have any labeled data as well.
+The system there has to make a decision, so that's a very difficult problem at the beginning.
+Finally, there is also this issue of exploration versus exploitation tradeoff.
+Now, this means we also want to explore the document space a little bit and to see if the user might be interested in documents that we have in data labeled.
+So in other words, we're going to explore the space of user interests by testing whether the user might be interested in some other documents that currently are not matching the user's interests so well.
+So how do we do that?
+Well, we could lower the threshold a little bit until we just deliver some near misses to the user to see what the user would respond, to see how the user would respond to this extra document.
+And this is a tradeoff, because on the one hand, you want to explore, but on the other hand, you don't want to really explore too much, because then you will over deliver non-relevant Information.
+So exploitation means you would exploit what you learn about the user.
+Let's say you know the user is interested in this particular topic, so you don't want to deviate that much, but if you don't deviate at all then you don't exploit so that's also are not good.
+You might miss opportunity to learn another interest of the user.
+So this is a dilemma.
+And that's also a difficulty problem to solve.
+Now, how do we solve these problems?
+In general, I think one can use the empirical utility optimization strategy.
+And this strategy is basically to optimize the threshold based on historical data, just as you have seen on the previous slide.
+Right, so you can just compute the utility on the training data for each candidate score threshold.
+Pretend that, what if I cut at this point.
+What if I cut at the different scoring threshold point, what would happen?
+What's utility?
+Since these are training data, we can kind of compute the utility, and we know that relevant status, or we assume that we know relevant status based on approximation of click-throughs.
+So then we can just choose the threshold that gives the maximum utility on the training data.
+But this of course, doesn't account for exploration that we just talked about.
+And there is also the difficulty of biased training sample, as we mentioned.
+So, in general, we can only get the upper bound for the true optimal threshold, because the threshold might be actually lower than this.
+So, it's possible that this could discarded item might be actually interesting to the user.
+So how do we solve this problem?
+Well, we generally, and as I said we can low with this threshold to explore a little bit.
+So here's on particular approach called beta-gamma threshold learning.
+So the idea is falling.
+So here I show a ranked list of all the training documents that we have seen so far, and they are ranked by their positions.
+And on the y axis we show the utility, of course, this function depends on how you specify the coefficients in the utility function, but we can then imagine, that depending on the cutoff position, we will have a utility.
+Suppose I cut at this position and that would be a utility.
+For example, identify some cutting cutoff point.
+The optimal point, theta optimal, is the point when it will achieve the maximum utility if we had chosen this as threshold.
+And there is also zero utility threshold.
+You can see at this cutoff the utility is zero.
+What does that mean?
+That means if I lower the threshold a little bit, now I reach this threshold.
+The utility would be lower but it's still non-active at least, right?
+So it's not as high as the optimal utility.
+But it gives us as a safe point to explore the threshold, as I have explained, it's desirable to explore the interest of space.
+So it's desirable to lower the threshold based on your training there.
+So that means, in general, we want to set the threshold somewhere in this range.
+Let's say we can use the alpha to control the deviation from the optimal utility point.
+So you can see the formula of the threshold would be just the interpolation of the zero utility threshold and the optimal utility threshold.
+Now, the question is, how should we set alpha?
+And when should we deviate more from the optimal utility point?
+Well, this can depend on multiple factors, and the one way to solve the problem is to encourage this threshold mechanism to explore up to the zero point, and that's a safe point, but we're not going to necessarily reach all the way to the zero point.
+Rather, we're going to use other parameters to further define alpha and this specifically is as follows.
+So there will be a beta parameter to control the deviation from the optimal threshold and this can be based on can be accounting for the over-fitting to the training data let's say, and so this can be just an adjustment factor.
+But what's more interesting is this gamma parameter.
+Here, and you can see in this formula, gamma is controlling the inference of the number of examples in training that are set.
+So you can see in this formula as N which denotes the number of training examples becomes bigger, then it would actually encourage less exploration.
+In other words, when these very small it would try to explore more.
+And that just means if we have seen few examples we're not sure whether we have exhausted the space of interest.
+So we need to explore but as we have seen many examples from the user many that have we feel that we probably don't have to explore more.
+So this gives us a beta gamma for exploration, right.
+The more examples we have seen the less exploration we need to do.
+So the threshold would be closer to the optimal threshold so that's the basic idea of this approach.
+This approach actually has been working well in some evaluation studies, particularly effective.
+And also can work on arbitrary utility with the appropriate lower bound.
+And explicitly addresses the exploration-exploitation tradeoff and it kind of uses the zero utility threshold point as a safeguard for exploration-exploitation tradeoff.
+We're not never going to explore further than the zero utility point.
+So if you take the analogy of gambling, and you don't want to risk on losing money.
+So it's a safe spend, really conservative strategy for exploration.
+And the problem is of course, this approach is purely heuristic and the zero utility lower boundary is also often too conservative, and there are, of course, more advance in machine learning approaches that have been proposed for solving this problems and this is their active research area.
+So to summarize, there are two strategies for recommended systems or filtering systems, one is content based, which is looking at the item similarity, and the other is collaborative filtering that was looking at the user similarity.
+We've covered content-based filtering approach.
+In the next lecture, we will talk about the collaborative filtering.
+In content-based filtering system, we generally have to solve several problems relative to filtering decision and learning, etc.
+And such a system can actually be built based on a search engine system by adding a threshold mechanism and adding adaptive learning algorithm to allow the system to learn from long term feedback from the user.

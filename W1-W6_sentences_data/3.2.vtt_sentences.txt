@@ -1,0 +1,116 @@
+This lecture is about the basic measures for evaluation of text retrieval systems.
+In this lecture, we're going to discuss how we design basic measures to quantitatively compare two retrieval systems.
+This is a slide that you have seen earlier in the lecture where we talked about the Granville evaluation methodology.
+We can have a test faction that consists of queries, documents, and .
+We can then run two systems on these data sets to contradict the evaluator.
+Their performance.
+And we raise the question, about which set of results is better.
+Is system A better or is system B better?
+So let's now talk about how to accurately quantify their performance.
+Suppose we have a total of 10 relevant documents in the collection for this query.
+Now, the relevant judgments show on the right in obviously.
+And we have only seen 3 there, documents there.
+But, we can imagine there are other Random documents in judging for this query.
+So now, intuitively, we thought that system A is better because it did not have much noise.
+And in particular we have seen that among the three results, two of them are relevant but in system B, we have five results and only three of them are relevant.
+So intuitively it looks like system A is more accurate.
+And this infusion can be captured by a matching holder position, where we simply compute to what extent all the retrieval results are relevant.
+If you have 100% position, that would mean that all the retrieval documents are relevant.
+So in this case system A has a position of two out of three System B has some sweet hold of 5 and this shows that system A is better frequency.
+But we also talked about System B might be prefered by some other units would like to retrieve as many random documents as possible.
+So in that case we'll have to compare the number of relevant documents that they retrieve and there's another method called recall.
+This method uses the completeness of coverage of random documents In your retrieval result.
+So we just assume that there are ten relevant documents in the collection.
+And here we've got two of them, in system A.
+So the recall is 2 out of 10.
+Whereas System B has called a 3, so it's a 3 out of 10.
+Now we can see by recall system B is better.
+And these two measures turn out to be the very basic of measures for evaluating search engine.
+And they are very important because they are also widely used in many other test evaluation problems.
+For example, if you look at the applications of machine learning, you tend to see precision recall numbers being reported and for all kinds of tasks.
+Okay so, now let's define these two measures more precisely.
+And these measures are to evaluate a set of retrieved documents, so that means we are considering that approximation of the set of relevant documents.
+We can distinguish 4 cases depending on the situation of the documents.
+A document can be retrieved or not retrieved, right?
+Because we are talking about a set of results.
+A document can be also relevant or not relevant depending on whether the user thinks this is a useful document.
+So we can now have counts of documents in.
+Each of the four categories again have a represent the number of documents that have been retrieved and relevant.
+B for documents that are not retrieved but rather etc.
+No with this table then we can define precision.
+As the ratio of the relevant retrieved documents A to the total of relevant retrieved documents.
+So, this is just A divided by The sum of a and c.
+The sum of this column.
+Singularly recall is defined by dividing a by the sum of a and b.
+So that's again to divide a by.
+The sum of the row instead of the column.
+All right, so we can see precision and recall is all focused on looking at the a, that's the number of retrieved relevant documents.
+But we're going to use different denominators.
+Okay, so what would be an ideal result.
+Well, you can easily see being the ideal case would have precision and recall oil to be 1.0.
+That means We have got 1% of all the Relevant documents in our results, and all of the results that we returned all Relevant.
+At least there's no single Not Relevant document returned.
+In reality, however, high recall tends to be associated with low precision.
+And you can imagine why that's the case.
+As you go down the to try to get as many random documents as possible, you tend to encounter a lot of documents, so the precision has to go down.
+Note that this set can also be defined by a cut off.
+In the rest of this, that's why although these two measures are defined for retrieve the documents, they are actually very useful for evaluating a rank list.
+They are the fundamental measures in task retrieval and many other tasks.
+We often are interested in The precision at ten documents for web search.
+This means we look at how many documents among the top ten results are actually relevant.
+Now, this is a very meaningful measure, because it tells us how many relevant documents a user can expect to see On the first page of where they typically show ten results.
+So precision and recall are the basic matches and we need to use them to further evaluate a search engine, but they are the Building blocks.
+We just said that there tends to be a trailoff between precision and recall, so naturally it would be interesting to combine them.
+And here's one method that's often used, called F-measure And it's a mean of precision and recall as defined on this slide.
+So, you can see at first, compute the.
+Inverse of R and P here, and then it would interpret the 2 by using coefficients depending on parameter beta.
+And after some transformation you can easily see it would be of this form.
+And in any case it just becomes an agent of precision and recall, and beta is a parameter, that's often set to 1.
+It can control the emphasis on precision or recall always set beta to 1 We end up having a special case of F-Measure, often called F1.
+This is a popular measure that's often used as a combined precision and recall.
+And the formula looks very simple.
+It's just this, here.
+Now it's easy to see that if you have a Larger precision, or larger recall than f measure would be high.
+But, what's interesting is that the trade off between precision and recall is captured an interesting way in f1.
+So, in order to understand that, we can first look at the natural Why not just the combining and using the symbol arithmetically as efficient here?
+That would be likely the most natural way of combining them So what do you think?
+If you want to think more, you can pause the video.
+So why is this not as good as F1?
+Or what's the problem with this?
+Now, if you think about the arithmetic mean, you can see this is the sum of multiple terms.
+In this case, it's the sum of precision and recall.
+In the case of a sum, the total value tends to be dominated by the large values.
+that means if you have a very high P or very high R then you really don't care about whether the other value is low so the whole sum would be high.
+Now this is not desirable because one can easily have a perfect recall.
+We have perfect recall easily.
+Can we imagine how?
+It's probably very easy to imagine that we simply retrieve all the documents in the collection and then we have a perfect recall.
+And this will give us 0.5 as the average.
+But such results are clearly not very useful for the users even though the average using this formula would be relevantly high.
+In contrast you can see F 1 would reward a case where precision and recall are roughly That seminar, so it would a case where you had extremely high value for one of them.
+So this means f one encodes a different trade off between that.
+Now this example shows actually a very important.
+Methodology here.
+But when you try to solve a problem you might naturally think of one solution, let's say in this it's this error mechanism.
+But it's important not to settle on this source.
+It's important to think whether you have other ways to combine that.
+And once you think about the multiple variance It's important to analyze their difference, and then think about which one makes more sense.
+In this case, if you think more carefully, you will think that F1 probably makes more sense.
+Than the simple.
+Although in other cases there may be different results.
+But in this case the seems not reasonable.
+But if you don't pay attention to these subtle differences you might just take a easy way to combine them and then go ahead with it.
+And here later, you will find that, the measure doesn't seem to work well.
+All right.
+So this methodology is actually very important in general, in solving problems.
+Try to think about the best solution.
+Try to understand the problem very well, and then know why you needed this measure, and why you need to combine precision and recall.
+And then use that to guide you in finding a good way to solve the problem.
+To summarize, we talked about precision which addresses the question are there retrievable results all relevant?
+We also talk about the Recall.
+Which addresses the question, have all of the relevant documents been retrieved.
+These two, are the two, basic matches in text and retrieval in.
+They are used for many other tasks, as well.
+We talk about F measure as a way to combine Precision Precision and recall.
+We also talked about the tradeoff between precision and recall.
+And this turns out to depend on the user's search tasks and we'll discuss this point more in a later lecture.

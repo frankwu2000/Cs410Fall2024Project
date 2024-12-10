@@ -1,0 +1,77 @@
+In this lecture, we continue the discussion of vector space model.
+In particular, we're going to talk about the TF transformation.
+In the previous lecture, we have derived a TF idea of weighting formula using the vector space model.
+And we have assumed that this model actually works pretty well for these examples as shown on this slide, except for d5, which has received a very high score.
+Indeed, it has received the highest score among all these documents.
+But this document is intuitive and non-relevant, so this is not desirable.
+In this lecture, we're going to talk about, how we're going to use TF transformation to solve this problem.
+Before we discuss the details, let's take a look at the formula for this simple TF-IDF weighting ranking function.
+And see why this document has received such a high score.
+So this is the formula, and if you look at the formula carefully, then you will see it involves a sum over all the matched query terms.
+And inside the sum, each matched query term has a particular weight.
+And this weight is TF-IDF weighting.
+So it has an idea of component, where we see two variables.
+One is the total number of documents in the collection, and that is M.
+The other is the document of frequency.
+This is the number of documents that are contained.
+This word w.
+The other variables involved in the formula include the count of the query term.
+W in the query, and the count of the word in the document.
+If you look at this document again, now it's not hard to realize that the reason why it hasn't received a high score is because it has a very high count of campaign.
+So the count of campaign in this document is a 4, which is much higher than the other documents, and has contributed to the high score of this document.
+So in treating the amount to lower the score for this document, we need to somehow restrict the contribution of the matching of this term in the document.
+And if you think about the matching of terms in the document carefully, you actually would realize, we probably shouldn't reward multiple occurrences so generously.
+And by that I mean, the first occurrence of a term says a lot about the matching of this term, because it goes from zero count to a count of one.
+And that increase means a lot.
+Once we see a word in the document, it's very likely that the document is talking about this word.
+If we see a extra occurrence on top of the first occurrence, that is to go from one to two, then we also can say that, well the second occurrence kind of confirmed that it's not a accidental managing of the word.
+Now we are more sure that this document is talking about this word.
+But imagine we have seen, let's say, 50 times of the word in the document.
+Now, adding one extra occurrence is not going to test more about the evidence, because we're already sure that this document is about this word.
+So if you're thinking this way, it seems that we should restrict the contribution of a high count of a term, and that is the idea of TF Transformation.
+So this transformation function is going to turn the real count of word into a term frequency weight for the word in the document.
+So here I show in x axis that we'll count, and y axis I show the term frequency weight.
+So in the previous breaking functions, we actually have imprison rate use some kind of transformation.
+So for example, in the 0/1 bit vector recantation, we actually use such a transformation function, as shown here.
+Basically if the count is 0, then it has 0 weight, otherwise it would have a weight of 1.
+It's flat.
+Now, what about using term count as TF weight?
+Well, that's a linear function, so it has just exactly the same weight as the count.
+Now we have just seen that this is not desirable.
+So what we want is something like this.
+So for example, with an algorithm function, we can't have a sublinear transformation that looks like this.
+And this will control the influence of really high weight, because it's going to lower its inference.
+Yet, it will retain the inference of small counts.
+Or we might want to even bend the curve more by applying logarithm twice.
+Now people have tried all these methods.
+And they are indeed working better than the linear form of the transformation.
+But so far, what works the best seems to be this special transformation, called a BM25 transformation.
+BM stands for best matching.
+Now in this transformation, you can see there's a parameter k here.
+And this k controls the upper bound of this function.
+It's easy to see this function has a upper bound, because if you look at the x divided by x + k, where k is a non-active number, then the numerator will never be able to exceed the denominator, right?
+So it's upper bounded by k+1.
+Now, this is also difference between this transformation function and a logarithm transformation.
+Which it doesn't have upper bound.
+Furthermore, one interesting property of this function is that, as we vary k, we can actually simulate different transformation functions.
+Including the two extremes that are shown here.
+That is, the 0/1 bit transformation and the linear transformation.
+So for example, if we set k to 0, now you can see the function value will be 1.
+So we precisely recover the 0/1 bit transformation.
+If you set k to very large number on the other hand, it's going to look more like the linear transformation function.
+So in this sense, this transformation is very flexible.
+It allows us to control the shape of the transformation.
+It also has a nice property of the upper bound.
+And this upper bound is useful to control the inference of a particular term.
+And so that we can prevent a spammer from just increasing the count of one term to spam all queries that might match this term.
+In other words, this upper bound might also ensure that all terms would be counted when we aggregate the weights to compute the score.
+As I said, this transformation function has worked well so far.
+So to summarize this lecture, the main point is that we need to do Sublinear TF Transformation, and this is needed to capture the intuition of diminishing return from higher term counts.
+It's also to avoid the dominance by one single term over all others.
+This BM25 transformation that we talked about is very interesting.
+It's so far one of the best-performing TF Transformation formulas.
+It has upper bound, and so it's also robust and effective.
+Now if we're plugging this function into our TF-IDF weighting vector space model.
+Then we'd end up having the following ranking function, which has a BM25 TF component.
+Now, this is already very close to a state of the odd ranking function called BM25.
+And we'll discuss how we can further improve this formula in the next lecture.

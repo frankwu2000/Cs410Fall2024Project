@@ -1,0 +1,172 @@
+This lecture is about the statistical language model.
+In this lecture, we're going to give an introduction to statistical language model.
+This has to do with how do you model text data with probabilistic models.
+So it's related to how we model query based on a document.
+We're going to talk about what is a language model.
+And then we're going to talk about the simplest language model called the unigram language model, which also happens to be the most useful model for text retrieval.
+And finally, what this class will use is a language model.
+What is a language model?
+Well, it's just a probability distribution over word sequences.
+So here, I'll show one.
+This model gives the sequence Today is Wednesday a probability of 0.001.
+It give Today Wednesday is a very, very small probability because it's non-grammatical.
+You can see the probabilities given to these sentences or sequences of words can vary a lot depending on the model.
+Therefore, it's clearly context dependent.
+In ordinary conversation, probably Today is Wednesday is most popular among these sentences.
+Imagine in the context of discussing apply the math, maybe the eigenvalue is positive, would have a higher probability.
+This means it can be used to represent the topic of a text.
+The model can also be regarded as a probabilistic mechanism for generating text.
+And this is why it's also often called a generating model.
+So what does that mean?
+We can imagine this is a mechanism that's visualised here as a stochastic system that can generate sequences of words.
+So, we can ask for a sequence, and it's to send for a sequence from the device if you want, and it might generate, for example, Today is Wednesday, but it could have generated any other sequences.
+So for example, there are many possibilities, right?
+So in this sense, we can view our data as basically a sample observed from such a generating model.
+So, why is such a model useful?
+Well, it's mainly because it can quantify the uncertainties in natural language.
+Where do uncertainties come from?
+Well, one source is simply the ambiguity in natural language that we discussed earlier in the lecture.
+Another source is because we don't have complete understanding, we lack all the knowledge to understand the language.
+In that case, there will be uncertainties as well.
+So let me show some examples of questions that we can answer with a language model that would have interesting applications in different ways.
+Given that we see John and feels, how likely will we see happy as opposed to habit as the next word in a sequence of words?
+Now, obviously, this would be very useful for speech recognition because happy and habit would have similar acoustic sound, acoustic signals.
+But, if we look at the language model, we know that John feels happy would be far more likely than John feels habit.
+Another example, given that we observe baseball three times and game once in a news article, how likely is it about sports?
+This obviously is related to text categorization and information retrieval.
+Also, given that a user is interested in sports news, how likely would the user use baseball in a query?
+Now, this is clearly related to the query likelihood that we discussed in the previous lecture.
+So now, let's look at the simplest language model, called a unigram language model.
+In such a case, we assume that we generate a text by generating each word independently.
+So this means the probability of a sequence of words would be then the product of the probability of each word.
+Now normally, they're not independent, right?
+So if you have single word in like a language, that would make it far more likely to observe model than if you haven't seen the language.
+So this assumption is not necessarily true, but we make this assumption to simplify the model.
+So now the model has precisely N parameters, where N is vocabulary size.
+We have one probability for each word, and all these probabilities must sum to 1.
+So strictly speaking, we actually have N-1 parameters.
+As I said, text can then be assumed to be assembled, drawn from this word distribution.
+So for example, now we can ask the device or the model to stochastically generate the words for us, instead of sequences.
+So instead of giving a whole sequence, like Today is Wednesday, it now gives us just one word.
+And we can get all kinds of words.
+And we can assemble these words in a sequence.
+So that will still allow you to compute the probability of Today is Wednesday as the product of the three probabilities.
+As you can see, even though we have not asked the model to generate the sequences, it actually allows us to compute the probability for all the sequences, but this model now only needs N parameters to characterize.
+That means if we specify all the probabilities for all the words, then the model's behavior is completely specified.
+Whereas if we don't make this assumption, we would have to specify probabilities for all kinds of combinations of words in sequences.
+So by making this assumption, it makes it much easier to estimate these parameters.
+So let's see a specific example here.
+Here I show two unigram language models with some probabilities.
+And these are high probability words that are shown on top.
+The first one clearly suggests a topic of text mining, because the high probability was all related to this topic.
+The second one is more related to health.
+Now we can ask the question, how likely were observe a particular text from each of these two models?
+Now suppose we sample words to form a document.
+Let's say we take the first distribution, would you like to sample words?
+What words do you think would be generated while making a text or maybe mining maybe another word?
+Even food, which has a very small probability, might still be able to show up.
+But in general, high probability words will likely show up more often.
+So we can imagine what general text of that looks like in text mining.
+In fact, with small probability, you might be able to actually generate the actual text mining paper.
+Now, it will actually be meaningful, although the probability will be very, very small.
+In an extreme case, you might imagine we might be able to generate a text mining paper that would be accepted by a major conference.
+And in that case, the probability would be even smaller.
+But it's a non-zero probability, if we assume none of the words have non-zero probability.
+Similarly from the second topic, we can imagine we can generate a food nutrition paper.
+That doesn't mean we cannot generate this paper from text mining distribution.
+We can, but the probability would be very, very small, maybe smaller than even generating a paper that can be accepted by a major conference on text mining.
+So the point is that the keeping distribution, we can talk about the probability of observing a certain kind of text.
+Some texts will have higher probabilities than others.
+Now let's look at the problem in a different way.
+Suppose we now have available a particular document.
+In this case, many of the abstract or the text mining table, and we see these word counts here.
+The total number of words is 100.
+Now the question you ask here is an estimation question.
+We can ask the question which model, which one of these distribution has been used to generate this text, assuming that the text has been generated by assembling words from the distribution.
+So what would be your guess?
+What we have to decide are what probabilities text mining, etc., would have.
+Suppose the view for a second, and try to think about your best guess.
+If you're like a lot of people, you would have guessed that well, my best guess is text has a probability of 10 out of 100 because I've seen text 10 times, and there are in total 100 words.
+So we simply normalize these counts.
+And that's in fact the word justified, and your intuition is consistent with mathematical derivation.
+And this is called the maximum likelihood estimator.
+In this estimator, we assume that the parameter settings of those that would give our observe the data the maximum probability.
+That means if we change these probabilities, then the probability of observing the particular text data would be somewhat smaller.
+So you can see, this has a very simple formula.
+Basically, we just need to look at the count of a word in a document, and then divide it by the total number of words in the document or document lens.
+Normalize the frequency.
+A consequence of this is, of course, we're going to assign zero probabilities to unseen words.
+If we have an observed word, there will be no incentive to assign a non-zero probability using this approach.
+Why?
+Because that would take away probability mass for these observed words.
+And that obviously wouldn't maximize the probability of this particular observed text data.
+But one has still question whether this is our best estimate.
+Well, the answer depends on what kind of model you want to find, right?
+This estimator gives a best model based on this particular data.
+But if you are interested in a model that can explain the content of the full paper for this abstract, then you might have a second thought, right?
+So for thing, there should be other words in the body of that article, so they should not have zero probabilities, even though they're not observed in the abstract.
+So we're going to cover this a little bit more later in this class in the query likelihood model.
+So let's take a look at some possible uses of these language models.
+One use is simply to use it to represent the topics.
+So here I show some general English background texts.
+We can use this text to estimate a language model, and the model might look like this.
+Right, so on the top, we have those all common words, the, a, is, we, etc., and then we'll see some common words like these, and then some very, very rare words in the bottom.
+This is a background language model.
+It represents the frequency of words in English in general.
+This is the background model.
+Now let's look at another text, maybe this time, we'll look at the computer science research papers.
+So we have a collection of computer science research papers, we do as mentioned again, we can just use the maximum likelihood estimator, where we simply normalize the frequencies.
+Now in this case, we'll get the distribution that looks like this.
+On the top, it looks similar because these words occur everywhere, they are very common.
+But as we go down, we'll see words that are more related to computer science, computer software, text, etc.
+And so although here, we might also see these words, for example, computer, but we can imagine the probability here is much smaller than the probability here.
+And we will see many other words here that would be more common in general English.
+So you can see this distribution characterizes a topic of the corresponding text.
+We can look at even the smaller text.
+So in this case, let's look at the text mining paper.
+Now if we do the same, we have another distribution, again the can be expected to occur in the top.
+The sooner we see text, mining, association, clustering, these words have relatively high probabilities.
+In contrast, in this distribution, the text has a relatively small probability.
+So this means, again, based on different text data, we can have a different model, and the model captures the topic.
+So we call this document the language model, and we call this collection language model.
+And later, you will see how they're used in the retrieval function.
+But now, let's look at another use of this model.
+Can we statistically find what words are semantically related to computer?
+Now how do we find such words?
+Well, our first thought is that let's take a look at the text that match computer.
+So we can take a look at all the documents that contain the word computer.
+Let's build a language model.
+We can see what words we see there.
+Well, not surprisingly, we see these common words on top as we always do.
+So in this case, this language model gives us the conditional probability of seeing the word in the context of computer.
+And these common words will naturally have high probabilities.
+But we also see the computer itself and software will have relatively high probabilities.
+But if we just use this model, we cannot just say all these words are semantically related to computer.
+So ultimately, what we'd like to get rid of is these common words.
+How can we do that?
+It turns out that it's possible to use language model to do that.
+But I suggest you think about that.
+So how can we know what words are very common, so that we want to kind of get rid of them?
+What model will tell us that?
+Well, maybe you can think about that.
+So the background language model precisely tells us this information.
+It tells us what was our common in general.
+So if we use this background model, we would know that these words are common words in general.
+So it's not surprising to observe them in the context of computer.
+Whereas computer has a very small probability in general, so it's very surprising that we have seen computer with this probability, and the same is true for software.
+So then we can use these two models to somehow figure out the words that are related to computer.
+For example, we can simply take the ratio of these group probabilities and normalize the topic of language model by the probability of the word in the background language model.
+So if we do that, we take the ratio, we'll see that then on the top, computer is ranked, and then followed by software, program, all these words related to computer.
+Because they occur very frequently in the context of computer, but not frequently in the whole collection, whereas these common words will not have a high probability.
+In fact, they have a ratio about 1 down there because they are not really related to computer.
+By taking the sample of text that contains the computer, we don't really see more occurrences of that than in general.
+So this shows that even with these simple language models, we can do some limited analysis of semantics.
+So in this lecture, we talked about language model, which is basically a probability distribution over text.
+We talked about the simplest language model called unigram language model, which is also just a word distribution.
+We talked about the two uses of a language model.
+One is we represent the topic in a document, in a collection, or in general.
+The other is we discover word associations.
+In the next lecture, we're going to talk about how language model can be used to design a retrieval function.
+Here are two additional readings.
+The first is a textbook on statistical natural language processing.
+The second is an article that has a survey of statistical language models with a lot of pointers to research work.

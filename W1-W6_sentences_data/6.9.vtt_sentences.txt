@@ -1,0 +1,36 @@
+So to summarize our discussion of recommender systems, in some sense, the filtering task for recommender task is easy, and in some other sense, the task is actually difficult.
+So it's easy because the user's expectation is low.
+In this case the system takes initiative to push information to the user.
+The user doesn't really make any effort, so any recommendation is better than nothing.
+All right. So, unless you recommend the noise items or useless documents.
+If you can recommend some useful information users generally will appreciate it, so that's, in that sense that's easy.
+However, filtering is actually much harder task than retrieval because you have to make a binary decision and you can't afford waiting for a lot of items and then you're going to see whether one item is better than others.
+You have to make a decision when you see this item.
+Think about news filtering.
+As soon as you see the news enough to decide whether the news would be interesting to the user.
+If you wait for a few days, well, even if you can make accurate recommendation of the most relevant news, the utility is going to be significantly decreased.
+Another reason why it's hard is because of data sparseness if you think of this as a learning problem.
+Collaborative filtering, for example, is purely based on learning from the past ratings.
+So if you don't have many ratings there's really not that much you can do, right?
+And yeah I just mentioned this cold start problem.
+This is actually a very serious, serious problem.
+But of course there are strategies that have been proposed for the soft problem, and there are different strategies that you can use to alleviate the problem.
+You can use, for example, more user information to asses their similarity, instead of using the preferences of these users on these items give me additional information available about the user, etc.
+And we also talk about two strategies for filtering task.
+One is content-based where we look at items there is collaborative filtering where we look at Use a similarity.
+And they obviously can be combined in a practical system.
+You can imagine they generally would have to be combined.
+So that would give us a hybrid strategy for filtering.
+And we also could recall that we talked about push versus pull as two strategies for getting access to the text data.
+And recommender system easy to help users in the push mode, and search engines are serving users in the pull mode.
+Obviously the two should be combined, and they can be combined.
+The two have a system that can support user with multiple mode information access.
+So in the future we could anticipate such a system to be more useful the user.
+And either, this is an active research area so there are a lot of new algorithms being proposed all the time.
+In particular those new algorithms tend to use a lot of context information.
+Now the context here could be the context of the user and could also be the context of the user.
+Items.
+The items are not the isolated.
+They're connected in many ways.
+The users might form social network as well, so there's a rich context there that we can leverage in order to really solve the problem well and then that's active research area where also machine learning algorithms have been applied.
+Here are some additional readings in the handbook called Recommender Systems and has a collection of a lot of good articles that can give you an overview of a number of specific approaches through recommender systems.

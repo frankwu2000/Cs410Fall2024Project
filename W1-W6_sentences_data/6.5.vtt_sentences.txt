@@ -1,0 +1,104 @@
+This lecture is about the Recommender Systems.
+So far we have talked about a lot of aspects of search engines.
+We have talked about the problem of search and ranking problem, different methods for ranking, implementation of search engine and how to evaluate a search engine, etc.
+This is important because we know that web search engines are by far the most important applications of text retrieval.
+And they are the most useful tools to help people convert big raw text data into a small set of relevant documents.
+Another reason why we spend so many lectures on search engines, is because many techniques used in search engines are actually also very useful for Recommender Systems, which is the topic of this lecture.
+And so, overall, the two systems are actually well connected.
+And there are many techniques that are shared by them.
+So this is a slide that you have seen before, when we talked about the two different modes of text access.
+Pull and the Push.
+And we mentioned that recommender systems are the main systems to serve users in the Push Mode, where the systems will take the initiative to recommend the information to the user or pushes information to the user.
+And this often works well when the user has stable information need in the system has a good.
+So a Recommender System is sometimes called a filtering system and it's because recommending useful items to people is like discarding or filtering out the the useless articles, and so in this sense they are kind of similar.
+And in all the cases the system must make a binary decision and usually there's a dynamic source of information items, and that you have some knowledge about the users' interest.
+And then the system would make a decision about whether this item is interesting to the user, and then if it's interesting then the system would recommend the article to the user.
+So the basic filtering question here is really will this user like this item?
+Will U like item X?
+And there are two ways to answer this question, if you think about it.
+And one is look at what items U likes and then we can see if X is actually like those items.
+The other is to look at who likes X, and we can see if this user looks like a one of those users, or like most of those users.
+And these strategies can be combined.
+If we follow the first strategy and look at item similarity in the case of recommending text objects, then we're talking about a content-based filtering or content-based recommendation.
+If we look at the second strategy, then, it's to compare users and in this case we're user similarity and the technique is often called collaborative filtering.
+So, let's first look at the content-based filtering system.
+This is what the system would look like.
+Inside the system, there will be a Binary Classifier that would have some knowledge about the user's interests, and this is called a User Interest Profile.
+It maintains this profile to keep track of all users interests, and then there is a utility function to guide the user to make decision a nice plan utility function in the moment.
+It helps the system decide where to set the threshold.
+And then the accepted documents will be those that have passed the threshold according to the classified.
+There should be also an initialization module that would take a user's input, maybe from a user's specified keywords or chosen category, etc., and this would be to feed into the system with the initiator's profile.
+There is also typically a learning module that would learn from users' feedback over time.
+Now note that in this case typical users information is stable so the system would have a lot more opportunities to observe the users.
+If the user has taken a recommended item, has viewed that, and this a signal to indicate that the recommended item may be relevant.
+If the user discarded it, no, it's not relevant.
+And so such feedback can be a long term feedback, and can last for a long time.
+And the system can collect a lot of information about the user's interest and this then can then be used to improve the classify.
+Now what's the criteria for evaluating such a system?
+How do we know this filtering system actually performs well?
+Now in this case we cannot use the ranking evaluation measures like a map because we can't afford waiting for a lot of documents and then rank the documents to make a decision for the users.
+And so the system must make a decision in real time in general to decide whether the item is above the threshold or not.
+So in other words, we're trying to decide on absolute relevance.
+So in this case, one common user strategy is to use a utility function to evaluate the system.
+So here, I show linear utility function.
+That's defined as for example three multiplied the number of good items that you delivered, minus two multiplied by the number of bad items that you delivered.
+So in other words, we could kind of just treat this as almost in a gambling game.
+If you delete one good item, let's say you win three dollars, you gain three dollars but if you deliver a bad one you will lose two dollars.
+And this utility function basically kind of measures how much money you are get by doing this kind of game, right?
+And so it's clear that if you want to maximize this utility function, this strategy should be delivered as many good articles as possible, and minimize the delivery of bad articles.
+That's obvious, right?
+Now one interesting question here is how should we set these coefficients?
+I just showed a three and negative two as possible coefficients.
+But one can ask the question, are they reasonable?
+So what do you think?
+Do you think that's a reasonable choice?
+What about the other choices?
+So for example, we can have 10 and minus 1, or 1, minus 10.
+What's the difference?
+What do you think?
+How would this utility function affect the systems' threshold of this issue.
+Right, you can think of these two extreme cases.
+(10, -1) + (1, -10), which one do you think would encourage this system to over do it and which one would encourage this system to be conservative?
+If you think about it you will see that when we get a bigger award for delivering our good document you incur only a small penalty for delivering a bad one.
+Intuitively, you would be encouraged to deliver more.
+And you can try to deliver more in hope of getting a good one delivered.
+And then we'll get a big reward.
+So on the other hand, if you choose (1,-10), you really don't get such a big prize if you deliver a good document.
+On the other hand, you will have a big loss if you deliver a bad one.
+You can imagine that, the system would be very reluctant to deliver a lot of documents.
+It has to be absolutely sure that it's not.
+So this utility function has to be designed based on a specific application.
+The three basic problems in content-based filtering are the following, first, it has to make a filtering decision.
+So it has to be a binary decision maker, a binary classifier.
+Given a text document and a profile description of the user, it has to say yes or no, whether this document should be deleted or not.
+So that's a decision module, and it should be an initialization module as you have seen earlier and this will get the system started.
+And we have to initialize the system based on only very limited text exclusion or very few examples from the user.
+And the third model is a learning model which you have, has to be able to learn from limited relevance judgements, because we counted them from the user about their preferences on the deliver documents.
+If we don't deliver document to the user we'll never be able to know whether the user likes it or not.
+And we had accumulate a lot of documents even then from entire history.
+All these modules will have to be optimized to maximize the utility.
+So how can we deal with such a system?
+And there are many different approaches.
+Here we're going to talk about how to extend a retrieval system, a search engine for information filtering.
+Again, here's why we've spent a lot of time talking about the search engines.
+Because it's actually not very hard to extend the search engine for information filtering.
+So here's the basic idea for extending a retrieval system for information filtering.
+First, we can reuse a lot of retrieval techniques to do scoring.
+Right, so we know how to score documents against queries, etc.
+We're going to match the similarity between profile text description and a document.
+And then we can use a score threshold for the filtering decision.
+We do retrieval and then we kind of find the scores of documents and then we'll apply a threshold to see whether the document is passing the threshold or not.
+And if it's passing the threshold, we're going to say it's relevant and we're going to deliver it to the user.
+Another component that we have to add is, of course, to learn from the history, and we had used is the traditional feedback techniques to learn to improve scoring.
+And we know rock hill can be using for scoring improvement.
+And, but we have to develop a new approaches to learn how to accept this.
+And we need to set it initially and then we have to learn how to update the threshold over time.
+So here's what the system might look like if we just generalize the vector-space model for filtering problems, right?
+So you can see the document vector could be fed into a scoring module which already exists in a search engine that implements a vector-space model.
+And the profile will be treated as a query essentially, and then the profile vector can be matched with the document vector to generate the score.
+And then this score would be fed into a thresholding module that would say yes or no, and then the evaluation would be based on the utility for the filtering results.
+If it says yes and then the document would be sent to the user.
+And then user could give some feedback.
+The feedback information would be used to both adjust the threshold and to adjust the vector representation.
+So the vector learning is essentially the same as query modification or feedback in the case of search.
+The threshold of learning is a new component and that we need to talk a little bit more about.

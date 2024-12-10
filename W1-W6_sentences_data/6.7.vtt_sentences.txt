@@ -1,0 +1,53 @@
+This lecture is about collaborative filtering.
+In this lecture we're going to continue the discussion of recommended systems.
+In particular, we're going to look at the approach of collaborative filtering.
+You have seen this slide before when we talked about the two strategies to answer the basic question, will user U like item X?
+In the previous lecture, we looked at the item similarity, that's content-based filtering.
+In this lecture, we're going to look at the user similarity.
+This is a different strategy, called a collaborative filtering.
+So first, what is collaborative filtering?
+It is to make filtering decisions for individual user based on the judgements of other uses.
+And that is to say we will infer individual's interest or preferences from that of other similar users.
+So the general idea is the following.
+Given a user u, we're going to first find the similar users, U1 through.
+And then we're going to predict the use preferences based on the preferences of these similar users, U1 through.
+Now, the user similarity here can be judged based their similarity, the preferences on a common set of items.
+Now here you can see the exact content of item doesn't really matter.
+We're going to look at the only the relation between the users and the items.
+So this means this approach is very general.
+It can be applied to any items, not just the text of objects.
+So this approach would work well under the following assumptions.
+First, users with the same interest will have similar preferences.
+Second, the users with similar preferences probably share the same interest.
+So for example, if the interest of the user is in information retrieval, then we can infer the user probably favor SIGIR papers.
+So those who are interested in information retrieval researching, probably all favor SIGIR papers.
+That's an assumption that we make.
+And if this assumption is true, then it would help collaborative filtering to work well.
+We can also assume that if we see people favor See SIGIR papers, then we can infer their interest is probably information retrieval.
+So in these simple examples, it seems to make sense, and in many cases such assumption actually does make sense.
+So another assumption we have to make is that there are sufficiently large number of user preferences available to us.
+So for example, if you see a lot of ratings of users for movies and those indicate their preferences on movies.
+And if you have a lot of such data, then cluttered and filtering can be very effective.
+If not, there will be a problem, and that's often called a cold start problem.
+That means you don't have many preferences available, so the system could not fully take advantage of collaborative filtering yet.
+So let's look at the filtering problem in a more formal way.
+So this picture shows that we are, in general, considering a lot of users and we're showing m users here, so U1 through.
+And we're also considering a number of objects.
+Let's say n objects in order to O1 through On.
+And then we will assume that the users will be able to judge those objects and the user could for example give ratings to those items.
+For example, those items could be movies, could be products and then the users would give ratings 1 through 5 and see.
+So what you see here is that we have shown some ratings available for some combinations.
+So some users have watched some movies, they have rated those movies, they obviously won't be able to watch all the movies and some users may actually only watch a few movies.
+So this is in general a small symmetrics.
+So many items and many entries have unknown values.
+And what's interesting here is we could potentially infer the value of an element in this matrix based on other values.
+And that's after the essential question in collaborative filtering, and that is, we assume there's an unknown function here, f.
+That would map a pair of user and object to a rating.
+And we have observed the sum values of this function.
+And we want to infer the value of this function for other pairs that don't have that as available here.
+So this is very similar to other machinery problems where we'd know the values of the function on some training data set.
+And we hope to predict the values of this function on some test data so this is a function approximation.
+And how can we pick out the function based on the observed ratings.
+So this is the setup.
+Now there are many approaches to solving this problem.
+In fact, this is a very active research area or reason that there are special conferences dedicated to the problem, major conference devoted to the problem.

@@ -1,4 +1,5 @@
 import math
+import sys
 import time
 from SubtitleProcessor import SubtitleProcessor
 from sentence_transformers import SentenceTransformer
@@ -115,8 +116,9 @@ def evaluate(test_list: list, labeled_list: list, sentences_length: int, thresho
 
 def main():
     # Path to the VTT file
-    data_folder = "W1_subtitle_data"
-    sentences_folder = "W1_sentences_folder"
+    data_folder = sys.argv[1] + "_subtitle_data"
+    sentences_folder = sys.argv[1] + "_sentences_data"
+
     sbert_model = SentenceTransformer('all-MPNet-base-v2')
     
     vtt_file_list = sorted(os.listdir(data_folder))
@@ -146,16 +148,15 @@ def main():
             segment_points = encoding_sentences(sbert_model, sentences, sentences_index)
 
             for point, point_index in segment_points:
-                print(f"Segmentation point at sentence {point + 1}: {sentences[point]}, point_index: {point_index}")
+                print(f"{vtt_file_name}: Segmentation point at sentence {point + 1}: {sentences[point]}, point_index: {point_index}")
             
             # Get index points from segmentation result
             segment_indexes = [point+1 for point, point_index in segment_points]
-            sbert_segments.append(segment_indexes)
+            sbert_segments.append((vtt_file_name, segment_indexes))
 
         save_segment_indexes_list(sbert_segments_output_path, sbert_segments)
 
     # LLM benchmark segments
-    # TODO test
     llm_labelled_segments = load_segment_indexes_list(data_folder+"_llm_labelled_segment_output")
 
     # evaluation
@@ -163,8 +164,11 @@ def main():
     sentences_len_list = [len(sentences) for sentences in sentences_list]
     eval_list = []
     decimal_place = 5
-    for i in range(len(sbert_segments)):        
-        tp, tn, fp, fn = evaluate(sbert_segments[i],llm_labelled_segments[i], sentences_len_list[i], threshold=4)
+    for i in range(len(sbert_segments)):
+        vtt_file_name, sbert_segment = sbert_segments[i]
+        if not llm_labelled_segments[i]:
+            continue
+        tp, tn, fp, fn = evaluate(sbert_segment,llm_labelled_segments[i], sentences_len_list[i], threshold=4)
         accuracy, precision, recall, f1 = 0,0,0,0
         if (tp+tn+fp+fn) != 0:
             accuracy = round((tp + tn) / (tp+tn+fp+fn),decimal_place)
@@ -173,7 +177,7 @@ def main():
             recall = round(tp / (tp + fn),decimal_place)
         if precision + recall != 0:
             f1 = round(2 * precision * recall / (precision + recall),decimal_place)
-        eval = {"accuracy": accuracy, "precision": precision, "recall": recall, "f1": f1}
+        eval = {"vtt_file_name": vtt_file_name, "accuracy": accuracy, "precision": precision, "recall": recall, "f1": f1}
         print(eval)
         eval_list.append(eval)
 

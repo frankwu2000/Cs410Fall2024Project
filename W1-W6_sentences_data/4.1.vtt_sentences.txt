@@ -1,0 +1,108 @@
+This lecture is about the Probabilistic Retrieval Model.
+In this lecture, we're going to continue the discussion of the Text Retrieval Methods.
+We're going to look at another kind of very different way to design ranking functions than the Vector Space Model that we discussed before.
+In probabilistic models, we define the ranking function, based on the probability that this document is relevant to this query.
+In other words, we introduce a binary random variable here.
+This is the variable R here.
+And we also assume that the query and the documents are all observations from random variables.
+Note that in the vector-based models, we assume they are vectors, but here we assume they are the data observed from random variables.
+And so, the problem of retrieval becomes to estimate the probability of relevance.
+In this category of models, there are different variants.
+The classic probabilistic model has led to the BM25 retrieval function, which we discussed in in the vectors-based model because its a form is actually similar to a backwards space model.
+In this lecture, we will discuss another sub class in this P class called a language modeling approaches to retrieval.
+In particular, we're going to discuss the query likelihood retrieval model, which is one of the most effective models in probabilistic models.
+There was also another line called the divergence from randomness model which has led to the PL2 function, it's also one of the most effective state of the art retrieval functions.
+In query likelihood, our assumption is that this probability of relevance can be approximated by the probability of query given a document and relevance.
+So intuitively, this probability just captures the following probability.
+And that is if a user likes document d, how likely would the user enter query q ,in order to retrieve document d?
+So we assume that the user likes d, because we have a relevance value here.
+And then we ask the question about how likely we'll see this particular query from this user?
+So this is the basic idea.
+Now, to understand this idea, let's take a look at the general idea or the basic idea of Probabilistic Retrieval Models.
+So here, I listed some imagined relevance status values or relevance judgments of queries and documents.
+For example, in this line, it shows that q1 is a query that the user typed in.
+And d1 is a document that the user has seen.
+And 1 means the user thinks d1 is relevant to q1.
+So this R here can be also approximated by the click-through data that a search engine can collect by watching how you interacted with the search results.
+So in this case, let's say the user clicked on this document.
+So there's a 1 here.
+Similarly, the user clicked on d2 also, so there is a 1 here.
+In other words, d2 is assumed to be relevant to q1.
+On the other hand, d3 is non-relevant, there's a 0 here.
+And d4 is non-relevant and then d5 is again, relevant, and so on and so forth.
+And this part, maybe, data collected from a different user.
+So this user typed in q1 and then found that the d1 is actually not useful, so d1 is actually non-relevant.
+In contrast, here we see it's relevant.
+Or this could be the same query typed in by the same user at different times.
+But d2 is also relevant, etc.
+And then here, we can see more data about other queries.
+Now, we can imagine we have a lot of such data.
+Now we can ask the question, how can we then estimate the probability of relevance?
+So how can we compute this probability of relevance?
+Well, intuitively that just means if we look at all the entries where we see this particular d and this particular q, how likely we'll see a one on this other column.
+So basically that just means that we can just collect the counts.
+We can first count how many times we have seen q and d as a pair in this table and then count how many times we actually have also seen 1 in the third column.
+And then, we just compute the ratio.
+So let's take a look at some specific examples.
+Suppose we are trying to compute this probability for d1, d2 and d3 for q1.
+What is the estimated probability?
+Now, think about that.
+You can pause the video if needed.
+Try to take a look at the table.
+And try to give your estimate of the probability.
+Have you seen that, if we are interested in q1 and d1, we'll be looking at these two pairs?
+And in both cases, well, actually, in one of the cases, the user has said this is 1, this is relevant.
+So R = 1 in only one of the two cases.
+In the other case, it's 0.
+So that's one out of two.
+What about the d1 and the d2?
+Well, they are here, d1 and d2, d1 and d2, in both cases, in this case, R = 1.
+So it's a two out of two and so on and so forth.
+So you can see with this approach, we can actually score these documents for the query, right?
+We now have a score for d1, d2 and d3 for this query.
+And we can simply rank them based on these probabilities and so that's the basic idea probabilistic retrieval model.
+And you can see it makes a lot of sense, in this case, it's going to rank d2 above all the other documents.
+Because in all the cases, when you have c and q1 and d2, R = 1.
+The user clicked on this document.
+So this also should show that with a lot of click-through data, a search engine can learn a lot from the data to improve their search engine.
+This is a simple example that shows that with even with small amount of entries here we can already estimate some probabilities.
+These probabilities would give us some sense about which document might be more relevant or more useful to a user for typing this query.
+Now, of course, the problems that we don't observe all the queries and all the documents and all the relevance values, right?
+There would be a lot of unseen documents, in general, we have only collected the data from the documents that we have shown to the users.
+And there are even more unseen queries because you cannot predict what queries will be typed in by users.
+So obviously, this approach won't work if we apply it to unseen queries or unseen documents.
+Nevertheless, this shows the basic idea of probabilistic retrieval model and it makes sense intuitively.
+So what do we do in such a case when we have a lot of unseen documents and unseen queries?
+Well, the solutions that we have to approximate in some way.
+So in this particular case called a query likelihood retrieval model, we just approximate this by another conditional probability.
+p(q given d, R=1).
+So in the condition part, we assume that the user likes the document because we have seen that the user clicked on this document.
+And this part shows that we're interested in how likely the user would actually enter this query.
+How likely we will see this query in the same row.
+So note that here, we have made an interesting assumption here.
+Basically, we're going to do, assume that whether the user types in this query has something to do with whether user likes the document.
+In other words, we actually make the following assumption.
+And that is a user formulates a query based on an imaginary relevant document.
+Where if you just look at this as conditional probability, it's not obvious we are making this assumption.
+So what I really meant is that to use this new conditional probability to help us score, then this new conditional probability will have to somehow be able to estimate this conditional probability without relying on this big table.
+Otherwise we would be having similar problems as before, and by making this assumption, we have some way to bypass this big table, and try to just model how the user formulates the query, okay?
+So this is how you can simplify the general model so that we can derive a specific relevant function later.
+So let's look at how this model work for our example.
+And basically, what we are going to do in this case is to ask the following question.
+Which of these documents is most likely the imaginary relevant document in the user's mind when the user formulates this query?
+So we ask this question and we quantify the probability and this probability is a conditional probability of observing this query if a particular document is in fact the imaginary relevant document in the user's mind.
+Here you can see we've computed all these query likelihood probabilities.
+The likelihood of queries given each document.
+Once we have these values, we can then rank these documents based on these values.
+So to summarize, the general idea of modern relevance in the proper risk model is to assume the we introduce a binary random variable R, here.
+And then, let the scoring function be defined based on this conditional probability.
+We also talked about approximating this by using the query likelihood.
+And in this case we have a ranking function that's basically based on the probability of a query given the document.
+And this probability should be interpreted as the probability that a user who likes document d, would pose query q.
+Now, the question of course is, how do we compute this conditional probability?
+At this in general has to do with how you compute the probability of text, because q is a text.
+And this has to do with a model called a Language Model.
+And these kind of models are proposed to model text.
+So more specifically, we will be very interested in the following conditional probability as is shown in this here.
+If the user liked this document, how likely the user would pose this query.
+And in the next lecture we're going to do, giving introduction to language models that we can see how we can model text that was a probable risk model, in general.
