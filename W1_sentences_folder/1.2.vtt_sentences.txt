@@ -75,7 +75,6 @@ And then, you need to also walk around in the information space, meaning by foll
 You can then finally get into the relevant page.
 If you want to learn about again.
 You will likely do a lot of browsing so just like you are looking around in some area and you want to see some interesting attractions related in the same.
-.
 So this analogy also tells us that today we have very good support for query, but we don't really have good support for browsing.
 And this is because in order to browse effectively, we need a map to guide us, just like you need a map to.
 Of Chicago, through the city of Chicago, you need a topical map to tour the information space.

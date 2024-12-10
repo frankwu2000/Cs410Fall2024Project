@@ -80,12 +80,15 @@ class SubtitleProcessor:
 
            # If we find sentence-ending punctuation, yield the sentence
            if cleaned_text.rstrip().endswith(('.', '!', '?')):
-               yield current
-               current = None
-           index += 1
+                # Check that the sentence isn't just a single punctuation mark
+                stripped_text = cleaned_text.strip()
+                if stripped_text not in {'.', '!', '?'}:
+                    yield current
+                    index += 1
+                current = None
 
        # Yield any remaining text as a sentence
-       if current:
+       if current and current['text'].strip():
            yield current
 
    def process_vtt(self, vtt_file: str) -> list:
