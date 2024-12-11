@@ -4,6 +4,7 @@ CS410 text information system final project
 Contributor: @hongyiw6, @yingche2
 
 project proposal: https://textdata.org/submissions/67230f893d35dbf487544fee
+
 project demo: https://mediaspace.illinois.edu/media/t/1_uwsus0lr
 
 ## Overview
