@@ -5,7 +5,7 @@ Contributor: @hongyiw6, @yingche2
 
 project proposal: https://textdata.org/submissions/67230f893d35dbf487544fee
 
-project demo: https://mediaspace.illinois.edu/media/t/1_uwsus0lr
+project demo: https://mediaspace.illinois.edu/media/t/1_mgo5e42o
 
 ## Overview
 This repository contains scripts and utilities to process CS410 lecture subtitles (in WebVTT format), segment them based on semantic similarity using Sentence Transformers, and evaluate the segmentation performance against labeled data. It includes preprocessing, encoding, segmentation, and evaluation steps.
